@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel — Waroeng Makan Cak Lie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0a14;
+            --surface: #1a1225;
+            --card: #211830;
+            --border: #2e1f42;
+            --border2: #3d2a58;
+            --accent: #e8638d;
+            --accent2: #c46ec0;
+            --gold: #f4b942;
+            --green: #2dd4a0;
+            --red: #f06060;
+            --blue: #60a5fa;
+            --text: #f0e8f8;
+            --muted: #8b6fa8;
+            --muted2: #5a4070;
+            --radius: 16px;
+            --shadow: 0 4px 32px rgba(0, 0, 0, .45);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 10% 0%, rgba(232, 99, 141, .08) 0%, transparent 55%),
+                radial-gradient(ellipse at 90% 100%, rgba(196, 110, 192, .06) 0%, transparent 50%);
+        }
+
+        /* ══════════ LOGIN SCREEN ══════════ */
+        #loginScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(232, 99, 141, .15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(196, 110, 192, .12) 0%, transparent 50%),
+                var(--bg);
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            background: var(--surface);
+            border: 1.5px solid var(--border2);
+            border-radius: 28px;
+            padding: 48px 40px;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .6), 0 0 0 1px rgba(232, 99, 141, .08);
+            animation: fadeUp .6s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .login-logo .logo-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 32px rgba(232, 99, 141, .3);
+        }
+
+        .login-logo h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .login-logo p {
+            font-size: .82rem;
+            color: var(--muted);
+        }
+
+        .login-label {
+            font-size: .75rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--card);
+            border: 1.5px solid var(--border2);
+            border-radius: 12px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .95rem;
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+            margin-bottom: 20px;
+        }
+
+        .login-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(232, 99, 141, .15);
+        }
+
+        .login-input::placeholder {
+            color: var(--muted2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .2s, transform .15s, box-shadow .2s;
+            box-shadow: 0 6px 24px rgba(232, 99, 141, .3);
+        }
+
+        .btn-login:hover {
+            opacity: .92;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 32px rgba(232, 99, 141, .4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .login-err {
+            color: var(--red);
+            font-size: .82rem;
+            text-align: center;
+            margin-top: 12px;
+            min-height: 20px;
+            font-weight: 600;
+        }
+
+        .login-hint {
+            text-align: center;
+            margin-top: 20px;
+            font-size: .78rem;
+            color: var(--muted2);
+        }
+
+        /* ══════════ MAIN DASHBOARD ══════════ */
+        #dashboard {
+            display: none;
+        }
+
+        /* SIDEBAR */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 240px;
+            min-width: 240px;
+            background: var(--surface);
+            border-right: 1.5px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 50;
+            transition: transform .3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        .sidebar-brand {
+            padding: 24px 20px 20px;
+            border-bottom: 1.5px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-brand-text {
+            min-width: 0;
+        }
+
+        .sidebar-brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: .95rem;
+            color: var(--text);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sidebar-brand-sub {
+            font-size: .68rem;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        .sidebar-nav {
+            padding: 16px 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .nav-section-label {
+            font-size: .65rem;
+            font-weight: 700;
+            color: var(--muted2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 8px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: all .18s;
+            font-family: 'DM Sans', sans-serif;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(232, 99, 141, .18), rgba(196, 110, 192, .12));
+            color: var(--accent);
+            border: 1px solid rgba(232, 99, 141, .2);
+        }
+
+        .nav-item .ni-icon {
+            font-size: 1rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .nav-item .ni-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 10px;
+            padding: 1px 8px;
+            font-size: .68rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .nav-item .ni-badge.green {
+            background: var(--green);
+            color: #0a2018;
+        }
+
+        .nav-item .ni-badge.gold {
+            background: var(--gold);
+            color: #2a1a00;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1.5px solid var(--border);
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: var(--card);
+            border: 1px solid var(--border2);
+            margin-bottom: 8px;
+        }
+
+        .admin-avatar {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, var(--gold), #e65c00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .admin-name {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .admin-role {
+            font-size: .68rem;
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 9px;
+            background: none;
+            border: 1.5px solid var(--border2);
+            border-radius: 10px;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-logout:hover {
+            border-color: var(--red);
+            color: var(--red);
+            background: rgba(240, 96, 96, .08);
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-left: 240px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            background: var(--surface);
+            border-bottom: 1.5px solid var(--border);
+            padding: 0 28px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            gap: 16px;
+        }
+
+        .topbar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .live-dot {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .78rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .live-dot::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease infinite;
+        }
+
+        .topbar-time {
+            font-size: .78rem;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .burger-admin {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            width: 36px;
+            height: 36px;
+            background: var(--card);
+            border: 1.5px solid var(--border2);
+            border-radius: 8px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            padding: 7px;
+        }
+
+        .burger-admin span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: var(--muted);
+            border-radius: 2px;
+        }
+
+        /* CONTENT AREA */
+        .content {
+            padding: 28px;
+            flex: 1;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeUp .4s ease both;
+        }
+
+        /* STAT CARDS */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: border-color .2s, transform .2s;
+            animation: fadeUp .4s ease both;
+        }
+
+        .stat-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.pink {
+            background: rgba(232, 99, 141, .15);
+        }
+
+        .stat-icon.gold {
+            background: rgba(244, 185, 66, .15);
+        }
+
+        .stat-icon.green {
+            background: rgba(45, 212, 160, .15);
+        }
+
+        .stat-icon.blue {
+            background: rgba(96, 165, 250, .15);
+        }
+
+        .stat-val {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+            margin-bottom: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: .75rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .stat-sub {
+            font-size: .7rem;
+            color: var(--muted2);
+            margin-top: 2px;
+        }
+
+        /* SECTION HEADER */
+        .section-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-head h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .section-head p {
+            font-size: .82rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* FILTER PILLS */
+        .filter-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1.5px solid var(--border2);
+            background: var(--card);
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .18s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .search-input {
+            padding: 7px 14px;
+            background: var(--card);
+            border: 1.5px solid var(--border2);
+            border-radius: 20px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .82rem;
+            outline: none;
+            transition: border-color .2s;
+            width: 200px;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+        }
+
+        .search-input::placeholder {
+            color: var(--muted2);
+        }
+
+        /* ORDER TABLE */
+        .order-table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            border: 1.5px solid var(--border);
+        }
+
+        .order-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .order-table thead tr {
+            background: var(--card);
+            border-bottom: 1.5px solid var(--border2);
+        }
+
+        .order-table thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            white-space: nowrap;
+        }
+
+        .order-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background .15s;
+        }
+
+        .order-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .order-table tbody tr:hover {
+            background: rgba(255, 255, 255, .025);
+        }
+
+        .order-table tbody td {
+            padding: 14px 16px;
+            font-size: .85rem;
+            vertical-align: middle;
+        }
+
+        .td-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+        .td-name {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .td-name small {
+            display: block;
+            font-size: .72rem;
+            color: var(--muted);
+            font-weight: 400;
+            margin-top: 1px;
+        }
+
+        .td-items {
+            font-size: .78rem;
+            color: var(--muted);
+            max-width: 200px;
+        }
+
+        .td-total {
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .85rem;
+        }
+
+        .td-time {
+            font-size: .72rem;
+            color: var(--muted2);
+            white-space: nowrap;
+        }
+
+        /* STATUS BADGE */
+        .st-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: .72rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .st-proses {
+            background: rgba(244, 185, 66, .15);
+            color: var(--gold);
+            border: 1px solid rgba(244, 185, 66, .3);
+        }
+
+        .st-selesai {
+            background: rgba(45, 212, 160, .15);
+            color: var(--green);
+            border: 1px solid rgba(45, 212, 160, .3);
+        }
+
+        .st-batal {
+            background: rgba(240, 96, 96, .15);
+            color: var(--red);
+            border: 1px solid rgba(240, 96, 96, .3);
+        }
+
+        /* ACTION BUTTONS in table */
+        .action-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            padding: 5px 10px;
+            border-radius: 8px;
+            border: 1.5px solid;
+            background: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .72rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        .btn-action.selesai {
+            border-color: rgba(45, 212, 160, .5);
+            color: var(--green);
+        }
+
+        .btn-action.selesai:hover {
+            background: var(--green);
+            color: #0a2018;
+            border-color: var(--green);
+        }
+
+        .btn-action.batal {
+            border-color: rgba(240, 96, 96, .5);
+            color: var(--red);
+        }
+
+        .btn-action.batal:hover {
+            background: var(--red);
+            color: #fff;
+            border-color: var(--red);
+        }
+
+        .btn-action.proses {
+            border-color: rgba(244, 185, 66, .5);
+            color: var(--gold);
+        }
+
+        .btn-action.proses:hover {
+            background: var(--gold);
+            color: #2a1a00;
+            border-color: var(--gold);
+        }
+
+        .btn-action.detail {
+            border-color: var(--border2);
+            color: var(--muted);
+        }
+
+        .btn-action.detail:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* EMPTY TABLE */
+        .table-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+            background: var(--card);
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .table-empty .te-icon {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .table-empty h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        /* METODE PAYMENT ICON */
+        .pay-icon-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: .72rem;
+            color: var(--muted);
+            background: var(--border);
+            border-radius: 6px;
+            padding: 2px 7px;
+        }
+
+        /* ORDER DETAIL MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 2, 10, .75);
+            z-index: 300;
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-card {
+            background: var(--surface);
+            border: 1.5px solid var(--border2);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 32px 80px rgba(0, 0, 0, .7);
+            animation: fadeUp .35s cubic-bezier(.22, 1, .36, 1) both;
+        }
+
+        .modal-header {
+            padding: 24px 28px 16px;
+            border-bottom: 1.5px solid var(--border);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .modal-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .modal-header .mid {
+            font-size: .72rem;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 3px;
+        }
+
+        .btn-modal-close {
+            background: var(--card);
+            border: 1.5px solid var(--border2);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+
+        .btn-modal-close:hover {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .modal-body {
+            padding: 20px 28px 28px;
+        }
+
+        .modal-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+
+        .mi-block {
+            background: var(--card);
+            border-radius: 10px;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+        }
+
+        .mi-block label {
+            font-size: .65rem;
+            font-weight: 700;
+            color: var(--muted2);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .mi-block p {
+            font-size: .88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .modal-items {
+            margin-bottom: 20px;
+        }
+
+        .modal-items h4 {
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .6px;
+            margin-bottom: 10px;
+        }
+
+        .mi-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: .85rem;
+            transition: background .15s;
+        }
+
+        .mi-row:hover {
+            background: var(--card);
+        }
+
+        .mi-row-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+
+        .mi-row-price {
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .8rem;
+        }
+
+        .modal-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 12px;
+            background: var(--card);
+            border-radius: 10px;
+            border: 1px solid var(--border2);
+            font-weight: 700;
+        }
+
+        .modal-total span:last-child {
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-modal-action {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1.5px solid;
+            background: none;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .15s;
+            text-align: center;
+        }
+
+        .btn-modal-action.selesai {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .btn-modal-action.selesai:hover {
+            background: var(--green);
+            color: #0a2018;
+        }
+
+        .btn-modal-action.batal {
+            border-color: var(--red);
+            color: var(--red);
+        }
+
+        .btn-modal-action.batal:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .btn-modal-action.proses {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-modal-action.proses:hover {
+            background: var(--gold);
+            color: #2a1a00;
+        }
+
+        .btn-modal-action.wa {
+            border-color: #25d366;
+            color: #25d366;
+        }
+
+        .btn-modal-action.wa:hover {
+            background: #25d366;
+            color: #fff;
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--card);
+            border: 1.5px solid var(--border2);
+            color: var(--text);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: .85rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all .3s;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: var(--shadow);
+            max-width: 320px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SIDEBAR MOBILE OVERLAY */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 49;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* ══════════ MENU MANAGEMENT ══════════ */
+        .menu-mgmt-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .menu-mgmt-card {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: border-color .2s, transform .2s;
+            animation: fadeUp .4s ease both;
+        }
+
+        .menu-mgmt-card:hover {
+            border-color: var(--border2);
+            transform: translateY(-2px);
+        }
+
+        .menu-mgmt-card.habis {
+            border-color: rgba(240, 96, 96, .3);
+            opacity: .75;
+        }
+
+        .mmc-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mmc-emoji {
+            font-size: 2rem;
+            width: 48px;
+            text-align: center;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 8px;
+        }
+
+        .mmc-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .mmc-name {
+            font-weight: 700;
+            font-size: .95rem;
+            color: var(--text);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mmc-cat {
+            font-size: .68rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .mmc-price-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mmc-price-label {
+            font-size: .72rem;
+            color: var(--muted);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .mmc-price-input {
+            flex: 1;
+            padding: 7px 10px;
+            background: var(--surface);
+            border: 1.5px solid var(--border2);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .88rem;
+            outline: none;
+            transition: border-color .2s;
+        }
+
+        .mmc-price-input:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-save-price {
+            padding: 7px 12px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .2s, transform .1s;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .btn-save-price:hover {
+            opacity: .88;
+            transform: scale(1.04);
+        }
+
+        .btn-save-price.saved {
+            background: linear-gradient(135deg, var(--green), #1a9e6e);
+        }
+
+        .mmc-stock-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .mmc-stock-label {
+            font-size: .78rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        /* Toggle switch */
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-lbl {
+            font-size: .75rem;
+            font-weight: 700;
+        }
+
+        .toggle-lbl.ready {
+            color: var(--green);
+        }
+
+        .toggle-lbl.habis {
+            color: var(--red);
+        }
+
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(240, 96, 96, .4);
+            border-radius: 24px;
+            transition: .3s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .toggle input:checked+.toggle-slider {
+            background: rgba(45, 212, 160, .5);
+        }
+
+        .toggle input:checked+.toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        .menu-cat-header {
+            padding: 12px 0 6px;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
+            grid-column: 1/-1;
+        }
+
+        /* KEYFRAMES */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: .4;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .burger-admin {
+                display: flex;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .modal-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                padding: 0 16px;
+            }
+
+            .search-input {
+                width: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══════════ LOGIN SCREEN ══════════ -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <div class="login-logo">
+                <div class="logo-icon">🍛</div>
+                <h1>Panel Admin</h1>
+                <p>Waroeng Makan Cak Lie</p>
+            </div>
+            <label class="login-label">Password Admin</label>
+            <input class="login-input" id="passInput" type="password" placeholder="Masukkan password..."
+                onkeydown="if(event.key==='Enter') doLogin()" autofocus />
+            <button class="btn-login" onclick="doLogin()">🔓 Masuk ke Dashboard</button>
+            <div class="login-err" id="loginErr"></div>
+            <p class="login-hint">Hanya untuk pemilik restoran</p>
+        </div>
+    </div>
+
+    <!-- ══════════ DASHBOARD ══════════ -->
+    <div id="dashboard">
+        <div class="layout">
+
+            <!-- SIDEBAR -->
+            <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+            <aside class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <div class="sidebar-brand-icon">🍛</div>
+                    <div class="sidebar-brand-text">
+                        <div class="sidebar-brand-name">Waroeng Cak Lie</div>
+                        <div class="sidebar-brand-sub">Admin Panel</div>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <span class="nav-section-label">Menu Utama</span>
+                    <button class="nav-item active" data-section="dashboard" onclick="switchSection('dashboard',this)">
+                        <span class="ni-icon">📊</span> Dashboard
+                    </button>
+                    <button class="nav-item" data-section="orders" onclick="switchSection('orders',this)">
+                        <span class="ni-icon">📋</span> Semua Pesanan
+                        <span class="ni-badge" id="sidebarBadgeProses">0</span>
+                    </button>
+                    <button class="nav-item" data-section="proses" onclick="switchSection('proses',this)">
+                        <span class="ni-icon">⏳</span> Sedang Diproses
+                        <span class="ni-badge gold" id="sidebarBadgeProses2">0</span>
+                    </button>
+                    <button class="nav-item" data-section="selesai" onclick="switchSection('selesai',this)">
+                        <span class="ni-icon">✅</span> Selesai
+                        <span class="ni-badge green" id="sidebarBadgeSelesai">0</span>
+                    </button>
+                    <button class="nav-item" data-section="batal" onclick="switchSection('batal',this)">
+                        <span class="ni-icon">❌</span> Dibatalkan
+                    </button>
+                    <span class="nav-section-label">Manajemen</span>
+                    <button class="nav-item" data-section="menu" onclick="switchSection('menu',this)">
+                        <span class="ni-icon">🍽️</span> Kelola Menu
+                    </button>
+                </nav>
+                <div class="sidebar-footer">
+                    <div class="admin-profile">
+                        <div class="admin-avatar">👑</div>
+                        <div>
+                            <div class="admin-name">Cak Lie</div>
+                            <div class="admin-role">Pemilik Restoran</div>
+                        </div>
+                    </div>
+                    <button class="btn-logout" onclick="doLogout()">🚪 Keluar</button>
+                </div>
+            </aside>
+
+            <!-- MAIN -->
+            <div class="main">
+
+                <!-- TOPBAR -->
+                <div class="topbar">
+                    <div style="display:flex;align-items:center;gap:12px">
+                        <button class="burger-admin" id="burgerAdmin" onclick="openSidebar()">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="topbar-title" id="topbarTitle">Dashboard</div>
+                    </div>
+                    <div class="topbar-right">
+                        <span class="live-dot">Live</span>
+                        <span class="topbar-time" id="topbarTime">--:--</span>
+                    </div>
+                </div>
+
+                <!-- CONTENT -->
+                <div class="content">
+
+                    <!-- ─── SECTION: DASHBOARD ─── -->
+                    <section class="section active" id="sec-dashboard">
+                        <div class="stat-grid" id="statGrid">
+                            <!-- filled by JS -->
+                        </div>
+                        <div class="section-head">
+                            <div>
+                                <h2>Pesanan Masuk Terbaru</h2>
+                                <p>10 pesanan terbaru dari semua pelanggan</p>
+                            </div>
+                            <button class="filter-btn"
+                                onclick="switchSection('orders', document.querySelector('[data-section=orders]'))">Lihat
+                                Semua →</button>
+                        </div>
+                        <div class="order-table-wrap">
+                            <table class="order-table" id="recentTable">
+                                <thead>
+                                    <tr>
+                                        <th>No. Order</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
+                                        <th>Total</th>
+                                        <th>Metode</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentBody"></tbody>
+                            </table>
+                        </div>
+                    </section>
+
+                    <!-- ─── SECTION: SEMUA PESANAN ─── -->
+                    <section class="section" id="sec-orders">
+                        <div class="section-head">
+                            <div>
+                                <h2>Semua Pesanan</h2>
+                                <p id="ordersSubtitle">Memuat...</p>
+                            </div>
+                            <div class="filter-row">
+                                <input class="search-input" id="searchOrders" type="text"
+                                    placeholder="🔍 Cari nama / order ID..." oninput="renderTable('orders')" />
+                            </div>
+                        </div>
+                        <div class="order-table-wrap">
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>No. Order</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
+                                        <th>Total</th>
+                                        <th>Pembayaran</th>
+                                        <th>Status</th>
+                                        <th>Waktu</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableOrders"></tbody>
+                            </table>
+                            <div id="emptyOrders" class="table-empty" style="display:none">
+                                <span class="te-icon">📋</span>
+                                <h3>Belum ada pesanan</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ─── SECTION: DIPROSES ─── -->
+                    <section class="section" id="sec-proses">
+                        <div class="section-head">
+                            <div>
+                                <h2>⏳ Sedang Diproses</h2>
+                                <p id="prosesSubtitle">Pesanan yang perlu ditindaklanjuti</p>
+                            </div>
+                        </div>
+                        <div class="order-table-wrap">
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>No. Order</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
+                                        <th>Total</th>
+                                        <th>Pengambilan</th>
+                                        <th>Waktu</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableProses"></tbody>
+                            </table>
+                            <div id="emptyProses" class="table-empty" style="display:none">
+                                <span class="te-icon">🎉</span>
+                                <h3>Tidak ada pesanan yang perlu diproses</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ─── SECTION: SELESAI ─── -->
+                    <section class="section" id="sec-selesai">
+                        <div class="section-head">
+                            <div>
+                                <h2>✅ Pesanan Selesai</h2>
+                                <p id="selesaiSubtitle">Pesanan yang sudah berhasil diselesaikan</p>
+                            </div>
+                        </div>
+                        <div class="order-table-wrap">
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>No. Order</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
+                                        <th>Total</th>
+                                        <th>Pembayaran</th>
+                                        <th>Waktu</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableSelesai"></tbody>
+                            </table>
+                            <div id="emptySelesai" class="table-empty" style="display:none">
+                                <span class="te-icon">📭</span>
+                                <h3>Belum ada pesanan yang selesai</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ─── SECTION: BATAL ─── -->
+                    <section class="section" id="sec-batal">
+                        <div class="section-head">
+                            <div>
+                                <h2>❌ Pesanan Dibatalkan</h2>
+                                <p id="batalSubtitle">Daftar pesanan yang telah dibatalkan</p>
+                            </div>
+                        </div>
+                        <div class="order-table-wrap">
+                            <table class="order-table">
+                                <thead>
+                                    <tr>
+                                        <th>No. Order</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
+                                        <th>Total</th>
+                                        <th>Waktu</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBatal"></tbody>
+                            </table>
+                            <div id="emptyBatal" class="table-empty" style="display:none">
+                                <span class="te-icon">✅</span>
+                                <h3>Tidak ada pesanan yang dibatalkan</h3>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ─── SECTION: KELOLA MENU ─── -->
+                    <section class="section" id="sec-menu">
+                        <div class="section-head">
+                            <div>
+                                <h2>🍽️ Kelola Menu</h2>
+                                <p id="menuMgmtSubtitle">Update stok & harga semua item menu</p>
+                            </div>
+                            <div style="display:flex;gap:8px;align-items:center">
+                                <button class="filter-btn" onclick="resetMenuOverrides()"
+                                    style="border-color:rgba(240,96,96,.4);color:var(--red)">↩ Reset Semua</button>
+                                <button class="filter-btn active" onclick="renderMenuMgmt()">🔄 Refresh</button>
+                            </div>
+                        </div>
+                        <div class="menu-mgmt-grid" id="menuMgmtGrid"></div>
+                    </section>
+
+                </div><!-- /content -->
+            </div><!-- /main -->
+        </div><!-- /layout -->
+    </div><!-- /dashboard -->
+
+    <!-- ORDER DETAIL MODAL -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h3 id="detailTitle">Detail Pesanan</h3>
+                    <div class="mid" id="detailId">—</div>
+                </div>
+                <button class="btn-modal-close" onclick="closeDetail()">✕</button>
+            </div>
+            <div class="modal-body" id="detailBody"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ══════════════════════════════
+           CONFIG
+           ══════════════════════════════ */
+        const ADMIN_PASS = 'caklieadmin2005' // ← ganti password di sini
+        const WARUNG_WA = '6288213066069'
+
+        /* ══════════════════════════════
+           AUTH
+           ══════════════════════════════ */
+        function doLogin() {
+            const val = document.getElementById('passInput').value
+            const err = document.getElementById('loginErr')
+            if (val === ADMIN_PASS) {
+                sessionStorage.setItem('adminAuth', '1')
+                document.getElementById('loginScreen').style.display = 'none'
+                document.getElementById('dashboard').style.display = 'block'
+                initDashboard()
+            } else {
+                err.textContent = '❌ Password salah. Coba lagi.'
+                document.getElementById('passInput').value = ''
+                document.getElementById('passInput').focus()
+                setTimeout(() => err.textContent = '', 3000)
+            }
+        }
+        function doLogout() {
+            if (!confirm('Yakin keluar dari panel admin?')) return
+            sessionStorage.removeItem('adminAuth')
+            location.reload()
+        }
+
+        // Auto-login jika sudah punya session
+        if (sessionStorage.getItem('adminAuth') === '1') {
+            document.getElementById('loginScreen').style.display = 'none'
+            document.getElementById('dashboard').style.display = 'block'
+            document.addEventListener('DOMContentLoaded', initDashboard)
+        }
+
+        /* ══════════════════════════════
+           HELPERS
+           ══════════════════════════════ */
+        const getOrders = () => { try { return JSON.parse(localStorage.getItem('orders') || '[]') } catch { return [] } }
+        const saveOrders = o => localStorage.setItem('orders', JSON.stringify(o))
+        const fRp = n => 'Rp ' + n.toLocaleString('id-ID')
+        const nowStr = () => new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+
+        function toast(msg, type = 'default') {
+            const t = document.getElementById('toast')
+            const icons = { success: '✅', error: '❌', info: 'ℹ️', default: '🔔' }
+            t.innerHTML = '<span>' + icons[type] + '</span><span>' + msg + '</span>'
+            if (type === 'success') t.style.borderColor = 'rgba(45,212,160,.4)'
+            else if (type === 'error') t.style.borderColor = 'rgba(240,96,96,.4)'
+            else if (type === 'info') t.style.borderColor = 'rgba(96,165,250,.4)'
+            else t.style.borderColor = 'var(--border2)'
+            t.classList.add('show')
+            setTimeout(() => t.classList.remove('show'), 2800)
+        }
+
+        function payIcon(p) {
+            if (!p) return ''
+            const icon = p.includes('Tunai') ? '💵' : p.includes('Transfer') ? '🏦' : p.includes('QRIS') ? '📱' : '🚪'
+            return '<span class="pay-icon-sm">' + icon + ' ' + p + '</span>'
+        }
+        function metodIcon(m) {
+            return m === 'Delivery' ? '🛵 ' : m === 'Take-away' ? '🥡 ' : '🍽️ '
+        }
+        function statusBadge(s) {
+            const lbl = { proses: '⏳ Diproses', selesai: '✅ Selesai', batal: '❌ Dibatal' }
+            return '<span class="st-badge st-' + s + '">' + lbl[s] + '</span>'
+        }
+
+        /* ══════════════════════════════
+           CLOCK
+           ══════════════════════════════ */
+        function updateClock() {
+            document.getElementById('topbarTime').textContent =
+                new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+        }
+
+        /* ══════════════════════════════
+           SIDEBAR
+           ══════════════════════════════ */
+        let _section = 'dashboard'
+        function switchSection(name, btn) {
+            _section = name
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'))
+            document.getElementById('sec-' + name).classList.add('active')
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'))
+            if (btn) btn.classList.add('active')
+            const titles = {
+                dashboard: 'Dashboard', orders: 'Semua Pesanan',
+                proses: 'Sedang Diproses', selesai: 'Pesanan Selesai', batal: 'Dibatalkan',
+                menu: 'Kelola Menu'
+            }
+            document.getElementById('topbarTitle').textContent = titles[name] || name
+            if (name === 'menu') { renderMenuMgmt(); closeSidebar(); return }
+            renderTable(name)
+            closeSidebar()
+        }
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open')
+            document.getElementById('sidebarOverlay').classList.add('show')
+            document.body.style.overflow = 'hidden'
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open')
+            document.getElementById('sidebarOverlay').classList.remove('show')
+            document.body.style.overflow = ''
+        }
+
+        /* ══════════════════════════════
+           STATS
+           ══════════════════════════════ */
+        function renderStats() {
+            const orders = getOrders()
+            const proses = orders.filter(o => o.status === 'proses').length
+            const selesai = orders.filter(o => o.status === 'selesai').length
+            const batal = orders.filter(o => o.status === 'batal').length
+            const revenue = orders.filter(o => o.status === 'selesai').reduce((s, o) => s + o.total, 0)
+
+            document.getElementById('statGrid').innerHTML =
+                statCard('📋', 'pink', orders.length, 'Total Pesanan', 'Semua waktu') +
+                statCard('⏳', 'gold', proses, 'Perlu Diproses', 'Menunggu tindakan') +
+                statCard('✅', 'green', selesai, 'Pesanan Selesai', 'Berhasil diselesaikan') +
+                statCard('💰', 'blue', fRp(revenue), 'Total Omset', 'Dari pesanan selesai')
+
+            // Update sidebar badges
+            document.getElementById('sidebarBadgeProses').textContent = orders.length
+            document.getElementById('sidebarBadgeProses2').textContent = proses
+            document.getElementById('sidebarBadgeSelesai').textContent = selesai
+        }
+        function statCard(icon, color, val, label, sub) {
+            return '<div class="stat-card" style="animation-delay:' + (Math.random() * .2) + 's">' +
+                '<div class="stat-icon ' + color + '">' + icon + '</div>' +
+                '<div><div class="stat-val">' + val + '</div><div class="stat-label">' + label + '</div><div class="stat-sub">' + sub + '</div></div>' +
+                '</div>'
+        }
+
+        /* ══════════════════════════════
+           RENDER TABLES
+           ══════════════════════════════ */
+        function renderTable(section) {
+            const allOrders = getOrders()
+            const q = (document.getElementById('searchOrders')?.value || '').toLowerCase()
+
+            renderStats()
+
+            if (section === 'dashboard') {
+                renderRecent(allOrders.slice(0, 10)); return
+            }
+
+            let list = section === 'orders' ? allOrders
+                : allOrders.filter(o => o.status === section)
+
+            // Filter by search (only on orders tab)
+            if (section === 'orders' && q) {
+                list = list.filter(o =>
+                    o.id.toLowerCase().includes(q) ||
+                    o.nama.toLowerCase().includes(q) ||
+                    o.hp.toLowerCase().includes(q)
+                )
+                document.getElementById('ordersSubtitle').textContent =
+                    list.length + ' pesanan ditemukan untuk "' + q + '"'
+            } else {
+                const counts = { orders: 'Total ' + allOrders.length, proses: allOrders.filter(o => o.status === 'proses').length + ' pesanan aktif', selesai: allOrders.filter(o => o.status === 'selesai').length + ' pesanan', batal: allOrders.filter(o => o.status === 'batal').length + ' pesanan' }
+                const subEl = document.getElementById(section + 'Subtitle')
+                if (subEl) subEl.textContent = counts[section] || ''
+            }
+
+            const bodyId = 'table' + section.charAt(0).toUpperCase() + section.slice(1)
+            const body = document.getElementById(bodyId)
+            const empty = document.getElementById('empty' + section.charAt(0).toUpperCase() + section.slice(1))
+
+            if (!body) return
+            if (!list.length) {
+                body.innerHTML = ''
+                if (empty) empty.style.display = 'block'
+                return
+            }
+            if (empty) empty.style.display = 'none'
+
+            body.innerHTML = list.map(o => orderRow(o, section)).join('')
+        }
+
+        function orderRow(o, section) {
+            const itemSummary = o.items.slice(0, 2).map(i => i.emoji + ' ' + i.name + (o.items.length > 2 && o.items.indexOf(i) === 1 ? ' +lainnya' : '')).join(', ')
+            let actions = ''
+            if (o.status === 'proses') {
+                actions = '<div class="action-group">' +
+                    '<button class="btn-action selesai" onclick="setStatus(\'' + o.id + '\',\'selesai\')">✅ Selesai</button>' +
+                    '<button class="btn-action batal"   onclick="setStatus(\'' + o.id + '\',\'batal\')">❌ Batal</button>' +
+                    '<button class="btn-action detail"  onclick="openDetail(\'' + o.id + '\')">🔍</button>' +
+                    '</div>'
+            } else if (o.status === 'selesai') {
+                actions = '<div class="action-group">' +
+                    '<button class="btn-action proses" onclick="setStatus(\'' + o.id + '\',\'proses\')">↩️ Proses</button>' +
+                    '<button class="btn-action detail" onclick="openDetail(\'' + o.id + '\')">🔍</button>' +
+                    '</div>'
+            } else if (o.status === 'batal') {
+                actions = '<div class="action-group">' +
+                    '<button class="btn-action proses" onclick="setStatus(\'' + o.id + '\',\'proses\')">↩️ Proses Ulang</button>' +
+                    '<button class="btn-action detail" onclick="openDetail(\'' + o.id + '\')">🔍</button>' +
+                    '</div>'
+            } else {
+                actions = '<button class="btn-action detail" onclick="openDetail(\'' + o.id + '\')">🔍 Detail</button>'
+            }
+
+            if (section === 'proses') {
+                return '<tr>' +
+                    '<td class="td-id">' + o.id + '</td>' +
+                    '<td><div class="td-name">' + o.nama + '<small>📞 ' + o.hp + '</small></div></td>' +
+                    '<td class="td-items">' + itemSummary + '</td>' +
+                    '<td class="td-total">' + fRp(o.total) + '</td>' +
+                    '<td>' + metodIcon(o.metode) + o.metode + '</td>' +
+                    '<td class="td-time">' + o.waktu + '</td>' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>'
+            }
+            if (section === 'selesai') {
+                return '<tr>' +
+                    '<td class="td-id">' + o.id + '</td>' +
+                    '<td><div class="td-name">' + o.nama + '<small>📞 ' + o.hp + '</small></div></td>' +
+                    '<td class="td-items">' + itemSummary + '</td>' +
+                    '<td class="td-total">' + fRp(o.total) + '</td>' +
+                    '<td>' + (o.payment ? payIcon(o.payment) : '—') + '</td>' +
+                    '<td class="td-time">' + o.waktu + '</td>' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>'
+            }
+            if (section === 'batal') {
+                return '<tr>' +
+                    '<td class="td-id">' + o.id + '</td>' +
+                    '<td><div class="td-name">' + o.nama + '<small>📞 ' + o.hp + '</small></div></td>' +
+                    '<td class="td-items">' + itemSummary + '</td>' +
+                    '<td class="td-total">' + fRp(o.total) + '</td>' +
+                    '<td class="td-time">' + o.waktu + '</td>' +
+                    '<td>' + actions + '</td>' +
+                    '</tr>'
+            }
+            // section = orders (all)
+            return '<tr>' +
+                '<td class="td-id">' + o.id + '</td>' +
+                '<td><div class="td-name">' + o.nama + '<small>📞 ' + o.hp + '</small></div></td>' +
+                '<td class="td-items">' + itemSummary + '</td>' +
+                '<td class="td-total">' + fRp(o.total) + '</td>' +
+                '<td>' + (o.payment ? payIcon(o.payment) : '—') + '</td>' +
+                '<td>' + statusBadge(o.status) + '</td>' +
+                '<td class="td-time">' + o.waktu + '</td>' +
+                '<td>' + actions + '</td>' +
+                '</tr>'
+        }
+
+        function renderRecent(list) {
+            const body = document.getElementById('recentBody')
+            if (!list.length) {
+                body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--muted)">📭 Belum ada pesanan masuk</td></tr>'
+                return
+            }
+            body.innerHTML = list.map(o => {
+                const itemSummary = o.items.slice(0, 2).map(i => i.emoji + ' ' + i.name).join(', ')
+                const acts = o.status === 'proses'
+                    ? '<div class="action-group"><button class="btn-action selesai" onclick="setStatus(\'' + o.id + '\',\'selesai\')">✅</button><button class="btn-action batal" onclick="setStatus(\'' + o.id + '\',\'batal\')">❌</button><button class="btn-action detail" onclick="openDetail(\'' + o.id + '\')">🔍</button></div>'
+                    : '<button class="btn-action detail" onclick="openDetail(\'' + o.id + '\')">🔍 Detail</button>'
+                return '<tr>' +
+                    '<td class="td-id">' + o.id + '</td>' +
+                    '<td><div class="td-name">' + o.nama + '<small>' + o.waktu + '</small></div></td>' +
+                    '<td class="td-items">' + itemSummary + '</td>' +
+                    '<td class="td-total">' + fRp(o.total) + '</td>' +
+                    '<td>' + metodIcon(o.metode) + o.metode + '</td>' +
+                    '<td>' + statusBadge(o.status) + '</td>' +
+                    '<td>' + acts + '</td>' +
+                    '</tr>'
+            }).join('')
+        }
+
+        /* ══════════════════════════════
+           SET STATUS
+           ══════════════════════════════ */
+        function setStatus(id, status) {
+            const orders = getOrders()
+            const idx = orders.findIndex(o => o.id === id)
+            if (idx < 0) return
+            orders[idx].status = status
+            saveOrders(orders)
+            renderTable(_section)
+            const msgs = { selesai: '✅ Pesanan ditandai Selesai!', batal: '❌ Pesanan dibatalkan.', proses: '↩️ Pesanan dikembalikan ke Diproses' }
+            toast(msgs[status], status === 'selesai' ? 'success' : status === 'batal' ? 'error' : 'info')
+            // update modal if open
+            const modal = document.getElementById('detailModal')
+            if (modal.classList.contains('show') && _detailId === id) openDetail(id)
+        }
+
+        /* ══════════════════════════════
+           ORDER DETAIL MODAL
+           ══════════════════════════════ */
+        let _detailId = null
+        function openDetail(id) {
+            const order = getOrders().find(o => o.id === id)
+            if (!order) return
+            _detailId = id
+            document.getElementById('detailTitle').textContent = '📋 Detail Pesanan — ' + order.nama
+            document.getElementById('detailId').textContent = order.id + ' · ' + order.waktu
+
+            const sub = order.items.reduce((s, i) => s + i.price * i.qty, 0)
+            const del = order.metode === 'Delivery' ? 5000 : 0
+
+            let actionBtns = ''
+            if (order.status === 'proses') {
+                actionBtns =
+                    '<button class="btn-modal-action selesai" onclick="setStatus(\'' + id + '\',\'selesai\')">✅ Tandai Selesai</button>' +
+                    '<button class="btn-modal-action batal"   onclick="setStatus(\'' + id + '\',\'batal\')">❌ Batalkan</button>'
+            } else if (order.status === 'selesai') {
+                actionBtns = '<button class="btn-modal-action proses" onclick="setStatus(\'' + id + '\',\'proses\')">↩️ Kembalikan ke Proses</button>'
+            } else {
+                actionBtns = '<button class="btn-modal-action proses" onclick="setStatus(\'' + id + '\',\'proses\')">↩️ Proses Ulang</button>'
+            }
+
+            const pIcon = (order.payment || '').includes('Tunai') ? '💵' : (order.payment || '').includes('Transfer') ? '🏦' : (order.payment || '').includes('QRIS') ? '📱' : '🚪'
+
+            document.getElementById('detailBody').innerHTML =
+                '<div class="modal-info-grid">' +
+                '<div class="mi-block"><label>Nama Pemesan</label><p>👤 ' + order.nama + '</p></div>' +
+                '<div class="mi-block"><label>No. WhatsApp</label><p>📞 ' + order.hp + '</p></div>' +
+                '<div class="mi-block"><label>Metode Pengambilan</label><p>' + metodIcon(order.metode) + order.metode + '</p></div>' +
+                '<div class="mi-block"><label>Metode Pembayaran</label><p>' + (order.payment ? pIcon + ' ' + order.payment : '—') + '</p></div>' +
+                (order.alamat ? '<div class="mi-block" style="grid-column:1/-1"><label>Alamat Pengiriman</label><p>📍 ' + order.alamat + '</p></div>' : '') +
+                (order.catatan ? '<div class="mi-block" style="grid-column:1/-1"><label>Catatan</label><p>📝 ' + order.catatan + '</p></div>' : '') +
+                '<div class="mi-block"><label>Status</label><p>' + statusBadge(order.status) + '</p></div>' +
+                '<div class="mi-block"><label>Waktu Pesan</label><p>⏰ ' + order.waktu + '</p></div>' +
+                '</div>' +
+                '<div class="modal-items">' +
+                '<h4>Item yang Dipesan</h4>' +
+                order.items.map(it => '<div class="mi-row"><span class="mi-row-name">' + it.emoji + ' ' + it.name + ' <span style="color:var(--muted);font-size:.78rem">×' + it.qty + '</span></span><span class="mi-row-price">' + fRp(it.price * it.qty) + '</span></div>').join('') +
+                '</div>' +
+                (del ? '<div style="display:flex;justify-content:space-between;padding:8px 12px;font-size:.82rem;color:var(--muted)"><span>Ongkir Delivery</span><span>' + fRp(del) + '</span></div>' : '') +
+                '<div class="modal-total"><span>Total Pembayaran</span><span>' + fRp(sub + del) + '</span></div>' +
+                '<div class="modal-actions">' +
+                actionBtns +
+                '<button class="btn-modal-action wa" onclick="waKonfirmasi(\'' + id + '\')">💬 WA Pelanggan</button>' +
+                '</div>'
+
+            document.getElementById('detailModal').classList.add('show')
+        }
+        function closeDetail() {
+            document.getElementById('detailModal').classList.remove('show')
+            _detailId = null
+        }
+
+        /* ══════════════════════════════
+           WA KONFIRMASI KE PELANGGAN
+           ══════════════════════════════ */
+        function waKonfirmasi(id) {
+            const order = getOrders().find(o => o.id === id)
+            if (!order) return
+            const sLbl = { proses: 'sedang kami proses', selesai: 'sudah selesai dan siap diambil/dikirim', batal: 'terpaksa kami batalkan' }
+            let msg = '*Update Pesanan — Waroeng Makan Cak Lie* 🍛\n'
+            msg += '━━━━━━━━━━━━━━━━━━━━\n'
+            msg += 'Halo *' + order.nama + '*!\n\n'
+            msg += 'Pesanan kamu dengan No. Order *' + order.id + '* ' + sLbl[order.status] + '.\n\n'
+            if (order.status === 'proses') msg += '⏳ Mohon ditunggu ya, kami sedang menyiapkan pesananmu.\n'
+            if (order.status === 'selesai') msg += '✅ Terima kasih sudah memesan! Selamat menikmati! 😊\n'
+            if (order.status === 'batal') msg += '❌ Mohon maaf atas ketidaknyamanannya. Silahkan hubungi kami untuk info lebih lanjut.\n'
+            msg += '\nSalam,\n*Waroeng Makan Cak Lie*\n📞 0882-1306-6069'
+            window.open('https://wa.me/' + order.hp.replace(/\D/g, '').replace(/^0/, '62') + '?text=' + encodeURIComponent(msg), '_blank')
+        }
+
+        /* ══════════════════════════════
+           KELOLA MENU (STOK & HARGA)
+           ══════════════════════════════ */
+        const MENU_DATA = [
+            // NASI
+            { id: 'n1', name: 'Nasi Putih', emoji: '🍚', cat: 'Nasi', harga: 3000 },
+            { id: 'n2', name: 'Nasi Kuning', emoji: '🌕', cat: 'Nasi', harga: 5000 },
+            { id: 'n3', name: 'Nasi Uduk', emoji: '🥣', cat: 'Nasi', harga: 6000 },
+            { id: 'n4', name: 'Nasi Goreng', emoji: '🍳', cat: 'Nasi', harga: 12000 },
+            { id: 'n5', name: 'Nasi Tim Ayam', emoji: '🍲', cat: 'Nasi', harga: 14000 },
+            // LAUK
+            { id: 'l1', name: 'Ayam Goreng', emoji: '🍗', cat: 'Lauk-Pauk', harga: 10000 },
+            { id: 'l2', name: 'Ayam Bakar', emoji: '🔥', cat: 'Lauk-Pauk', harga: 12000 },
+            { id: 'l3', name: 'Ikan Goreng', emoji: '🐟', cat: 'Lauk-Pauk', harga: 8000 },
+            { id: 'l4', name: 'Tempe Orek', emoji: '🟫', cat: 'Lauk-Pauk', harga: 5000 },
+            { id: 'l5', name: 'Tahu Goreng', emoji: '🟡', cat: 'Lauk-Pauk', harga: 3000 },
+            { id: 'l6', name: 'Telur Balado', emoji: '🥚', cat: 'Lauk-Pauk', harga: 5000 },
+            { id: 'l7', name: 'Rendang Daging', emoji: '🥩', cat: 'Lauk-Pauk', harga: 20000 },
+            { id: 'l8', name: 'Sambal Goreng', emoji: '🌶️', cat: 'Lauk-Pauk', harga: 8000 },
+            // SAYUR
+            { id: 's1', name: 'Sayur Lodeh', emoji: '🥦', cat: 'Sayur', harga: 5000 },
+            { id: 's2', name: 'Tumis Kangkung', emoji: '🥬', cat: 'Sayur', harga: 5000 },
+            { id: 's3', name: 'Capcay', emoji: '🫑', cat: 'Sayur', harga: 7000 },
+            { id: 's4', name: 'Urap-Urap', emoji: '🌿', cat: 'Sayur', harga: 6000 },
+            { id: 's5', name: 'Gudeg Jogja', emoji: '🫙', cat: 'Sayur', harga: 8000 },
+            // PAKET
+            { id: 'p1', name: 'Paket Nasi + 1 Lauk', emoji: '🎁', cat: 'Paket', harga: 13000 },
+            { id: 'p2', name: 'Paket Nasi + 2 Lauk + Sayur', emoji: '🍱', cat: 'Paket', harga: 22000 },
+            { id: 'p3', name: 'Paket Keluarga (4 Porsi)', emoji: '👨‍👩‍👧‍👦', cat: 'Paket', harga: 75000 },
+            { id: 'p4', name: 'Paket Catering (10 Box)', emoji: '📦', cat: 'Paket', harga: 170000 },
+            { id: 'p5', name: 'Paket Sarapan', emoji: '🌅', cat: 'Paket', harga: 12000 },
+            // MINUMAN
+            { id: 'm1', name: 'Es Teh Manis', emoji: '🧋', cat: 'Minuman', harga: 3000 },
+            { id: 'm2', name: 'Teh Hangat', emoji: '☕', cat: 'Minuman', harga: 2000 },
+            { id: 'm3', name: 'Es Jeruk', emoji: '🍊', cat: 'Minuman', harga: 5000 },
+            { id: 'm4', name: 'Es Campur', emoji: '🍨', cat: 'Minuman', harga: 7000 },
+            { id: 'm5', name: 'Jus Alpukat', emoji: '🥑', cat: 'Minuman', harga: 10000 },
+            { id: 'm6', name: 'Air Putih', emoji: '💧', cat: 'Minuman', harga: 3000 },
+            // CAMILAN
+            { id: 'c1', name: 'Gorengan Mix', emoji: '🧆', cat: 'Camilan', harga: 5000 },
+            { id: 'c2', name: 'Tempe Mendoan', emoji: '🫓', cat: 'Camilan', harga: 4000 },
+            { id: 'c3', name: 'Pisang Goreng', emoji: '🍌', cat: 'Camilan', harga: 5000 },
+            { id: 'c4', name: 'Ubi Goreng', emoji: '🟠', cat: 'Camilan', harga: 4000 },
+            { id: 'c5', name: 'Kerupuk', emoji: '🥨', cat: 'Camilan', harga: 2000 },
+        ]
+
+        const getOverrides = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
+        const saveOverrides = o => localStorage.setItem('menuOverrides', JSON.stringify(o))
+
+        function renderMenuMgmt() {
+            const grid = document.getElementById('menuMgmtGrid')
+            if (!grid) return
+            const ov = getOverrides()
+
+            // Group by category
+            const cats = [...new Set(MENU_DATA.map(m => m.cat))]
+            const habisCount = MENU_DATA.filter(m => ov[m.id]?.stok === false).length
+            const sub = document.getElementById('menuMgmtSubtitle')
+            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + (MENU_DATA.length - habisCount) + ' ready'
+
+            grid.innerHTML = ''
+            cats.forEach(cat => {
+                // Category header
+                const hdr = document.createElement('div')
+                hdr.className = 'menu-cat-header'
+                hdr.textContent = cat
+                grid.appendChild(hdr)
+
+                MENU_DATA.filter(m => m.cat === cat).forEach((item, idx) => {
+                    const ovItem = ov[item.id] || {}
+                    const stok = ovItem.stok !== undefined ? ovItem.stok : true
+                    const harga = ovItem.harga !== undefined ? ovItem.harga : item.harga
+
+                    const card = document.createElement('div')
+                    card.className = 'menu-mgmt-card' + (stok ? '' : ' habis')
+                    card.style.animationDelay = (idx * 0.04) + 's'
+                    card.id = 'mmc-' + item.id
+                    card.innerHTML =
+                        '<div class="mmc-top">' +
+                        '<div class="mmc-emoji">' + item.emoji + '</div>' +
+                        '<div class="mmc-info">' +
+                        '<div class="mmc-name">' + item.name + '</div>' +
+                        '<div class="mmc-cat">' + cat + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="mmc-price-row">' +
+                        '<span class="mmc-price-label">💰 Harga</span>' +
+                        '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + harga + '" min="0" step="500"/>' +
+                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\',\'' + item.name + '\')">Simpan</button>' +
+                        '</div>' +
+                        '<div class="mmc-stock-row">' +
+                        '<span class="mmc-stock-label">📦 Stok</span>' +
+                        '<div class="toggle-wrap">' +
+                        '<span class="toggle-lbl habis">Habis</span>' +
+                        '<label class="toggle">' +
+                        '<input type="checkbox" id="stok-' + item.id + '" ' + (stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',\'' + item.name + '\',this.checked)">' +
+                        '<span class="toggle-slider"></span>' +
+                        '</label>' +
+                        '<span class="toggle-lbl ready">Ready</span>' +
+                        '</div>' +
+                        '</div>'
+                    grid.appendChild(card)
+                })
+            })
+        }
+
+        function saveHarga(id, name) {
+            const input = document.getElementById('price-' + id)
+            if (!input) return
+            const val = parseInt(input.value)
+            if (isNaN(val) || val < 0) { toast('Harga tidak valid!', 'error'); return }
+            const ov = getOverrides()
+            if (!ov[id]) ov[id] = {}
+            ov[id].harga = val
+            saveOverrides(ov)
+            toast('✅ Harga ' + name + ' diperbarui: ' + fRp(val), 'success')
+            // Visual feedback
+            const btn = input.nextElementSibling
+            if (btn) { btn.textContent = '✓ Tersimpan'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = 'Simpan'; btn.classList.remove('saved') }, 2000) }
+        }
+
+        function saveStok(id, name, isReady) {
+            const ov = getOverrides()
+            if (!ov[id]) ov[id] = {}
+            ov[id].stok = isReady
+            saveOverrides(ov)
+            // Update card style
+            const card = document.getElementById('mmc-' + id)
+            if (card) card.classList.toggle('habis', !isReady)
+            toast((isReady ? '✅ ' : '❌ ') + name + (isReady ? ' sekarang Ready' : ' sekarang Habis'), isReady ? 'success' : 'error')
+            // Update subtitle
+            const ov2 = getOverrides()
+            const habisCount = MENU_DATA.filter(m => ov2[m.id]?.stok === false).length
+            const sub = document.getElementById('menuMgmtSubtitle')
+            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + (MENU_DATA.length - habisCount) + ' ready'
+        }
+
+        function resetMenuOverrides() {
+            if (!confirm('Reset semua stok & harga ke default?')) return
+            localStorage.removeItem('menuOverrides')
+            renderMenuMgmt()
+            toast('↩ Semua stok & harga direset ke default', 'info')
+        }
+
+        /* ══════════════════════════════
+           INIT
+           ══════════════════════════════ */
+        function initDashboard() {
+            renderStats()
+            renderRecent(getOrders().slice(0, 10))
+            updateClock()
+            setInterval(updateClock, 1000)
+            // Auto-refresh setiap 30 detik
+            setInterval(() => { renderStats(); renderTable(_section) }, 30000)
+            // Close modal on overlay click
+            document.getElementById('detailModal').addEventListener('click', function (e) { if (e.target === this) closeDetail() })
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (sessionStorage.getItem('adminAuth') === '1') initDashboard()
+            document.getElementById('passInput')?.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin() })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilih Metode Pembayaran — Waroeng Makan Cak Lie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fdf0f8;
+            --white: #fff;
+            --black: #3a2a3a;
+            --dark: #c2477b;
+            --mid: #a0547a;
+            --muted: #b889a8;
+            --light: #f4c6e0;
+            --lighter: #fde8f4;
+            --shadow: 0 4px 24px rgba(194, 71, 123, .10);
+            --radius: 20px;
+            --nav-h: 64px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--black);
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 20% 20%, #fce4f3 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, #dff0fb 0%, transparent 40%)
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: linear-gradient(135deg, #e8638d, #d44f7d);
+            padding: 0 24px;
+            height: var(--nav-h);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(212, 79, 125, .30);
+            gap: 12px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none
+        }
+
+        .brand-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.15rem;
+            line-height: 1;
+            white-space: nowrap
+        }
+
+        .brand-tagline {
+            color: #fdd5ea;
+            font-size: .65rem;
+            margin-top: 2px;
+            white-space: nowrap
+        }
+
+        .nav-steps {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: .78rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .55);
+            white-space: nowrap
+        }
+
+        .step.done {
+            color: rgba(255, 255, 255, .9)
+        }
+
+        .step.active {
+            color: #fff
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .68rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, .2);
+            flex-shrink: 0
+        }
+
+        .step.done .step-num {
+            background: rgba(255, 255, 255, .9);
+            color: #d44f7d
+        }
+
+        .step.active .step-num {
+            background: #fff;
+            color: #d44f7d
+        }
+
+        .step-sep {
+            color: rgba(255, 255, 255, .3);
+            font-size: .7rem
+        }
+
+        /* HERO STRIP */
+        .page-header {
+            background: linear-gradient(135deg, #f48fb1, #ce7fc5);
+            padding: 32px 24px;
+            text-align: center
+        }
+
+        .page-header h2 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.9rem;
+            margin-bottom: 6px
+        }
+
+        .page-header p {
+            color: rgba(255, 255, 255, .85);
+            font-size: .95rem
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 32px 24px
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #c2477b;
+            background: none;
+            border: 2px solid var(--light);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s;
+            margin-bottom: 24px
+        }
+
+        .btn-back:hover {
+            background: var(--lighter);
+            border-color: #e8638d
+        }
+
+        /* ORDER SUMMARY MINI */
+        .order-mini {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--lighter);
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            animation: fadeUp .4s ease both
+        }
+
+        .order-mini h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #c2477b;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .mini-items {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-bottom: 14px
+        }
+
+        .mini-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: .88rem
+        }
+
+        .mini-item span:first-child {
+            color: var(--muted)
+        }
+
+        .mini-item span:last-child {
+            font-weight: 600;
+            color: var(--black)
+        }
+
+        .mini-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 2px dashed var(--light);
+            font-weight: 700;
+            font-size: 1rem;
+            color: #c2477b
+        }
+
+        .mini-customer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 18px;
+            margin-bottom: 10px;
+            padding: 10px 14px;
+            background: var(--bg);
+            border-radius: 10px;
+            border: 1.5px solid var(--light)
+        }
+
+        .mini-customer span {
+            font-size: .82rem;
+            color: var(--muted)
+        }
+
+        .mini-customer b {
+            color: var(--black)
+        }
+
+        /* PAYMENT SECTION */
+        .payment-section {
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--lighter);
+            padding: 28px;
+            animation: fadeUp .5s .1s ease both
+        }
+
+        .payment-section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #c2477b;
+            margin-bottom: 6px
+        }
+
+        .payment-section p.sub {
+            font-size: .85rem;
+            color: var(--muted);
+            margin-bottom: 22px
+        }
+
+        /* PAYMENT CARDS */
+        .payment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px
+        }
+
+        .payment-card {
+            background: #fff;
+            border: 2.5px solid var(--light);
+            border-radius: 16px;
+            padding: 14px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all .22s;
+            font-family: 'DM Sans', sans-serif;
+            text-align: left;
+            width: 100%
+        }
+
+        .payment-card:hover {
+            border-color: #e8638d;
+            background: var(--lighter);
+            transform: translateY(-1px)
+        }
+
+        .payment-card.active {
+            background: linear-gradient(135deg, #fde8f4, #ede8ff);
+            border-color: #e8638d;
+            box-shadow: 0 0 0 3px rgba(232, 99, 141, .15)
+        }
+
+        .pc-icon {
+            font-size: 1.7rem;
+            flex-shrink: 0;
+            width: 36px;
+            text-align: center
+        }
+
+        .pc-text {
+            flex: 1;
+            min-width: 0
+        }
+
+        .pc-name {
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 2px
+        }
+
+        .pc-sub {
+            font-size: .72rem;
+            color: var(--muted);
+            line-height: 1.4
+        }
+
+        .pc-check {
+            font-size: .95rem;
+            opacity: 0;
+            transition: opacity .2s;
+            color: #e8638d;
+            flex-shrink: 0;
+            font-weight: 700
+        }
+
+        .payment-card.active .pc-check {
+            opacity: 1
+        }
+
+        /* PAYMENT DETAIL PANELS */
+        .payment-detail {
+            display: none;
+            background: var(--lighter);
+            border: 1.5px solid var(--light);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+            animation: fadeUp .25s ease both
+        }
+
+        .payment-detail.show {
+            display: block
+        }
+
+        .pay-detail-title {
+            font-weight: 700;
+            color: #c2477b;
+            margin-bottom: 10px;
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .pay-detail-title::before {
+            content: '';
+            display: block;
+            width: 3px;
+            height: 14px;
+            background: linear-gradient(180deg, #e8638d, #c46ec0);
+            border-radius: 2px
+        }
+
+        .pay-detail p {
+            font-size: .85rem;
+            color: var(--mid);
+            line-height: 1.6
+        }
+
+        /* BANK ROWS */
+        .bank-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-radius: 12px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            border: 1.5px solid var(--light)
+        }
+
+        .bank-left {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .bank-logo-tag {
+            font-size: .7rem;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 8px;
+            letter-spacing: .5px;
+            flex-shrink: 0
+        }
+
+        .bank-logo-tag.bca {
+            background: #006cb4;
+            color: #fff
+        }
+
+        .bank-logo-tag.bri {
+            background: #00529c;
+            color: #fff
+        }
+
+        .bank-norek-num {
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--black);
+            letter-spacing: .5px
+        }
+
+        .bank-atas-nama {
+            font-size: .74rem;
+            color: var(--muted);
+            margin-top: 1px
+        }
+
+        .btn-copy-norek {
+            background: linear-gradient(135deg, #e8638d, #c46ec0);
+            border: none;
+            border-radius: 10px;
+            padding: 7px 14px;
+            font-size: .78rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all .2s;
+            flex-shrink: 0
+        }
+
+        .btn-copy-norek:hover {
+            opacity: .88;
+            transform: scale(1.04)
+        }
+
+        .btn-copy-norek.copied {
+            background: linear-gradient(135deg, #25d366, #1aaa55)
+        }
+
+        /* QRIS BOX */
+        .qris-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px;
+            background: #fff;
+            border-radius: 14px;
+            border: 2px dashed var(--light);
+            margin-top: 8px
+        }
+
+        .qris-label {
+            font-size: .8rem;
+            font-weight: 700;
+            color: #c2477b
+        }
+
+        /* PAY NOTE */
+        .pay-note {
+            font-size: .78rem;
+            color: #a07800;
+            background: #fffbe6;
+            border: 1.5px solid #ffe58f;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-top: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px
+        }
+
+        /* CTA BUTTON */
+        .cta-wrap {
+            margin-top: 24px
+        }
+
+        .btn-confirm-order {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            color: #fff;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            font-family: 'DM Sans', sans-serif;
+            transition: opacity .2s, transform .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 24px rgba(37, 211, 102, .25)
+        }
+
+        .btn-confirm-order:hover {
+            opacity: .92;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 32px rgba(37, 211, 102, .35)
+        }
+
+        .btn-confirm-order:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none
+        }
+
+        .btn-confirm-order .btn-arr {
+            font-size: 1.1rem;
+            transition: transform .2s
+        }
+
+        .btn-confirm-order:hover .btn-arr {
+            transform: translateX(3px)
+        }
+
+        .no-payment-hint {
+            text-align: center;
+            font-size: .82rem;
+            color: var(--muted);
+            margin-top: 10px
+        }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #e8638d, #c46ec0);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: .9rem;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: all .3s;
+            pointer-events: none;
+            z-index: 999;
+            box-shadow: 0 4px 20px rgba(220, 80, 140, .3);
+            max-width: calc(100vw - 48px)
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        /* KEYFRAMES */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:600px) {
+            .payment-grid {
+                grid-template-columns: 1fr
+            }
+
+            .nav-steps {
+                display: none
+            }
+
+            .container {
+                padding: 20px 16px
+            }
+
+            .payment-section {
+                padding: 20px
+            }
+
+            .order-mini {
+                padding: 16px 18px
+            }
+
+            .bank-row {
+                flex-wrap: wrap;
+                gap: 8px
+            }
+
+            .btn-copy-norek {
+                width: 100%
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a class="brand" href="frontend.html">
+            <span class="brand-icon">🍛</span>
+            <div>
+                <div class="brand-name">Waroeng Makan Cak Lie</div>
+                <div class="brand-tagline">Masakan Rumahan Sejak 2005</div>
+            </div>
+        </a>
+        <div class="nav-steps">
+            <div class="step done">
+                <div class="step-num">✓</div>
+                <span>Keranjang</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step done">
+                <div class="step-num">✓</div>
+                <span>Detail</span>
+            </div>
+            <div class="step-sep">›</div>
+            <div class="step active">
+                <div class="step-num">3</div>
+                <span>Pembayaran</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <h2>💳 Metode Pembayaran</h2>
+        <p>Pilih cara pembayaran yang paling mudah untukmu</p>
+    </div>
+
+    <div class="container">
+        <button class="btn-back" onclick="history.back()">← Kembali ke Keranjang</button>
+
+        <!-- RINGKASAN PESANAN MINI -->
+        <div class="order-mini">
+            <h3>🛍️ Ringkasan Pesanan</h3>
+            <div class="mini-customer" id="miniCustomer">
+                <span>👤 <b id="miniNama">—</b></span>
+                <span>📞 <b id="miniHp">—</b></span>
+                <span id="miniMetode">🍽️ <b>Dine-in</b></span>
+            </div>
+            <div class="mini-items" id="miniItems"></div>
+            <div class="mini-total">
+                <span>Total Pembayaran</span>
+                <span id="miniTotal">Rp 0</span>
+            </div>
+        </div>
+
+        <!-- METODE PEMBAYARAN -->
+        <div class="payment-section">
+            <h3>Pilih Metode Pembayaran</h3>
+            <p class="sub">Setelah memilih, klik tombol di bawah untuk mengirim pesanan via WhatsApp.</p>
+
+            <div class="payment-grid">
+
+                <button class="payment-card" data-p="Tunai / Cash" data-detail="cash" onclick="pilihPembayaran(this)">
+                    <span class="pc-icon">💵</span>
+                    <span class="pc-text">
+                        <span class="pc-name">Tunai / Cash</span>
+                        <span class="pc-sub">Bayar di tempat / saat terima</span>
+                    </span>
+                    <span class="pc-check">✓</span>
+                </button>
+
+                <button class="payment-card" data-p="Transfer Bank" data-detail="transfer"
+                    onclick="pilihPembayaran(this)">
+                    <span class="pc-icon">🏦</span>
+                    <span class="pc-text">
+                        <span class="pc-name">Transfer Bank</span>
+                        <span class="pc-sub">BCA · BRI · Mandiri</span>
+                    </span>
+                    <span class="pc-check">✓</span>
+                </button>
+
+                <button class="payment-card" data-p="QRIS / GoPay / OVO" data-detail="qris"
+                    onclick="pilihPembayaran(this)">
+                    <span class="pc-icon">📱</span>
+                    <span class="pc-text">
+                        <span class="pc-name">QRIS</span>
+                        <span class="pc-sub">GoPay · OVO · DANA · ShopeePay</span>
+                    </span>
+                    <span class="pc-check">✓</span>
+                </button>
+
+                <button class="payment-card" data-p="COD (Bayar Saat Terima)" data-detail="cod"
+                    onclick="pilihPembayaran(this)">
+                    <span class="pc-icon">🚪</span>
+                    <span class="pc-text">
+                        <span class="pc-name">COD</span>
+                        <span class="pc-sub">Bayar saat kurir tiba</span>
+                    </span>
+                    <span class="pc-check">✓</span>
+                </button>
+
+            </div>
+
+            <!-- Detail: Tunai -->
+            <div class="payment-detail" id="detail-cash">
+                <div class="pay-detail-title">💵 Tunai / Cash</div>
+                <p>Siapkan uang tunai saat mengambil (Take-away / Dine-in) atau saat menerima pesanan (Delivery).
+                    Kembalian tersedia.</p>
+            </div>
+
+            <!-- Detail: Transfer -->
+            <div class="payment-detail" id="detail-transfer">
+                <div class="pay-detail-title">🏦 Rekening Tujuan Transfer</div>
+                <div class="bank-row">
+                    <div class="bank-left">
+                        <span class="bank-logo-tag bca">BCA</span>
+                        <div>
+                            <div class="bank-norek-num">703 035 4501</div>
+                            <div class="bank-atas-nama">a/n Waroeng Makan Cak Lie</div>
+                        </div>
+                    </div>
+                    <button class="btn-copy-norek" onclick="salinRek(this,'7030354501')">Salin</button>
+                </div>
+                <div class="bank-row">
+                    <div class="bank-left">
+                        <span class="bank-logo-tag bri">BRI</span>
+                        <div>
+                            <div class="bank-norek-num">0123 4567 89</div>
+                            <div class="bank-atas-nama">a/n Waroeng Makan Cak Lie</div>
+                        </div>
+                    </div>
+                    <button class="btn-copy-norek" onclick="salinRek(this,'0123456789')">Salin</button>
+                </div>
+                <div class="pay-note">⚠️ Kirim bukti transfer ke WhatsApp setelah transfer ya!</div>
+            </div>
+
+            <!-- Detail: QRIS -->
+            <div class="payment-detail" id="detail-qris">
+                <div class="pay-detail-title">📱 Scan QRIS</div>
+                <p>Scan QR berikut menggunakan GoPay, OVO, DANA, ShopeePay, atau m-banking apapun yang support QRIS.</p>
+                <div class="qris-center">
+                    <svg width="150" height="150" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"
+                        style="border-radius:8px;border:2px solid var(--light)">
+                        <rect width="120" height="120" fill="white" />
+                        <rect x="8" y="8" width="32" height="32" rx="3" fill="none" stroke="#c2477b" stroke-width="4" />
+                        <rect x="14" y="14" width="20" height="20" rx="1" fill="#c2477b" />
+                        <rect x="80" y="8" width="32" height="32" rx="3" fill="none" stroke="#c2477b"
+                            stroke-width="4" />
+                        <rect x="86" y="14" width="20" height="20" rx="1" fill="#c2477b" />
+                        <rect x="8" y="80" width="32" height="32" rx="3" fill="none" stroke="#c2477b"
+                            stroke-width="4" />
+                        <rect x="14" y="86" width="20" height="20" rx="1" fill="#c2477b" />
+                        <rect x="48" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="56" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="16" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="16" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="24" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="24" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="8" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="16" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="8" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="24" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="8" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="16" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="24" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="72" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="56" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="80" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="88" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="96" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="104" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="80" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="96" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="80" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="96" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="48" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="64" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="80" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                        <rect x="51" y="51" width="18" height="18" rx="3" fill="white" />
+                        <text x="60" y="63" text-anchor="middle" font-size="10" fill="#c2477b"
+                            font-weight="bold">Q</text>
+                    </svg>
+                    <div class="qris-label">QRIS — Waroeng Makan Cak Lie</div>
+                </div>
+                <div class="pay-note">⚠️ Screenshot QR ini lalu buka aplikasi e-wallet kamu untuk scan dari galeri.
+                </div>
+            </div>
+
+            <!-- Detail: COD -->
+            <div class="payment-detail" id="detail-cod">
+                <div class="pay-detail-title">🚪 COD – Bayar Saat Terima</div>
+                <p>Kurir kami akan datang ke lokasi pengiriman. Siapkan uang pas untuk kemudahan transaksi. Layanan COD
+                    hanya tersedia untuk area Kembangan &amp; sekitarnya.</p>
+            </div>
+
+            <!-- CTA -->
+            <div class="cta-wrap">
+                <button class="btn-confirm-order" id="btnOrder" onclick="confirmOrder()" disabled>
+                    <span>💬 Konfirmasi &amp; Kirim Pesanan via WhatsApp</span>
+                    <span class="btn-arr">›</span>
+                </button>
+                <p class="no-payment-hint" id="payHint">Pilih metode pembayaran terlebih dahulu</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ════ UTILS ════ */
+        const fRp = n => 'Rp ' + n.toLocaleString('id-ID')
+        const genId = () => 'ORD-' + Date.now().toString(36).toUpperCase()
+        const nowStr = () => new Date().toLocaleString('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        const getOrders = () => { try { return JSON.parse(localStorage.getItem('orders') || '[]') } catch { return [] } }
+        const saveOrders = o => localStorage.setItem('orders', JSON.stringify(o))
+        function toast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500) }
+
+        /* ════ LOAD PENDING ORDER dari sessionStorage ════ */
+        let _pending = null
+        let _payment = ''
+
+        function loadPending() {
+            try { _pending = JSON.parse(sessionStorage.getItem('pendingOrder') || 'null') } catch { }
+            if (!_pending || !_pending.cart || !_pending.cart.length) {
+                // Tidak ada pending order → kembalikan ke frontend
+                window.location.href = 'frontend.html'
+                return
+            }
+
+            // Isi mini summary
+            document.getElementById('miniNama').textContent = _pending.nama || '—'
+            document.getElementById('miniHp').textContent = _pending.hp || '—'
+            const mIcon = _pending.metode === 'Delivery' ? '🛵' : _pending.metode === 'Take-away' ? '🥡' : '🍽️'
+            document.getElementById('miniMetode').innerHTML = mIcon + ' <b>' + (_pending.metode || 'Dine-in') + '</b>'
+
+            const itemsEl = document.getElementById('miniItems')
+            let total = 0
+            _pending.cart.forEach(item => {
+                const sub = item.price * item.qty
+                total += sub
+                const row = document.createElement('div')
+                row.className = 'mini-item'
+                row.innerHTML = '<span>' + item.emoji + ' ' + item.name + ' ×' + item.qty + '</span><span>' + fRp(sub) + '</span>'
+                itemsEl.appendChild(row)
+            })
+            if (_pending.metode === 'Delivery') {
+                total += 5000
+                const row = document.createElement('div')
+                row.className = 'mini-item'
+                row.innerHTML = '<span>🛵 Ongkir Delivery</span><span>' + fRp(5000) + '</span>'
+                itemsEl.appendChild(row)
+            }
+            document.getElementById('miniTotal').textContent = fRp(total)
+        }
+
+        /* ════ PILIH PEMBAYARAN ════ */
+        function pilihPembayaran(btn) {
+            document.querySelectorAll('.payment-card').forEach(c => c.classList.remove('active'))
+            document.querySelectorAll('.payment-detail').forEach(d => d.classList.remove('show'))
+            btn.classList.add('active')
+            _payment = btn.dataset.p
+            const panel = document.getElementById('detail-' + btn.dataset.detail)
+            if (panel) panel.classList.add('show')
+
+            // Enable CTA
+            const cta = document.getElementById('btnOrder')
+            const hint = document.getElementById('payHint')
+            cta.disabled = false
+            hint.style.display = 'none'
+        }
+
+        /* ════ SALIN REKENING ════ */
+        function salinRek(btn, norek) {
+            navigator.clipboard.writeText(norek).then(() => {
+                btn.textContent = '✓ Disalin'
+                btn.classList.add('copied')
+                toast('✅ Nomor rekening disalin!')
+                setTimeout(() => { btn.textContent = 'Salin'; btn.classList.remove('copied') }, 2000)
+            }).catch(() => toast('Rekening: ' + norek))
+        }
+
+        /* ════ KONFIRMASI & KIRIM PESANAN ════ */
+        function confirmOrder() {
+            if (!_pending || !_payment) { toast('⚠️ Pilih metode pembayaran dulu!'); return }
+
+            const id = genId()
+            const cart = _pending.cart
+            const sub = cart.reduce((s, i) => s + i.price * i.qty, 0)
+            const del = _pending.metode === 'Delivery' ? 5000 : 0
+            const total = sub + del
+
+            // Simpan order ke localStorage
+            const order = {
+                id,
+                nama: _pending.nama,
+                hp: _pending.hp,
+                metode: _pending.metode,
+                alamat: _pending.alamat || '',
+                catatan: _pending.catatan || '',
+                payment: _payment,
+                items: JSON.parse(JSON.stringify(cart)),
+                total,
+                status: 'proses',
+                waktu: nowStr(),
+                timestamp: Date.now()
+            }
+            const orders = getOrders()
+            orders.unshift(order)
+            saveOrders(orders)
+
+            // Kosongkan cart & pending
+            localStorage.removeItem('cart')
+            sessionStorage.removeItem('pendingOrder')
+
+            // Format pesan WA
+            const mIcon = _pending.metode === 'Delivery' ? '🛵' : _pending.metode === 'Take-away' ? '🥡' : '🍽'
+            const pIcon = _payment.includes('Tunai') ? '💵' : _payment.includes('Transfer') ? '🏦' : _payment.includes('QRIS') ? '📱' : '🚪'
+            let msg = '*PESANAN BARU - Waroeng Makan Cak Lie* \n'
+            msg += '━━━━━━━━━━━━━━━━━━━━\n'
+            msg += '*No. Order:* ' + id + '\n'
+            msg += '*Nama:* ' + _pending.nama + '\n'
+            msg += '*No. HP:* ' + _pending.hp + '\n'
+            msg += mIcon + ' *Pengambilan:* ' + _pending.metode + '\n'
+            msg += pIcon + ' *Pembayaran:* ' + _payment + '\n'
+            if (_pending.alamat) msg += '*Alamat:* ' + _pending.alamat + '\n'
+            msg += '*Waktu:* ' + nowStr() + '\n'
+            msg += '━━━━━━━━━━━━━━━━━━━━\n'
+            msg += '*DETAIL PESANAN:*\n'
+            cart.forEach(i => { msg += i.emoji + ' ' + i.name + ' x' + i.qty + ' = ' + fRp(i.price * i.qty) + '\n' })
+            msg += '━━━━━━━━━━━━━━━━━━━━\n'
+            if (del) msg += 'Ongkir: ' + fRp(del) + '\n'
+            msg += '*TOTAL: ' + fRp(total) + '*\n'
+            if (_pending.catatan) msg += '*Catatan:* ' + _pending.catatan + '\n'
+            msg += '\nTerima kasih sudah memesan! Pesanan akan segera kami proses. 🙏'
+
+            window.open('https://wa.me/6288213066069?text=' + encodeURIComponent(msg), '_blank')
+
+            // Redirect ke halaman pesanan dengan param new order
+            setTimeout(() => {
+                window.location.href = 'frontend.html?page=orders&new=' + id
+            }, 400)
+        }
+
+        /* ════ INIT ════ */
+        document.addEventListener('DOMContentLoaded', loadPending)
+    </script>
+</body>
+
+</html>
