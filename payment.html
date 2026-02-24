@@ -632,7 +632,7 @@
 
     <!-- NAVBAR -->
     <nav class="navbar">
-        <a class="brand" href="frontend.html">
+        <a class="brand" href="index.html">
             <span class="brand-icon">🍛</span>
             <div>
                 <div class="brand-name">Waroeng Makan Cak Lie</div>
@@ -856,8 +856,8 @@
         function loadPending() {
             try { _pending = JSON.parse(sessionStorage.getItem('pendingOrder') || 'null') } catch { }
             if (!_pending || !_pending.cart || !_pending.cart.length) {
-                // Tidak ada pending order → kembalikan ke frontend
-                window.location.href = 'frontend.html'
+                // Tidak ada pending order → kembalikan ke index
+                window.location.href = 'index.html'
                 return
             }
 
@@ -971,7 +971,7 @@
 
             // Redirect ke halaman pesanan dengan param new order
             setTimeout(() => {
-                window.location.href = 'frontend.html?page=orders&new=' + id
+                window.location.href = 'index.html?page=orders&new=' + id
             }, 400)
         }
 

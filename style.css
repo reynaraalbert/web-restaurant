@@ -816,7 +816,29 @@ body {
   .search-bar    { display: none; }
   .cart-btn      { display: none; }
   .back-link     { display: none; }
-  .mobile-overlay { display: block; }
+  .mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(60,20,50,0.48);
+  z-index: 200;
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mobile-overlay.show {
+  display: block;
+  opacity: 1;
+}
+
+.mobile-overlay {
+  pointer-events: none;
+}
+
+.mobile-overlay.show {
+  pointer-events: auto;
+}
 
   /* Brand text: allow shrink but keep icon visible */
   .brand { gap: 8px; }
