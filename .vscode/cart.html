@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keranjang – Waroeng Makan Cak Lie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="brand">
+      <span class="brand-icon">🍛</span>
+      <div>
+        <h1 class="brand-name">Waroeng Makan Cak Lie</h1>
+        <p class="brand-tagline">Masakan Rumahan Sejak 2005</p>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="index.html" class="back-link">← Kembali ke Menu</a>
+      <a href="cart.html" class="cart-btn">
+        🛒 Keranjang
+        <span class="cart-badge" id="cartBadge">0</span>
+      </a>
+      <button class="burger-btn" id="burgerBtn" aria-label="Buka menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+  <div class="mobile-drawer" id="mobileDrawer">
+    <button class="drawer-close" id="drawerClose">✕</button>
+    <div class="drawer-brand">🍛 Waroeng Makan Cak Lie</div>
+    <nav class="drawer-nav">
+      <a href="index.html" class="drawer-link">🏠 Beranda</a>
+      <a href="index.html#menu" class="drawer-link">🍽️ Menu</a>
+      <a href="cart.html" class="drawer-link active">🛒 Keranjang
+        <span class="cart-badge" id="cartBadgeMobile" style="background:#f9a8c9">0</span>
+      </a>
+    </nav>
+    <div class="drawer-info">
+      <p>📍 Jl. Kh. Hasyim No. 14B, Kembangan Utara, Jakarta Barat</p>
+      <p>📞 0882-1306-6069</p>
+      <p>🕐 Senin–Sabtu: 06.00–21.00</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Keranjang Belanja</h2>
+      <div class="cart-layout">
+        <div class="cart-items" id="cartItems">
+          <p class="empty-cart" id="emptyMsg">Keranjangmu masih kosong. <a href="index.html">Pilih menu dulu →</a></p>
+        </div>
+        <div class="cart-summary" id="cartSummary" style="display:none">
+          <h3>Ringkasan Pesanan</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">Rp 0</span>
+          </div>
+          <div class="summary-row">
+            <span>Ongkir</span>
+            <span id="ongkir">Rp 5.000</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="totalHarga">Rp 0</span>
+          </div>
+          <div class="order-form">
+            <h4>Detail Pengiriman</h4>
+            <input type="text" id="namaCustomer" placeholder="Nama lengkap" />
+            <input type="text" id="noHp" placeholder="No. WhatsApp (08xx)" />
+            <textarea id="alamat" placeholder="Alamat lengkap pengiriman..." rows="3"></textarea>
+
+            <!-- METODE PEMBAYARAN -->
+            <h4>Metode Pembayaran</h4>
+            <input type="hidden" id="metodePembayaran" value="" />
+            <div class="payment-methods">
+
+              <!-- COD -->
+              <div class="pay-card" data-value="COD" onclick="pilihBayar(this)">
+                <div class="pay-icon">🏠</div>
+                <div class="pay-info">
+                  <div class="pay-name">COD</div>
+                  <div class="pay-sub">Bayar di Tempat</div>
+                </div>
+                <div class="pay-check">✓</div>
+              </div>
+              <div class="pay-detail" id="detail-COD">
+                <p>🛵 Kurir kami akan datang ke lokasi. Siapkan uang pas untuk kemudahan transaksi.</p>
+              </div>
+
+              <!-- Transfer Bank -->
+              <div class="pay-card" data-value="Transfer" onclick="pilihBayar(this)">
+                <div class="pay-icon">🏦</div>
+                <div class="pay-info">
+                  <div class="pay-name">Transfer Bank</div>
+                  <div class="pay-sub">BCA / BRI / Mandiri</div>
+                </div>
+                <div class="pay-check">✓</div>
+              </div>
+              <div class="pay-detail" id="detail-Transfer">
+                <p>💳 Transfer ke salah satu rekening berikut:</p>
+                <div class="bank-list">
+                  <div class="bank-item">
+                    <span class="bank-logo bca">BCA</span>
+                    <div>
+                      <div class="bank-norek">1234 5678 90</div>
+                      <div class="bank-name">a/n Waroeng Cak Lie</div>
+                    </div>
+                    <button class="btn-copy" onclick="salinRek('1234567890')">Salin</button>
+                  </div>
+                  <div class="bank-item">
+                    <span class="bank-logo bri">BRI</span>
+                    <div>
+                      <div class="bank-norek">0987 6543 21 001</div>
+                      <div class="bank-name">a/n Waroeng Cak Lie</div>
+                    </div>
+                    <button class="btn-copy" onclick="salinRek('098765432100')">Salin</button>
+                  </div>
+                </div>
+                <p class="pay-note">⚠️ Kirim bukti transfer ke WhatsApp setelah transfer.</p>
+              </div>
+
+              <!-- QRIS -->
+              <div class="pay-card" data-value="QRIS" onclick="pilihBayar(this)">
+                <div class="pay-icon">📱</div>
+                <div class="pay-info">
+                  <div class="pay-name">QRIS</div>
+                  <div class="pay-sub">GoPay · OVO · Dana · ShopeePay</div>
+                </div>
+                <div class="pay-check">✓</div>
+              </div>
+              <div class="pay-detail" id="detail-QRIS">
+                <p>📲 Scan QR Code berikut menggunakan aplikasi e-wallet Anda:</p>
+                <div class="qris-box">
+                  <svg class="qris-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Corner squares -->
+                    <rect x="8" y="8" width="32" height="32" rx="3" fill="none" stroke="#c2477b" stroke-width="4" />
+                    <rect x="14" y="14" width="20" height="20" rx="1" fill="#c2477b" />
+                    <rect x="80" y="8" width="32" height="32" rx="3" fill="none" stroke="#c2477b" stroke-width="4" />
+                    <rect x="86" y="14" width="20" height="20" rx="1" fill="#c2477b" />
+                    <rect x="8" y="80" width="32" height="32" rx="3" fill="none" stroke="#c2477b" stroke-width="4" />
+                    <rect x="14" y="86" width="20" height="20" rx="1" fill="#c2477b" />
+                    <!-- Data dots pattern -->
+                    <rect x="48" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="56" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="8" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="16" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="16" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="24" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="56" y="24" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="24" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="8" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="16" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="8" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="24" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="8" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="16" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="24" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="72" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="56" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="80" y="48" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="88" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="96" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="104" y="56" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="80" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="96" y="64" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="56" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="72" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="80" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="96" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="104" y="80" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="88" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="88" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="80" y="88" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="56" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="72" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="104" y="96" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="48" y="104" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="64" y="104" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="80" y="104" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <rect x="96" y="104" width="6" height="6" rx="1" fill="#3a2a3a" />
+                    <!-- Center logo -->
+                    <rect x="51" y="51" width="18" height="18" rx="3" fill="white" />
+                    <text x="60" y="63" text-anchor="middle" font-size="10" fill="#c2477b" font-weight="bold">Q</text>
+                  </svg>
+                  <div class="qris-label">QRIS Waroeng Cak Lie</div>
+                </div>
+                <p class="pay-note">⚠️ Screenshot QR ini lalu buka aplikasi e-wallet Anda.</p>
+              </div>
+
+            </div><!-- /payment-methods -->
+
+            <button class="btn-order" id="btnOrder" onclick="kirimPesanan()">
+              📱 Pesan via WhatsApp
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="footer-copy">© 2026 Waroeng Makan Cak Lie</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+  <script src="/app.js"></script>
+</body>
+
+</html>

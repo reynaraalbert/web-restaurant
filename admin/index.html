@@ -408,10 +408,21 @@
             gap: 16px;
         }
 
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+            flex: 1;
+        }
+
         .topbar-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.2rem;
             color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .topbar-right {
@@ -636,6 +647,7 @@
             overflow-x: auto;
             border-radius: var(--radius);
             border: 1.5px solid var(--border);
+            -webkit-overflow-scrolling: touch;
         }
 
         .order-table {
@@ -1116,6 +1128,54 @@
             gap: 16px;
         }
 
+        .menu-stock-overview {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .mso-item {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        .mso-label {
+            font-size: .72rem;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        .mso-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .mso-value.ready {
+            color: var(--green);
+        }
+
+        .mso-value.habis {
+            color: var(--red);
+        }
+
+        .menu-head-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
         .menu-mgmt-card {
             background: var(--card);
             border: 1.5px solid var(--border);
@@ -1371,7 +1431,15 @@
             }
 
             .content {
-                padding: 16px;
+                padding: 14px;
+            }
+
+            .topbar-title {
+                font-size: .95rem;
+            }
+
+            .topbar-right {
+                gap: 8px;
             }
 
             .modal-info-grid {
@@ -1379,11 +1447,60 @@
             }
 
             .topbar {
-                padding: 0 16px;
+                padding: 0 12px;
+                gap: 10px;
+            }
+
+            .topbar-left {
+                gap: 8px;
+            }
+
+            .section-head {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .section-head h2 {
+                font-size: 1.1rem;
+            }
+
+            .section-head .filter-row,
+            .menu-head-actions {
+                width: 100%;
+            }
+
+            .filter-row {
+                gap: 8px;
+            }
+
+            .filter-btn {
+                flex: 1;
+                text-align: center;
             }
 
             .search-input {
-                width: 140px;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .menu-stock-overview {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-mgmt-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+
+            .modal-card {
+                border-radius: 16px;
+            }
+
+            .modal-header {
+                padding: 16px 16px 12px;
+            }
+
+            .modal-body {
+                padding: 14px 16px 16px;
             }
         }
 
@@ -1394,6 +1511,56 @@
 
             .stat-card {
                 padding: 16px;
+            }
+
+            .topbar {
+                height: auto;
+                min-height: 58px;
+                padding: 8px 10px;
+            }
+
+            .live-dot {
+                display: none;
+            }
+
+            .topbar-right {
+                margin-left: auto;
+            }
+
+            .topbar-time {
+                font-size: .7rem;
+            }
+
+            .order-table thead th,
+            .order-table tbody td {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .mmc-price-row {
+                flex-wrap: wrap;
+            }
+
+            .btn-save-price {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .content {
+                padding: 10px;
+            }
+
+            .order-table {
+                min-width: 620px;
+            }
+
+            .action-group {
+                flex-wrap: nowrap;
+            }
+
+            .btn-action {
+                font-size: .68rem;
+                padding: 5px 8px;
             }
         }
     </style>
@@ -1474,7 +1641,7 @@
 
                 <!-- TOPBAR -->
                 <div class="topbar">
-                    <div style="display:flex;align-items:center;gap:12px">
+                    <div class="topbar-left">
                         <button class="burger-admin" id="burgerAdmin" onclick="openSidebar()">
                             <span></span><span></span><span></span>
                         </button>
@@ -1652,10 +1819,24 @@
                                 <h2>🍽️ Kelola Menu</h2>
                                 <p id="menuMgmtSubtitle">Update stok & harga semua item menu</p>
                             </div>
-                            <div style="display:flex;gap:8px;align-items:center">
+                            <div class="menu-head-actions">
                                 <button class="filter-btn" onclick="resetMenuOverrides()"
                                     style="border-color:rgba(240,96,96,.4);color:var(--red)">↩ Reset Semua</button>
                                 <button class="filter-btn active" onclick="renderMenuMgmt()">🔄 Refresh</button>
+                            </div>
+                        </div>
+                        <div class="menu-stock-overview" id="menuStockOverview">
+                            <div class="mso-item">
+                                <span class="mso-label">Total Menu</span>
+                                <span class="mso-value" id="stockTotalMenu">0</span>
+                            </div>
+                            <div class="mso-item">
+                                <span class="mso-label">Stok Tersedia</span>
+                                <span class="mso-value ready" id="stockReadyMenu">0</span>
+                            </div>
+                            <div class="mso-item">
+                                <span class="mso-label">Stok Habis</span>
+                                <span class="mso-value habis" id="stockHabisMenu">0</span>
                             </div>
                         </div>
                         <div class="menu-mgmt-grid" id="menuMgmtGrid"></div>
@@ -2097,6 +2278,21 @@
         const getOverrides = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
         const saveOverrides = o => localStorage.setItem('menuOverrides', JSON.stringify(o))
 
+        function refreshMenuStockSummary(ov) {
+            const readyCount = MENU_DATA.filter(m => (ov[m.id]?.stok !== undefined ? ov[m.id].stok : true)).length
+            const habisCount = MENU_DATA.length - readyCount
+
+            const sub = document.getElementById('menuMgmtSubtitle')
+            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + readyCount + ' ready'
+
+            const totalEl = document.getElementById('stockTotalMenu')
+            const readyEl = document.getElementById('stockReadyMenu')
+            const habisEl = document.getElementById('stockHabisMenu')
+            if (totalEl) totalEl.textContent = MENU_DATA.length
+            if (readyEl) readyEl.textContent = readyCount
+            if (habisEl) habisEl.textContent = habisCount
+        }
+
         function renderMenuMgmt() {
             const grid = document.getElementById('menuMgmtGrid')
             if (!grid) return
@@ -2104,9 +2300,7 @@
 
             // Group by category
             const cats = [...new Set(MENU_DATA.map(m => m.cat))]
-            const habisCount = MENU_DATA.filter(m => ov[m.id]?.stok === false).length
-            const sub = document.getElementById('menuMgmtSubtitle')
-            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + (MENU_DATA.length - habisCount) + ' ready'
+            refreshMenuStockSummary(ov)
 
             grid.innerHTML = ''
             cats.forEach(cat => {
@@ -2178,11 +2372,7 @@
             const card = document.getElementById('mmc-' + id)
             if (card) card.classList.toggle('habis', !isReady)
             toast((isReady ? '✅ ' : '❌ ') + name + (isReady ? ' sekarang Ready' : ' sekarang Habis'), isReady ? 'success' : 'error')
-            // Update subtitle
-            const ov2 = getOverrides()
-            const habisCount = MENU_DATA.filter(m => ov2[m.id]?.stok === false).length
-            const sub = document.getElementById('menuMgmtSubtitle')
-            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + (MENU_DATA.length - habisCount) + ' ready'
+            refreshMenuStockSummary(getOverrides())
         }
 
         function resetMenuOverrides() {
