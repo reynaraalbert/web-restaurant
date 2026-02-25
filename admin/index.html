@@ -46,6 +46,7 @@
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            overflow-x: hidden;
             background-image:
                 radial-gradient(ellipse at 10% 0%, rgba(232, 99, 141, .08) 0%, transparent 55%),
                 radial-gradient(ellipse at 90% 100%, rgba(196, 110, 192, .06) 0%, transparent 50%);
@@ -391,6 +392,8 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            min-width: 0;
+            overflow-x: hidden;
         }
 
         /* TOPBAR */
@@ -1124,7 +1127,7 @@
         /* ══════════ MENU MANAGEMENT ══════════ */
         .menu-mgmt-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 16px;
         }
 
@@ -1238,20 +1241,26 @@
 
         .mmc-price-row {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .mmc-price-label {
             font-size: .72rem;
             color: var(--muted);
             font-weight: 600;
-            flex-shrink: 0;
+        }
+
+        .mmc-price-input-wrap {
+            display: flex;
+            gap: 0;
+            width: 100%;
         }
 
         .mmc-price-input {
             flex: 1;
-            padding: 7px 10px;
+            width: 100%;
+            padding: 8px 10px;
             background: var(--surface);
             border: 1.5px solid var(--border2);
             border-radius: 8px;
@@ -1260,6 +1269,7 @@
             font-size: .88rem;
             outline: none;
             transition: border-color .2s;
+            box-sizing: border-box;
         }
 
         .mmc-price-input:focus {
@@ -1267,23 +1277,23 @@
         }
 
         .btn-save-price {
-            padding: 7px 12px;
+            width: 100%;
+            padding: 8px 12px;
             background: linear-gradient(135deg, var(--accent), var(--accent2));
             border: none;
             border-radius: 8px;
             color: #fff;
             font-family: 'DM Sans', sans-serif;
-            font-size: .75rem;
+            font-size: .8rem;
             font-weight: 700;
             cursor: pointer;
             transition: opacity .2s, transform .1s;
-            white-space: nowrap;
-            flex-shrink: 0;
+            text-align: center;
         }
 
         .btn-save-price:hover {
             opacity: .88;
-            transform: scale(1.04);
+            transform: translateY(-1px);
         }
 
         .btn-save-price.saved {
@@ -1401,16 +1411,34 @@
             }
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 900px) {
+        /* ══════════ RESPONSIVE ══════════ */
+
+        /* Tablet */
+        @media (max-width: 1100px) {
             .stat-grid {
                 grid-template-columns: 1fr 1fr;
+                gap: 14px;
             }
         }
 
+        /* Small tablet */
+        @media (max-width: 900px) {
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .menu-mgmt-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        /* Mobile — sidebar goes off-canvas */
         @media (max-width: 700px) {
             .sidebar {
                 transform: translateX(-100%);
+                width: 260px;
+                min-width: 260px;
             }
 
             .sidebar.open {
@@ -1425,6 +1453,29 @@
                 display: flex;
             }
 
+            .topbar {
+                padding: 0 14px;
+                gap: 10px;
+            }
+
+            .topbar-left {
+                gap: 8px;
+                flex: 1;
+                min-width: 0;
+            }
+
+            .topbar-title {
+                font-size: .92rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .topbar-right {
+                gap: 8px;
+                flex-shrink: 0;
+            }
+
             .stat-grid {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px;
@@ -1434,30 +1485,11 @@
                 padding: 14px;
             }
 
-            .topbar-title {
-                font-size: .95rem;
-            }
-
-            .topbar-right {
-                gap: 8px;
-            }
-
-            .modal-info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .topbar {
-                padding: 0 12px;
-                gap: 10px;
-            }
-
-            .topbar-left {
-                gap: 8px;
-            }
-
+            /* Section head */
             .section-head {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 10px;
             }
 
             .section-head h2 {
@@ -1470,12 +1502,13 @@
             }
 
             .filter-row {
-                gap: 8px;
+                gap: 6px;
             }
 
             .filter-btn {
                 flex: 1;
                 text-align: center;
+                padding: 6px 10px;
             }
 
             .search-input {
@@ -1483,12 +1516,30 @@
                 max-width: 100%;
             }
 
-            .menu-stock-overview {
-                grid-template-columns: 1fr;
+            /* Tables */
+            .order-table-wrap {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
+            .order-table {
+                min-width: 600px;
+            }
+
+            /* Menu grid */
             .menu-mgmt-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 12px;
+            }
+
+            .menu-stock-overview {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 8px;
+            }
+
+            /* Modal */
+            .modal-info-grid {
+                grid-template-columns: 1fr;
             }
 
             .modal-card {
@@ -1504,63 +1555,260 @@
             }
         }
 
-        @media (max-width: 480px) {
-            .stat-grid {
-                grid-template-columns: 1fr;
-            }
+        /* Small mobile */
+        @media (max-width: 540px) {
 
-            .stat-card {
-                padding: 16px;
-            }
-
+            /* Topbar */
             .topbar {
                 height: auto;
-                min-height: 58px;
-                padding: 8px 10px;
+                min-height: 56px;
+                padding: 8px 12px;
+            }
+
+            .topbar-title {
+                font-size: .85rem;
+                max-width: 140px;
             }
 
             .live-dot {
                 display: none;
             }
 
-            .topbar-right {
-                margin-left: auto;
-            }
-
             .topbar-time {
-                font-size: .7rem;
+                font-size: .68rem;
             }
 
-            .order-table thead th,
-            .order-table tbody td {
-                padding-left: 10px;
-                padding-right: 10px;
+            /* Stats */
+            .stat-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
             }
 
-            .mmc-price-row {
-                flex-wrap: wrap;
+            .stat-card {
+                padding: 12px 14px;
+                gap: 10px;
             }
 
-            .btn-save-price {
-                width: 100%;
-                justify-content: center;
+            .stat-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+                border-radius: 10px;
             }
 
+            .stat-val {
+                font-size: 1.15rem;
+            }
+
+            .stat-label {
+                font-size: .68rem;
+            }
+
+            .stat-sub {
+                display: none;
+            }
+
+            /* Content */
             .content {
                 padding: 10px;
             }
 
+            /* Tables */
             .order-table {
-                min-width: 620px;
+                min-width: 560px;
+                font-size: .8rem;
             }
 
+            .order-table thead th {
+                padding: 10px 10px;
+                font-size: .66rem;
+            }
+
+            .order-table tbody td {
+                padding: 10px 10px;
+                font-size: .78rem;
+            }
+
+            .td-items {
+                max-width: 120px;
+                font-size: .7rem;
+            }
+
+            .td-id {
+                font-size: .7rem;
+            }
+
+            /* Action buttons — vertikal di kolom Aksi */
             .action-group {
-                flex-wrap: nowrap;
+                flex-direction: column;
+                gap: 4px;
+                min-width: 76px;
             }
 
             .btn-action {
                 font-size: .68rem;
+                padding: 4px 8px;
+                width: 100%;
+                text-align: center;
+                justify-content: center;
+            }
+
+            /* Section head */
+            .section-head h2 {
+                font-size: 1rem;
+            }
+
+            /* Menu grid — 2 kolom di 540px */
+            .menu-mgmt-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .menu-mgmt-card {
+                padding: 12px 12px;
+                gap: 10px;
+            }
+
+            .mmc-emoji {
+                font-size: 1.5rem;
+                width: 38px;
+                padding: 6px;
+            }
+
+            .mmc-name {
+                font-size: .82rem;
+            }
+
+            .menu-stock-overview {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 6px;
+            }
+
+            .mso-item {
+                padding: 8px 8px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+
+            .mso-label {
+                font-size: .62rem;
+            }
+
+            .mso-value {
+                font-size: .88rem;
+            }
+
+            /* Modal — slide up dari bawah */
+            .modal-overlay {
+                padding: 0;
+                align-items: flex-end;
+            }
+
+            .modal-card {
+                border-radius: 20px 20px 0 0;
+                max-height: 92vh;
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn-modal-action {
+                width: 100%;
+                min-width: 0;
+            }
+
+            /* Menu head actions */
+            .menu-head-actions {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .menu-head-actions .filter-btn {
+                flex: 1;
+                min-width: 100px;
+                text-align: center;
+            }
+        }
+
+        /* Very small phones (iPhone SE, etc.) */
+        @media (max-width: 400px) {
+            .stat-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .stat-card {
+                flex-direction: row;
+                padding: 12px 12px;
+            }
+
+            .topbar-title {
+                font-size: .8rem;
+                max-width: 100px;
+            }
+
+            .topbar-time {
+                display: none;
+            }
+
+            .content {
+                padding: 8px;
+            }
+
+            /* Tables */
+            .order-table {
+                min-width: 520px;
+            }
+
+            /* Menu grid — 1 kolom */
+            .menu-mgmt-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-stock-overview {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+
+            .mso-item {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .menu-head-actions {
+                flex-direction: column;
+            }
+
+            .menu-head-actions .filter-btn {
+                width: 100%;
+            }
+
+            /* Login */
+            .login-box {
+                padding: 32px 20px;
+            }
+
+            .login-logo .logo-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.8rem;
+            }
+
+            .login-logo h1 {
+                font-size: 1.25rem;
+            }
+
+            /* Filter */
+            .filter-btn {
                 padding: 5px 8px;
+                font-size: .7rem;
             }
         }
     </style>
@@ -2330,7 +2578,7 @@
                         '<div class="mmc-price-row">' +
                         '<span class="mmc-price-label">💰 Harga</span>' +
                         '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + harga + '" min="0" step="500"/>' +
-                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\',\'' + item.name + '\')">Simpan</button>' +
+                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\',\'' + item.name + '\')" >💾 Simpan Harga</button>' +
                         '</div>' +
                         '<div class="mmc-stock-row">' +
                         '<span class="mmc-stock-label">📦 Stok</span>' +
@@ -2360,7 +2608,7 @@
             toast('✅ Harga ' + name + ' diperbarui: ' + fRp(val), 'success')
             // Visual feedback
             const btn = input.nextElementSibling
-            if (btn) { btn.textContent = '✓ Tersimpan'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = 'Simpan'; btn.classList.remove('saved') }, 2000) }
+            if (btn) { btn.textContent = '✓ Tersimpan!'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = '💾 Simpan Harga'; btn.classList.remove('saved') }, 2000) }
         }
 
         function saveStok(id, name, isReady) {
@@ -2391,7 +2639,7 @@
             updateClock()
             setInterval(updateClock, 1000)
             // Auto-refresh setiap 30 detik
-            setInterval(() => { renderStats(); renderTable(_section) }, 30000)
+            setInterval(() => { renderStats(); renderTable(_section) }, 5000)
             // Close modal on overlay click
             document.getElementById('detailModal').addEventListener('click', function (e) { if (e.target === this) closeDetail() })
         }
