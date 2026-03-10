@@ -2183,7 +2183,9 @@
                         </div>
                         <div class="filter-row" id="menuSectionFilter" style="margin-bottom:12px">
                             <button class="filter-btn active" data-menu-filter="semua" onclick="setMenuSectionFilter('semua', this)">Semua</button>
-                            <button class="filter-btn" data-menu-filter="makanan" onclick="setMenuSectionFilter('makanan', this)">Makanan</button>
+                            <button class="filter-btn" data-menu-filter="nasi" onclick="setMenuSectionFilter('nasi', this)">Nasi</button>
+                            <button class="filter-btn" data-menu-filter="lauk-pauk" onclick="setMenuSectionFilter('lauk-pauk', this)">Lauk-Pauk</button>
+                            <button class="filter-btn" data-menu-filter="sayur" onclick="setMenuSectionFilter('sayur', this)">Sayur</button>
                             <button class="filter-btn" data-menu-filter="minuman" onclick="setMenuSectionFilter('minuman', this)">Minuman</button>
                             <button class="filter-btn" data-menu-filter="paket" onclick="setMenuSectionFilter('paket', this)">Paket</button>
                             <button class="filter-btn" data-menu-filter="camilan" onclick="setMenuSectionFilter('camilan', this)">Camilan</button>
@@ -2640,10 +2642,7 @@
             }
         }
         function mapMenuSection(cat) {
-            if (cat === 'Minuman') return 'minuman'
-            if (cat === 'Paket') return 'paket'
-            if (cat === 'Camilan') return 'camilan'
-            return 'makanan'
+            return String(cat || '').toLowerCase()
         }
         function setMenuSectionFilter(section, btn) {
             MENU_SECTION = section
