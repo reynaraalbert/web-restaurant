@@ -1317,6 +1317,23 @@
     }
 
     const getMenuOv = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
+    const getCustomMenu = () => { try { return JSON.parse(localStorage.getItem('customMenuData') || '[]') } catch { return [] } }
+    const CAT_KEY = { 'Nasi': 'nasi', 'Lauk-Pauk': 'lauk', 'Sayur': 'sayur', 'Paket': 'paket', 'Minuman': 'minuman', 'Camilan': 'camilan' }
+
+    function getMenuByCategory(catKey) {
+      const base = MENU[catKey] || []
+      const custom = getCustomMenu()
+        .filter(x => CAT_KEY[x.cat] === catKey)
+        .map(x => ({
+          id: x.id,
+          name: x.name,
+          emoji: x.emoji || '🍽️',
+          desc: x.desc || 'Menu tambahan',
+          price: Number(x.harga) || 0,
+          stok: x.stok !== false,
+        }))
+      return [...base, ...custom]
+    }
 
     function updateBadge() {
       const n = getCart().reduce((s, i) => s + i.qty, 0)
@@ -1339,7 +1356,8 @@
     /* ════ RENDER MENU ════ */
     function renderMenuAll() {
       const ov = getMenuOv()
-      Object.entries(MENU).forEach(([cat, items]) => {
+      Object.keys(MENU).forEach(cat => {
+        const items = getMenuByCategory(cat)
         const grid = document.getElementById('grid-' + cat)
         if (!grid) return
         grid.innerHTML = ''

@@ -1179,6 +1179,73 @@
             flex-wrap: wrap;
         }
 
+        .menu-add-panel {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+
+        .menu-add-title {
+            font-size: .82rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 10px;
+        }
+
+        .menu-add-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .menu-add-grid.two {
+            grid-template-columns: 120px 1fr;
+        }
+
+        .menu-add-input,
+        .menu-add-select {
+            width: 100%;
+            padding: 9px 10px;
+            background: var(--surface);
+            border: 1.5px solid var(--border2);
+            border-radius: 9px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            outline: none;
+        }
+
+        .menu-add-input:focus,
+        .menu-add-select:focus {
+            border-color: var(--accent);
+        }
+
+        .menu-add-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-add-menu {
+            border: none;
+            border-radius: 9px;
+            padding: 9px 14px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, var(--green), #1a9e6e);
+        }
+
+        .menu-add-note {
+            color: var(--muted);
+            font-size: .75rem;
+        }
+
         .menu-mgmt-card {
             background: var(--card);
             border: 1.5px solid var(--border);
@@ -1306,6 +1373,25 @@
             justify-content: space-between;
         }
 
+        .btn-delete-custom {
+            margin-top: 6px;
+            width: 100%;
+            padding: 7px 10px;
+            border: 1.5px solid rgba(240, 96, 96, .35);
+            background: rgba(240, 96, 96, .08);
+            color: var(--red);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .76rem;
+            font-weight: 700;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .btn-delete-custom:hover {
+            border-color: rgba(240, 96, 96, .55);
+            background: rgba(240, 96, 96, .14);
+        }
+
         .mmc-stock-label {
             font-size: .78rem;
             color: var(--muted);
@@ -1431,6 +1517,11 @@
             .menu-mgmt-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
             }
+
+            .menu-add-grid,
+            .menu-add-grid.two {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         /* Mobile — sidebar goes off-canvas */
@@ -1530,6 +1621,11 @@
             .menu-mgmt-grid {
                 grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
                 gap: 12px;
+            }
+
+            .menu-add-grid,
+            .menu-add-grid.two {
+                grid-template-columns: 1fr;
             }
 
             .menu-stock-overview {
@@ -2087,6 +2183,32 @@
                                 <span class="mso-value habis" id="stockHabisMenu">0</span>
                             </div>
                         </div>
+                        <div class="menu-add-panel">
+                            <div class="menu-add-title">➕ Tambah Menu Baru</div>
+                            <div class="menu-add-grid">
+                                <input id="addMenuName" class="menu-add-input" type="text" placeholder="Nama menu" />
+                                <select id="addMenuCat" class="menu-add-select">
+                                    <option value="Nasi">Nasi</option>
+                                    <option value="Lauk-Pauk">Lauk-Pauk</option>
+                                    <option value="Sayur">Sayur</option>
+                                    <option value="Paket">Paket</option>
+                                    <option value="Minuman">Minuman</option>
+                                    <option value="Camilan">Camilan</option>
+                                </select>
+                                <input id="addMenuPrice" class="menu-add-input" type="number" placeholder="Harga (contoh: 12000)"
+                                    min="0" step="500" />
+                            </div>
+                            <div class="menu-add-grid two">
+                                <input id="addMenuEmoji" class="menu-add-input" type="text" placeholder="Emoji (opsional, contoh: 🍜)"
+                                    maxlength="8" />
+                                <input id="addMenuDesc" class="menu-add-input" type="text"
+                                    placeholder="Deskripsi singkat (opsional)" />
+                            </div>
+                            <div class="menu-add-actions">
+                                <button class="btn-add-menu" onclick="addMenuItem()">Tambah Menu</button>
+                                <span class="menu-add-note">Menu baru tersimpan di browser ini dan otomatis muncul di halaman pelanggan.</span>
+                            </div>
+                        </div>
                         <div class="menu-mgmt-grid" id="menuMgmtGrid"></div>
                     </section>
 
@@ -2480,7 +2602,7 @@
         /* ══════════════════════════════
            KELOLA MENU (STOK & HARGA)
            ══════════════════════════════ */
-        const MENU_DATA = [
+        const BASE_MENU_DATA = [
             // NASI
             { id: 'n1', name: 'Nasi Putih', emoji: '🍚', cat: 'Nasi', harga: 3000 },
             { id: 'n2', name: 'Nasi Kuning', emoji: '🌕', cat: 'Nasi', harga: 5000 },
@@ -2522,6 +2644,20 @@
             { id: 'c4', name: 'Ubi Goreng', emoji: '🟠', cat: 'Camilan', harga: 4000 },
             { id: 'c5', name: 'Kerupuk', emoji: '🥨', cat: 'Camilan', harga: 2000 },
         ]
+        let MENU_DATA = []
+
+        const getCustomMenus = () => { try { return JSON.parse(localStorage.getItem('customMenuData') || '[]') } catch { return [] } }
+        const saveCustomMenus = list => localStorage.setItem('customMenuData', JSON.stringify(list))
+        const CAT_PREFIX = { 'Nasi': 'n', 'Lauk-Pauk': 'l', 'Sayur': 's', 'Paket': 'p', 'Minuman': 'm', 'Camilan': 'c' }
+
+        function rebuildMenuData() {
+            MENU_DATA = [...BASE_MENU_DATA, ...getCustomMenus()]
+        }
+
+        function genMenuId(cat) {
+            const prefix = CAT_PREFIX[cat] || 'x'
+            return prefix + Date.now().toString(36).toLowerCase()
+        }
 
         const getOverrides = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
         const saveOverrides = o => localStorage.setItem('menuOverrides', JSON.stringify(o))
@@ -2544,6 +2680,7 @@
         function renderMenuMgmt() {
             const grid = document.getElementById('menuMgmtGrid')
             if (!grid) return
+            rebuildMenuData()
             const ov = getOverrides()
 
             // Group by category
@@ -2562,6 +2699,10 @@
                     const ovItem = ov[item.id] || {}
                     const stok = ovItem.stok !== undefined ? ovItem.stok : true
                     const harga = ovItem.harga !== undefined ? ovItem.harga : item.harga
+                    const desc = item.custom ? '<div class="mmc-cat">Menu tambahan</div>' : ''
+                    const deleteBtn = item.custom
+                        ? '<button class="btn-delete-custom" onclick="deleteCustomMenu(\'' + item.id + '\')">🗑 Hapus Menu</button>'
+                        : ''
 
                     const card = document.createElement('div')
                     card.className = 'menu-mgmt-card' + (stok ? '' : ' habis')
@@ -2573,30 +2714,32 @@
                         '<div class="mmc-info">' +
                         '<div class="mmc-name">' + item.name + '</div>' +
                         '<div class="mmc-cat">' + cat + '</div>' +
+                        desc +
                         '</div>' +
                         '</div>' +
                         '<div class="mmc-price-row">' +
                         '<span class="mmc-price-label">💰 Harga</span>' +
                         '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + harga + '" min="0" step="500"/>' +
-                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\',\'' + item.name + '\')" >💾 Simpan Harga</button>' +
+                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\')" >💾 Simpan Harga</button>' +
                         '</div>' +
                         '<div class="mmc-stock-row">' +
                         '<span class="mmc-stock-label">📦 Stok</span>' +
                         '<div class="toggle-wrap">' +
                         '<span class="toggle-lbl habis">Habis</span>' +
                         '<label class="toggle">' +
-                        '<input type="checkbox" id="stok-' + item.id + '" ' + (stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',\'' + item.name + '\',this.checked)">' +
+                        '<input type="checkbox" id="stok-' + item.id + '" ' + (stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',this.checked)">' +
                         '<span class="toggle-slider"></span>' +
                         '</label>' +
                         '<span class="toggle-lbl ready">Ready</span>' +
                         '</div>' +
-                        '</div>'
+                        '</div>' +
+                        deleteBtn
                     grid.appendChild(card)
                 })
             })
         }
 
-        function saveHarga(id, name) {
+        function saveHarga(id) {
             const input = document.getElementById('price-' + id)
             if (!input) return
             const val = parseInt(input.value)
@@ -2605,13 +2748,14 @@
             if (!ov[id]) ov[id] = {}
             ov[id].harga = val
             saveOverrides(ov)
+            const name = MENU_DATA.find(m => m.id === id)?.name || id
             toast('✅ Harga ' + name + ' diperbarui: ' + fRp(val), 'success')
             // Visual feedback
             const btn = input.nextElementSibling
             if (btn) { btn.textContent = '✓ Tersimpan!'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = '💾 Simpan Harga'; btn.classList.remove('saved') }, 2000) }
         }
 
-        function saveStok(id, name, isReady) {
+        function saveStok(id, isReady) {
             const ov = getOverrides()
             if (!ov[id]) ov[id] = {}
             ov[id].stok = isReady
@@ -2619,8 +2763,65 @@
             // Update card style
             const card = document.getElementById('mmc-' + id)
             if (card) card.classList.toggle('habis', !isReady)
+            const name = MENU_DATA.find(m => m.id === id)?.name || id
             toast((isReady ? '✅ ' : '❌ ') + name + (isReady ? ' sekarang Ready' : ' sekarang Habis'), isReady ? 'success' : 'error')
             refreshMenuStockSummary(getOverrides())
+        }
+
+        function addMenuItem() {
+            const nameEl = document.getElementById('addMenuName')
+            const catEl = document.getElementById('addMenuCat')
+            const priceEl = document.getElementById('addMenuPrice')
+            const emojiEl = document.getElementById('addMenuEmoji')
+            const descEl = document.getElementById('addMenuDesc')
+
+            const name = (nameEl?.value || '').trim()
+            const cat = catEl?.value || ''
+            const price = parseInt(priceEl?.value || '', 10)
+            const emoji = (emojiEl?.value || '🍽️').trim() || '🍽️'
+            const desc = (descEl?.value || '').trim()
+
+            if (!name) { toast('Nama menu wajib diisi', 'error'); return }
+            if (!cat) { toast('Kategori wajib dipilih', 'error'); return }
+            if (isNaN(price) || price < 0) { toast('Harga menu tidak valid', 'error'); return }
+
+            const custom = getCustomMenus()
+            const duplicate = custom.some(m => m.name.toLowerCase() === name.toLowerCase() && m.cat === cat)
+            if (duplicate) { toast('Menu dengan nama yang sama sudah ada di kategori ini', 'error'); return }
+
+            custom.push({
+                id: genMenuId(cat),
+                name,
+                cat,
+                harga: price,
+                emoji,
+                desc,
+                stok: true,
+                custom: true
+            })
+            saveCustomMenus(custom)
+
+            if (nameEl) nameEl.value = ''
+            if (priceEl) priceEl.value = ''
+            if (emojiEl) emojiEl.value = ''
+            if (descEl) descEl.value = ''
+
+            renderMenuMgmt()
+            toast('✅ Menu baru berhasil ditambahkan', 'success')
+        }
+
+        function deleteCustomMenu(id) {
+            const name = MENU_DATA.find(m => m.id === id)?.name || 'menu ini'
+            if (!confirm('Hapus menu "' + name + '"?')) return
+            const next = getCustomMenus().filter(m => m.id !== id)
+            saveCustomMenus(next)
+            const ov = getOverrides()
+            if (ov[id]) {
+                delete ov[id]
+                saveOverrides(ov)
+            }
+            renderMenuMgmt()
+            toast('🗑 Menu tambahan dihapus', 'info')
         }
 
         function resetMenuOverrides() {
