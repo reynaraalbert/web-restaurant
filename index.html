@@ -1316,23 +1316,43 @@
       setTimeout(() => t.classList.remove('show'), 2500)
     }
 
-    const getMenuOv = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
-    const getCustomMenu = () => { try { return JSON.parse(localStorage.getItem('customMenuData') || '[]') } catch { return [] } }
     const CAT_KEY = { 'Nasi': 'nasi', 'Lauk-Pauk': 'lauk', 'Sayur': 'sayur', 'Paket': 'paket', 'Minuman': 'minuman', 'Camilan': 'camilan' }
+    const DEFAULT_EMOJI = { nasi: '🍚', lauk: '🍗', sayur: '🥬', paket: '🍱', minuman: '🧋', camilan: '🧆' }
+    let MENU_FROM_DB = null
+
+    function normalizeDbMenu(item) {
+      const catKey = CAT_KEY[item.kategori]
+      if (!catKey) return null
+      return {
+        id: String(item._id || ''),
+        name: item.nama || 'Menu',
+        emoji: item.emoji || DEFAULT_EMOJI[catKey] || '🍽️',
+        desc: item.deskripsi || 'Menu andalan kami.',
+        price: Number(item.harga) || 0,
+        stok: item.tersedia !== false
+      }
+    }
+
+    async function loadMenuFromDb() {
+      const res = await fetch('/api/menu', { cache: 'no-store' })
+      const data = await res.json().catch(() => [])
+      if (!res.ok) throw new Error(data.error || 'Gagal memuat menu')
+      const grouped = Object.keys(MENU).reduce((acc, key) => {
+        acc[key] = []
+        return acc
+      }, {})
+      ;(Array.isArray(data) ? data : []).forEach(row => {
+        const normalized = normalizeDbMenu(row)
+        if (!normalized) return
+        const key = CAT_KEY[row.kategori]
+        grouped[key].push(normalized)
+      })
+      MENU_FROM_DB = grouped
+    }
 
     function getMenuByCategory(catKey) {
-      const base = MENU[catKey] || []
-      const custom = getCustomMenu()
-        .filter(x => CAT_KEY[x.cat] === catKey)
-        .map(x => ({
-          id: x.id,
-          name: x.name,
-          emoji: x.emoji || '🍽️',
-          desc: x.desc || 'Menu tambahan',
-          price: Number(x.harga) || 0,
-          stok: x.stok !== false,
-        }))
-      return [...base, ...custom]
+      if (MENU_FROM_DB) return MENU_FROM_DB[catKey] || []
+      return MENU[catKey] || []
     }
 
     function updateBadge() {
@@ -1354,18 +1374,21 @@
     }
 
     /* ════ RENDER MENU ════ */
-    function renderMenuAll() {
-      const ov = getMenuOv()
+    async function renderMenuAll() {
+      try {
+        await loadMenuFromDb()
+      } catch (err) {
+        MENU_FROM_DB = null
+        toast('Gagal ambil menu database, pakai data default.')
+      }
+
       Object.keys(MENU).forEach(cat => {
         const items = getMenuByCategory(cat)
         const grid = document.getElementById('grid-' + cat)
         if (!grid) return
         grid.innerHTML = ''
         items.forEach((item, i) => {
-          const ovItem = ov[item.id] || {}
-          const stok = ovItem.stok !== undefined ? ovItem.stok : item.stok
-          const price = ovItem.harga !== undefined ? ovItem.harga : item.price
-          const liveItem = { ...item, stok, price }
+          const liveItem = { ...item, stok: item.stok, price: item.price }
 
           const d = document.createElement('div')
           d.className = 'menu-card'
@@ -1378,12 +1401,12 @@
             '<div class="card-name">' + item.name + '</div>' +
             '<div class="card-desc">' + item.desc + '</div>' +
             '<div class="card-footer">' +
-            '<span class="card-price">' + fRp(price) + '</span>' +
-            (stok
+            '<span class="card-price">' + fRp(item.price) + '</span>' +
+            (item.stok
               ? '<button class="btn-add">+ Keranjang</button>'
               : '<span class="badge-habis">🚫 Habis</span>') +
             '</div></div>'
-          if (stok) d.querySelector('.btn-add').onclick = () => addToCart(liveItem)
+          if (item.stok) d.querySelector('.btn-add').onclick = () => addToCart(liveItem)
           grid.appendChild(d)
         })
       })

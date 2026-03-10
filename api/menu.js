@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
     // POST - Tambah menu
     if (req.method === 'POST') {
-      const { nama, harga, kategori, deskripsi, gambar, tersedia } = req.body;
+      const { nama, harga, kategori, deskripsi, gambar, tersedia, emoji } = req.body;
       if (!nama || !harga || !kategori) {
         return res.status(400).json({ error: 'Nama, harga, dan kategori wajib diisi' });
       }
@@ -36,6 +36,7 @@ export default async function handler(req, res) {
         nama,
         harga: Number(harga),
         kategori,
+        emoji: emoji || '',
         deskripsi: deskripsi || '',
         gambar: gambar || '',
         tersedia: tersedia !== false,
@@ -51,7 +52,7 @@ export default async function handler(req, res) {
       const { id, ...fields } = req.body;
       if (!id) return res.status(400).json({ error: 'ID wajib diisi' });
       fields.updatedAt = new Date();
-      if (fields.harga) fields.harga = Number(fields.harga);
+      if (fields.harga !== undefined) fields.harga = Number(fields.harga);
       const result = await col.updateOne({ _id: new ObjectId(id) }, { $set: fields });
       if (result.matchedCount === 0) return res.status(404).json({ error: 'Menu tidak ditemukan' });
       return res.status(200).json({ message: 'Menu berhasil diupdate' });

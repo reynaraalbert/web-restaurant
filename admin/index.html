@@ -2161,12 +2161,10 @@
                         <div class="section-head">
                             <div>
                                 <h2>🍽️ Kelola Menu</h2>
-                                <p id="menuMgmtSubtitle">Update stok & harga semua item menu</p>
+                                <p id="menuMgmtSubtitle">Sinkron dengan data menu di database</p>
                             </div>
                             <div class="menu-head-actions">
-                                <button class="filter-btn" onclick="resetMenuOverrides()"
-                                    style="border-color:rgba(240,96,96,.4);color:var(--red)">↩ Reset Semua</button>
-                                <button class="filter-btn active" onclick="renderMenuMgmt()">🔄 Refresh</button>
+                                <button class="filter-btn active" onclick="renderMenuMgmt()">🔄 Sinkronkan</button>
                             </div>
                         </div>
                         <div class="menu-stock-overview" id="menuStockOverview">
@@ -2206,7 +2204,7 @@
                             </div>
                             <div class="menu-add-actions">
                                 <button class="btn-add-menu" onclick="addMenuItem()">Tambah Menu</button>
-                                <span class="menu-add-note">Menu baru tersimpan di browser ini dan otomatis muncul di halaman pelanggan.</span>
+                                <span class="menu-add-note">Menu baru langsung tersimpan ke database dan muncul di halaman pelanggan.</span>
                             </div>
                         </div>
                         <div class="menu-mgmt-grid" id="menuMgmtGrid"></div>
@@ -2602,73 +2600,42 @@
         /* ══════════════════════════════
            KELOLA MENU (STOK & HARGA)
            ══════════════════════════════ */
-        const BASE_MENU_DATA = [
-            // NASI
-            { id: 'n1', name: 'Nasi Putih', emoji: '🍚', cat: 'Nasi', harga: 3000 },
-            { id: 'n2', name: 'Nasi Kuning', emoji: '🌕', cat: 'Nasi', harga: 5000 },
-            { id: 'n3', name: 'Nasi Uduk', emoji: '🥣', cat: 'Nasi', harga: 6000 },
-            { id: 'n4', name: 'Nasi Goreng', emoji: '🍳', cat: 'Nasi', harga: 12000 },
-            { id: 'n5', name: 'Nasi Tim Ayam', emoji: '🍲', cat: 'Nasi', harga: 14000 },
-            // LAUK
-            { id: 'l1', name: 'Ayam Goreng', emoji: '🍗', cat: 'Lauk-Pauk', harga: 10000 },
-            { id: 'l2', name: 'Ayam Bakar', emoji: '🔥', cat: 'Lauk-Pauk', harga: 12000 },
-            { id: 'l3', name: 'Ikan Goreng', emoji: '🐟', cat: 'Lauk-Pauk', harga: 8000 },
-            { id: 'l4', name: 'Tempe Orek', emoji: '🟫', cat: 'Lauk-Pauk', harga: 5000 },
-            { id: 'l5', name: 'Tahu Goreng', emoji: '🟡', cat: 'Lauk-Pauk', harga: 3000 },
-            { id: 'l6', name: 'Telur Balado', emoji: '🥚', cat: 'Lauk-Pauk', harga: 5000 },
-            { id: 'l7', name: 'Rendang Daging', emoji: '🥩', cat: 'Lauk-Pauk', harga: 20000 },
-            { id: 'l8', name: 'Sambal Goreng', emoji: '🌶️', cat: 'Lauk-Pauk', harga: 8000 },
-            // SAYUR
-            { id: 's1', name: 'Sayur Lodeh', emoji: '🥦', cat: 'Sayur', harga: 5000 },
-            { id: 's2', name: 'Tumis Kangkung', emoji: '🥬', cat: 'Sayur', harga: 5000 },
-            { id: 's3', name: 'Capcay', emoji: '🫑', cat: 'Sayur', harga: 7000 },
-            { id: 's4', name: 'Urap-Urap', emoji: '🌿', cat: 'Sayur', harga: 6000 },
-            { id: 's5', name: 'Gudeg Jogja', emoji: '🫙', cat: 'Sayur', harga: 8000 },
-            // PAKET
-            { id: 'p1', name: 'Paket Nasi + 1 Lauk', emoji: '🎁', cat: 'Paket', harga: 13000 },
-            { id: 'p2', name: 'Paket Nasi + 2 Lauk + Sayur', emoji: '🍱', cat: 'Paket', harga: 22000 },
-            { id: 'p3', name: 'Paket Keluarga (4 Porsi)', emoji: '👨‍👩‍👧‍👦', cat: 'Paket', harga: 75000 },
-            { id: 'p4', name: 'Paket Catering (10 Box)', emoji: '📦', cat: 'Paket', harga: 170000 },
-            { id: 'p5', name: 'Paket Sarapan', emoji: '🌅', cat: 'Paket', harga: 12000 },
-            // MINUMAN
-            { id: 'm1', name: 'Es Teh Manis', emoji: '🧋', cat: 'Minuman', harga: 3000 },
-            { id: 'm2', name: 'Teh Hangat', emoji: '☕', cat: 'Minuman', harga: 2000 },
-            { id: 'm3', name: 'Es Jeruk', emoji: '🍊', cat: 'Minuman', harga: 5000 },
-            { id: 'm4', name: 'Es Campur', emoji: '🍨', cat: 'Minuman', harga: 7000 },
-            { id: 'm5', name: 'Jus Alpukat', emoji: '🥑', cat: 'Minuman', harga: 10000 },
-            { id: 'm6', name: 'Air Putih', emoji: '💧', cat: 'Minuman', harga: 3000 },
-            // CAMILAN
-            { id: 'c1', name: 'Gorengan Mix', emoji: '🧆', cat: 'Camilan', harga: 5000 },
-            { id: 'c2', name: 'Tempe Mendoan', emoji: '🫓', cat: 'Camilan', harga: 4000 },
-            { id: 'c3', name: 'Pisang Goreng', emoji: '🍌', cat: 'Camilan', harga: 5000 },
-            { id: 'c4', name: 'Ubi Goreng', emoji: '🟠', cat: 'Camilan', harga: 4000 },
-            { id: 'c5', name: 'Kerupuk', emoji: '🥨', cat: 'Camilan', harga: 2000 },
-        ]
         let MENU_DATA = []
-
-        const getCustomMenus = () => { try { return JSON.parse(localStorage.getItem('customMenuData') || '[]') } catch { return [] } }
-        const saveCustomMenus = list => localStorage.setItem('customMenuData', JSON.stringify(list))
-        const CAT_PREFIX = { 'Nasi': 'n', 'Lauk-Pauk': 'l', 'Sayur': 's', 'Paket': 'p', 'Minuman': 'm', 'Camilan': 'c' }
-
-        function rebuildMenuData() {
-            MENU_DATA = [...BASE_MENU_DATA, ...getCustomMenus()]
+        const DEFAULT_EMOJI = {
+            'Nasi': '*',
+            'Lauk-Pauk': '*',
+            'Sayur': '*',
+            'Paket': '*',
+            'Minuman': '*',
+            'Camilan': '*'
         }
-
-        function genMenuId(cat) {
-            const prefix = CAT_PREFIX[cat] || 'x'
-            return prefix + Date.now().toString(36).toLowerCase()
+        async function apiMenuRequest(method, body) {
+            const res = await fetch('/api/menu', {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: body ? JSON.stringify(body) : undefined
+            })
+            const data = await res.json().catch(() => ({}))
+            if (!res.ok) throw new Error(data.error || 'Gagal memproses data menu')
+            return data
         }
-
-        const getOverrides = () => { try { return JSON.parse(localStorage.getItem('menuOverrides') || '{}') } catch { return {} } }
-        const saveOverrides = o => localStorage.setItem('menuOverrides', JSON.stringify(o))
-
-        function refreshMenuStockSummary(ov) {
-            const readyCount = MENU_DATA.filter(m => (ov[m.id]?.stok !== undefined ? ov[m.id].stok : true)).length
+        function mapDbMenu(item) {
+            const cat = item.kategori || 'Lainnya'
+            return {
+                id: String(item._id),
+                name: item.nama || 'Tanpa Nama',
+                emoji: item.emoji || DEFAULT_EMOJI[cat] || '*',
+                cat,
+                harga: Number(item.harga) || 0,
+                stok: item.tersedia !== false,
+                desc: item.deskripsi || ''
+            }
+        }
+        function refreshMenuStockSummary() {
+            const readyCount = MENU_DATA.filter(m => m.stok).length
             const habisCount = MENU_DATA.length - readyCount
-
             const sub = document.getElementById('menuMgmtSubtitle')
-            if (sub) sub.textContent = MENU_DATA.length + ' item — ' + habisCount + ' habis, ' + readyCount + ' ready'
-
+            if (sub) sub.textContent = MENU_DATA.length + ' item - ' + habisCount + ' habis, ' + readyCount + ' ready'
             const totalEl = document.getElementById('stockTotalMenu')
             const readyEl = document.getElementById('stockReadyMenu')
             const habisEl = document.getElementById('stockHabisMenu')
@@ -2676,36 +2643,38 @@
             if (readyEl) readyEl.textContent = readyCount
             if (habisEl) habisEl.textContent = habisCount
         }
-
-        function renderMenuMgmt() {
+        async function loadMenuFromDb() {
+            const res = await fetch('/api/menu', { cache: 'no-store' })
+            const data = await res.json().catch(() => [])
+            if (!res.ok) throw new Error(data.error || 'Gagal memuat menu dari database')
+            MENU_DATA = Array.isArray(data) ? data.map(mapDbMenu) : []
+        }
+        async function renderMenuMgmt() {
             const grid = document.getElementById('menuMgmtGrid')
             if (!grid) return
-            rebuildMenuData()
-            const ov = getOverrides()
-
-            // Group by category
+            grid.innerHTML = '<div class="menu-cat-header">Memuat data menu...</div>'
+            try {
+                await loadMenuFromDb()
+            } catch (err) {
+                grid.innerHTML = '<div class="menu-cat-header">Gagal memuat menu: ' + (err.message || 'Unknown error') + '</div>'
+                toast('Gagal memuat menu dari database', 'error')
+                return
+            }
             const cats = [...new Set(MENU_DATA.map(m => m.cat))]
-            refreshMenuStockSummary(ov)
-
+            refreshMenuStockSummary()
             grid.innerHTML = ''
+            if (!MENU_DATA.length) {
+                grid.innerHTML = '<div class="menu-cat-header">Belum ada data menu di database</div>'
+                return
+            }
             cats.forEach(cat => {
-                // Category header
                 const hdr = document.createElement('div')
                 hdr.className = 'menu-cat-header'
                 hdr.textContent = cat
                 grid.appendChild(hdr)
-
                 MENU_DATA.filter(m => m.cat === cat).forEach((item, idx) => {
-                    const ovItem = ov[item.id] || {}
-                    const stok = ovItem.stok !== undefined ? ovItem.stok : true
-                    const harga = ovItem.harga !== undefined ? ovItem.harga : item.harga
-                    const desc = item.custom ? '<div class="mmc-cat">Menu tambahan</div>' : ''
-                    const deleteBtn = item.custom
-                        ? '<button class="btn-delete-custom" onclick="deleteCustomMenu(\'' + item.id + '\')">🗑 Hapus Menu</button>'
-                        : ''
-
                     const card = document.createElement('div')
-                    card.className = 'menu-mgmt-card' + (stok ? '' : ' habis')
+                    card.className = 'menu-mgmt-card' + (item.stok ? '' : ' habis')
                     card.style.animationDelay = (idx * 0.04) + 's'
                     card.id = 'mmc-' + item.id
                     card.innerHTML =
@@ -2714,123 +2683,107 @@
                         '<div class="mmc-info">' +
                         '<div class="mmc-name">' + item.name + '</div>' +
                         '<div class="mmc-cat">' + cat + '</div>' +
-                        desc +
                         '</div>' +
                         '</div>' +
                         '<div class="mmc-price-row">' +
-                        '<span class="mmc-price-label">💰 Harga</span>' +
-                        '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + harga + '" min="0" step="500"/>' +
-                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\')" >💾 Simpan Harga</button>' +
+                        '<span class="mmc-price-label">Harga</span>' +
+                        '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + item.harga + '" min="0" step="500"/>' +
+                        '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\')" >Simpan Harga</button>' +
                         '</div>' +
                         '<div class="mmc-stock-row">' +
-                        '<span class="mmc-stock-label">📦 Stok</span>' +
+                        '<span class="mmc-stock-label">Stok</span>' +
                         '<div class="toggle-wrap">' +
                         '<span class="toggle-lbl habis">Habis</span>' +
                         '<label class="toggle">' +
-                        '<input type="checkbox" id="stok-' + item.id + '" ' + (stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',this.checked)">' +
+                        '<input type="checkbox" id="stok-' + item.id + '" ' + (item.stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',this.checked)">' +
                         '<span class="toggle-slider"></span>' +
                         '</label>' +
                         '<span class="toggle-lbl ready">Ready</span>' +
                         '</div>' +
                         '</div>' +
-                        deleteBtn
+                        '<button class="btn-delete-custom" onclick="deleteMenuItem(\'' + item.id + '\')">Hapus Menu</button>'
                     grid.appendChild(card)
                 })
             })
         }
-
-        function saveHarga(id) {
+        async function saveHarga(id) {
             const input = document.getElementById('price-' + id)
             if (!input) return
-            const val = parseInt(input.value)
+            const val = parseInt(input.value, 10)
             if (isNaN(val) || val < 0) { toast('Harga tidak valid!', 'error'); return }
-            const ov = getOverrides()
-            if (!ov[id]) ov[id] = {}
-            ov[id].harga = val
-            saveOverrides(ov)
             const name = MENU_DATA.find(m => m.id === id)?.name || id
-            toast('✅ Harga ' + name + ' diperbarui: ' + fRp(val), 'success')
-            // Visual feedback
-            const btn = input.nextElementSibling
-            if (btn) { btn.textContent = '✓ Tersimpan!'; btn.classList.add('saved'); setTimeout(() => { btn.textContent = '💾 Simpan Harga'; btn.classList.remove('saved') }, 2000) }
+            try {
+                await apiMenuRequest('PUT', { id, harga: val })
+                const btn = input.nextElementSibling
+                if (btn) {
+                    btn.textContent = 'Tersimpan!'
+                    btn.classList.add('saved')
+                    setTimeout(() => { btn.textContent = 'Simpan Harga'; btn.classList.remove('saved') }, 2000)
+                }
+                toast('Harga ' + name + ' diperbarui: ' + fRp(val), 'success')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal menyimpan harga: ' + (err.message || ''), 'error')
+            }
         }
-
-        function saveStok(id, isReady) {
-            const ov = getOverrides()
-            if (!ov[id]) ov[id] = {}
-            ov[id].stok = isReady
-            saveOverrides(ov)
-            // Update card style
-            const card = document.getElementById('mmc-' + id)
-            if (card) card.classList.toggle('habis', !isReady)
+        async function saveStok(id, isReady) {
             const name = MENU_DATA.find(m => m.id === id)?.name || id
-            toast((isReady ? '✅ ' : '❌ ') + name + (isReady ? ' sekarang Ready' : ' sekarang Habis'), isReady ? 'success' : 'error')
-            refreshMenuStockSummary(getOverrides())
+            try {
+                await apiMenuRequest('PUT', { id, tersedia: isReady })
+                const card = document.getElementById('mmc-' + id)
+                if (card) card.classList.toggle('habis', !isReady)
+                toast(name + (isReady ? ' sekarang Ready' : ' sekarang Habis'), isReady ? 'success' : 'error')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal update stok: ' + (err.message || ''), 'error')
+                const cb = document.getElementById('stok-' + id)
+                if (cb) cb.checked = !isReady
+            }
         }
-
-        function addMenuItem() {
+        async function addMenuItem() {
             const nameEl = document.getElementById('addMenuName')
             const catEl = document.getElementById('addMenuCat')
             const priceEl = document.getElementById('addMenuPrice')
             const emojiEl = document.getElementById('addMenuEmoji')
             const descEl = document.getElementById('addMenuDesc')
-
             const name = (nameEl?.value || '').trim()
             const cat = catEl?.value || ''
             const price = parseInt(priceEl?.value || '', 10)
-            const emoji = (emojiEl?.value || '🍽️').trim() || '🍽️'
+            const emoji = (emojiEl?.value || DEFAULT_EMOJI[cat] || '*').trim() || '*'
             const desc = (descEl?.value || '').trim()
-
             if (!name) { toast('Nama menu wajib diisi', 'error'); return }
             if (!cat) { toast('Kategori wajib dipilih', 'error'); return }
             if (isNaN(price) || price < 0) { toast('Harga menu tidak valid', 'error'); return }
-
-            const custom = getCustomMenus()
-            const duplicate = custom.some(m => m.name.toLowerCase() === name.toLowerCase() && m.cat === cat)
-            if (duplicate) { toast('Menu dengan nama yang sama sudah ada di kategori ini', 'error'); return }
-
-            custom.push({
-                id: genMenuId(cat),
-                name,
-                cat,
-                harga: price,
-                emoji,
-                desc,
-                stok: true,
-                custom: true
-            })
-            saveCustomMenus(custom)
-
-            if (nameEl) nameEl.value = ''
-            if (priceEl) priceEl.value = ''
-            if (emojiEl) emojiEl.value = ''
-            if (descEl) descEl.value = ''
-
-            renderMenuMgmt()
-            toast('✅ Menu baru berhasil ditambahkan', 'success')
-        }
-
-        function deleteCustomMenu(id) {
-            const name = MENU_DATA.find(m => m.id === id)?.name || 'menu ini'
-            if (!confirm('Hapus menu "' + name + '"?')) return
-            const next = getCustomMenus().filter(m => m.id !== id)
-            saveCustomMenus(next)
-            const ov = getOverrides()
-            if (ov[id]) {
-                delete ov[id]
-                saveOverrides(ov)
+            try {
+                await apiMenuRequest('POST', {
+                    nama: name,
+                    kategori: cat,
+                    harga: price,
+                    emoji,
+                    deskripsi: desc,
+                    tersedia: true
+                })
+                if (nameEl) nameEl.value = ''
+                if (priceEl) priceEl.value = ''
+                if (emojiEl) emojiEl.value = ''
+                if (descEl) descEl.value = ''
+                toast('Menu baru berhasil ditambahkan', 'success')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal menambah menu: ' + (err.message || ''), 'error')
             }
-            renderMenuMgmt()
-            toast('🗑 Menu tambahan dihapus', 'info')
         }
-
-        function resetMenuOverrides() {
-            if (!confirm('Reset semua stok & harga ke default?')) return
-            localStorage.removeItem('menuOverrides')
-            renderMenuMgmt()
-            toast('↩ Semua stok & harga direset ke default', 'info')
+        async function deleteMenuItem(id) {
+            const name = MENU_DATA.find(m => m.id === id)?.name || 'menu ini'
+            if (!confirm('Hapus menu "' + name + '" dari database?')) return
+            try {
+                await apiMenuRequest('DELETE', { id })
+                toast('Menu dihapus', 'info')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal menghapus menu: ' + (err.message || ''), 'error')
+            }
         }
-
         /* ══════════════════════════════
            INIT
            ══════════════════════════════ */
@@ -2853,3 +2806,4 @@
 </body>
 
 </html>
+
