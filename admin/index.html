@@ -2042,6 +2042,8 @@
                             <div class="filter-row">
                                 <input class="search-input" id="searchOrders" type="text"
                                     placeholder="🔍 Cari nama / order ID..." oninput="renderTable('orders')" />
+                                <button class="filter-btn" onclick="clearOrderHistory()"
+                                    style="border-color:rgba(240,96,96,.45);color:var(--red)">🗑 Kosongkan Riwayat</button>
                             </div>
                         </div>
                         <div class="order-table-wrap">
@@ -2309,6 +2311,29 @@
         function statusBadge(s) {
             const lbl = { proses: '⏳ Diproses', selesai: '✅ Selesai', batal: '❌ Dibatal' }
             return '<span class="st-badge st-' + s + '">' + lbl[s] + '</span>'
+        }
+
+        async function clearOrderHistory() {
+            const ok = confirm('Hapus semua riwayat pesanan? Tindakan ini akan mengosongkan data di browser dan database.')
+            if (!ok) return
+
+            let dbMsg = 'Riwayat database ikut dihapus.'
+            try {
+                const res = await fetch('/api/riwayat', { method: 'DELETE' })
+                const data = await res.json().catch(() => ({}))
+                if (!res.ok) throw new Error(data.error || 'gagal hapus database')
+            } catch (err) {
+                dbMsg = 'Riwayat lokal dihapus, tetapi penghapusan database gagal.'
+                console.error(err)
+            }
+
+            localStorage.removeItem('orders')
+            localStorage.removeItem('cart')
+            sessionStorage.removeItem('pendingOrder')
+            renderStats()
+            renderTable(_section)
+            renderRecent(getOrders().slice(0, 10))
+            toast('Riwayat pesanan dikosongkan. ' + dbMsg, dbMsg.includes('gagal') ? 'error' : 'success')
         }
 
         /* ══════════════════════════════
