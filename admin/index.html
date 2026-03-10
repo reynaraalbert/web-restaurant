@@ -2181,6 +2181,13 @@
                                 <span class="mso-value habis" id="stockHabisMenu">0</span>
                             </div>
                         </div>
+                        <div class="filter-row" id="menuSectionFilter" style="margin-bottom:12px">
+                            <button class="filter-btn active" data-menu-filter="semua" onclick="setMenuSectionFilter('semua', this)">Semua</button>
+                            <button class="filter-btn" data-menu-filter="makanan" onclick="setMenuSectionFilter('makanan', this)">Makanan</button>
+                            <button class="filter-btn" data-menu-filter="minuman" onclick="setMenuSectionFilter('minuman', this)">Minuman</button>
+                            <button class="filter-btn" data-menu-filter="paket" onclick="setMenuSectionFilter('paket', this)">Paket</button>
+                            <button class="filter-btn" data-menu-filter="camilan" onclick="setMenuSectionFilter('camilan', this)">Camilan</button>
+                        </div>
                         <div class="menu-add-panel">
                             <div class="menu-add-title">➕ Tambah Menu Baru</div>
                             <div class="menu-add-grid">
@@ -2601,6 +2608,7 @@
            KELOLA MENU (STOK & HARGA)
            ══════════════════════════════ */
         let MENU_DATA = []
+        let MENU_SECTION = 'semua'
         const DEFAULT_EMOJI = {
             'Nasi': '*',
             'Lauk-Pauk': '*',
@@ -2631,15 +2639,29 @@
                 desc: item.deskripsi || ''
             }
         }
+        function mapMenuSection(cat) {
+            if (cat === 'Minuman') return 'minuman'
+            if (cat === 'Paket') return 'paket'
+            if (cat === 'Camilan') return 'camilan'
+            return 'makanan'
+        }
+        function setMenuSectionFilter(section, btn) {
+            MENU_SECTION = section
+            document.querySelectorAll('#menuSectionFilter .filter-btn').forEach(b => b.classList.remove('active'))
+            if (btn) btn.classList.add('active')
+            renderMenuMgmt()
+        }
         function refreshMenuStockSummary() {
-            const readyCount = MENU_DATA.filter(m => m.stok).length
-            const habisCount = MENU_DATA.length - readyCount
+            const scoped = MENU_SECTION === 'semua' ? MENU_DATA : MENU_DATA.filter(m => mapMenuSection(m.cat) === MENU_SECTION)
+            const readyCount = scoped.filter(m => m.stok).length
+            const habisCount = scoped.length - readyCount
+            const totalCount = scoped.length
             const sub = document.getElementById('menuMgmtSubtitle')
-            if (sub) sub.textContent = MENU_DATA.length + ' item - ' + habisCount + ' habis, ' + readyCount + ' ready'
+            if (sub) sub.textContent = totalCount + ' item - ' + habisCount + ' habis, ' + readyCount + ' ready'
             const totalEl = document.getElementById('stockTotalMenu')
             const readyEl = document.getElementById('stockReadyMenu')
             const habisEl = document.getElementById('stockHabisMenu')
-            if (totalEl) totalEl.textContent = MENU_DATA.length
+            if (totalEl) totalEl.textContent = totalCount
             if (readyEl) readyEl.textContent = readyCount
             if (habisEl) habisEl.textContent = habisCount
         }
@@ -2660,11 +2682,12 @@
                 toast('Gagal memuat menu dari database', 'error')
                 return
             }
-            const cats = [...new Set(MENU_DATA.map(m => m.cat))]
+            const scoped = MENU_SECTION === 'semua' ? MENU_DATA : MENU_DATA.filter(m => mapMenuSection(m.cat) === MENU_SECTION)
+            const cats = [...new Set(scoped.map(m => m.cat))]
             refreshMenuStockSummary()
             grid.innerHTML = ''
-            if (!MENU_DATA.length) {
-                grid.innerHTML = '<div class="menu-cat-header">Belum ada data menu di database</div>'
+            if (!scoped.length) {
+                grid.innerHTML = '<div class="menu-cat-header">Tidak ada menu pada section ini</div>'
                 return
             }
             cats.forEach(cat => {
@@ -2672,7 +2695,7 @@
                 hdr.className = 'menu-cat-header'
                 hdr.textContent = cat
                 grid.appendChild(hdr)
-                MENU_DATA.filter(m => m.cat === cat).forEach((item, idx) => {
+                scoped.filter(m => m.cat === cat).forEach((item, idx) => {
                     const card = document.createElement('div')
                     card.className = 'menu-mgmt-card' + (item.stok ? '' : ' habis')
                     card.style.animationDelay = (idx * 0.04) + 's'
