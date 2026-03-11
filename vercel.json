@@ -1,8 +1,11 @@
 {
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/api/404.js"
-        }
-    ]
+  "rewrites": [
+    { "source": "/api/whatsapp", "destination": "/api/whatsapp.js" },
+    { "source": "/api/dashboard", "destination": "/api/dashboard.js" },
+    { "source": "/api/menu",      "destination": "/api/menu.js" },
+    { "source": "/api/pesanan",   "destination": "/api/pesanan.js" },
+    { "source": "/api/pembayaran","destination": "/api/pembayaran.js" },
+    { "source": "/api/riwayat",   "destination": "/api/riwayat.js" },
+    { "source": "/api/(.*)",      "destination": "/api/404.js" }
+  ]
 }
