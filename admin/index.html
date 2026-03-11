@@ -2008,7 +2008,7 @@
                         <div class="section-head">
                             <div>
                                 <h2>Pesanan Masuk Terbaru</h2>
-                                <p>10 pesanan terbaru dari semua pelanggan</p>
+                                <p id="recentSubtitle">Memuat data...</p>
                             </div>
                             <button class="filter-btn"
                                 onclick="switchSection('orders', document.querySelector('[data-section=orders]'))">Lihat
@@ -2519,10 +2519,13 @@
 
         function renderRecent(list) {
             const body = document.getElementById('recentBody')
+            const subtitle = document.getElementById('recentSubtitle')
             if (!list.length) {
                 body.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:48px;color:var(--muted)">📭 Belum ada pesanan masuk</td></tr>'
+                if (subtitle) subtitle.textContent = 'Tidak ada pesanan saat ini'
                 return
             }
+            if (subtitle) subtitle.textContent = list.length + ' pesanan terbaru dari semua pelanggan'
             body.innerHTML = list.map(o => {
                 const itemSummary = o.items.slice(0, 2).map(i => i.emoji + ' ' + i.name).join(', ')
                 const acts = o.status === 'proses'
@@ -2853,4 +2856,3 @@
 </body>
 
 </html>
-
