@@ -826,6 +826,119 @@
             color: var(--accent);
         }
 
+        /* ══ PERIODE TABS ══ */
+        .periode-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .periode-tab {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 12px;
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            color: var(--muted);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .85rem;
+            font-weight: 600;
+            transition: all .2s;
+        }
+        .periode-tab:hover {
+            border-color: var(--border2);
+            color: var(--text);
+            transform: translateY(-2px);
+        }
+        .periode-tab.active {
+            border-color: var(--accent);
+            background: rgba(232,99,141,.1);
+            color: var(--text);
+            box-shadow: 0 0 0 1px rgba(232,99,141,.2), 0 4px 20px rgba(232,99,141,.15);
+        }
+        .ptab-icon { font-size: 1.6rem; }
+        .ptab-label { letter-spacing: .03em; }
+
+        /* ══ EMPTY STATE ══ */
+        .periode-empty {
+            text-align: center;
+            padding: 64px 20px;
+            color: var(--muted);
+            background: var(--card);
+            border: 1.5px dashed var(--border);
+            border-radius: var(--radius);
+            animation: fadeUp .3s ease;
+        }
+        .pe-icon  { font-size: 3rem; margin-bottom: 12px; }
+        .pe-title { font-size: 1.1rem; font-weight: 700; color: var(--muted); margin-bottom: 6px; font-family: 'Playfair Display', serif; }
+        .pe-sub   { font-size: .8rem; color: var(--muted2); }
+
+        /* ══ PERIODE PANEL ══ */
+        .periode-panel { animation: fadeUp .3s ease; }
+
+        /* ══ PERIOD CARD SINGLE ══ */
+        .period-card-single {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            animation: fadeUp .3s ease;
+        }
+        .pcs-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .pcs-badge {
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: .8rem;
+            font-weight: 700;
+        }
+        .pcs-badge.harian  { background: rgba(244,185,66,.15); color: var(--gold); }
+        .pcs-badge.bulanan { background: rgba(232,99,141,.15); color: var(--accent); }
+        .pcs-badge.tahunan { background: rgba(96,165,250,.15); color: var(--blue); }
+        .pcs-date { font-size: .8rem; color: var(--muted); margin-left: auto; }
+        .pcs-stats {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .pcs-metric {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .pcs-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        .pcs-icon.blue  { background: rgba(96,165,250,.15); }
+        .pcs-icon.green { background: rgba(45,212,160,.15); }
+        .pcs-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .pcs-val.green { color: var(--green); font-size: 1.5rem; }
+        .pcs-lbl { font-size: .72rem; color: var(--muted); }
+        .pcs-divider { width: 1px; height: 60px; background: var(--border); flex-shrink: 0; }
+        .pcs-vs { font-size: .72rem; color: var(--muted2); margin-top: 14px; }
+
         /* ══ STATISTIK PERIODE ══ */
         .stats-period-grid {
             display: grid;
@@ -2360,124 +2473,159 @@
                         <div class="section-head">
                             <div>
                                 <h2>📊 Statistik Penjualan</h2>
-                                <p id="statistikSubtitle">Total pesanan &amp; omset per periode</p>
+                                <p id="statistikSubtitle">Pilih periode untuk melihat data</p>
                             </div>
                             <button class="filter-btn" onclick="loadDashboardData()">🔄 Perbarui</button>
                         </div>
 
-                        <!-- Kartu Statistik Periode -->
-                        <div class="stats-period-grid">
-                            <!-- HARIAN -->
-                            <div class="period-card">
-                                <div class="period-header">
-                                    <span class="period-icon">☀️</span>
-                                    <span class="period-title">Hari Ini</span>
-                                    <span class="period-date" id="statDateHari">—</span>
+                        <!-- Tab Periode Selector -->
+                        <div class="periode-tabs">
+                            <button class="periode-tab" id="tabHari"   onclick="switchPeriode('hari')">
+                                <span class="ptab-icon">☀️</span>
+                                <span class="ptab-label">Harian</span>
+                            </button>
+                            <button class="periode-tab" id="tabBulan"  onclick="switchPeriode('bulan')">
+                                <span class="ptab-icon">📅</span>
+                                <span class="ptab-label">Bulanan</span>
+                            </button>
+                            <button class="periode-tab" id="tabTahun"  onclick="switchPeriode('tahun')">
+                                <span class="ptab-icon">🗓️</span>
+                                <span class="ptab-label">Tahunan</span>
+                            </button>
+                        </div>
+
+                        <!-- Panel: belum dipilih -->
+                        <div id="panelEmpty" class="periode-empty">
+                            <div class="pe-icon">📊</div>
+                            <div class="pe-title">Pilih periode di atas</div>
+                            <div class="pe-sub">Klik Harian, Bulanan, atau Tahunan untuk melihat statistik</div>
+                        </div>
+
+                        <!-- Panel HARIAN -->
+                        <div id="panelHari" class="periode-panel" style="display:none">
+                            <div class="period-card-single">
+                                <div class="pcs-header">
+                                    <div class="pcs-badge harian">☀️ Hari Ini</div>
+                                    <div class="pcs-date" id="statDateHari">—</div>
                                 </div>
-                                <div class="period-body">
-                                    <div class="period-row">
-                                        <div class="period-metric">
-                                            <div class="period-val" id="statPesananHari">0</div>
-                                            <div class="period-lbl">Pesanan</div>
+                                <div class="pcs-stats">
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon blue">📋</div>
+                                        <div>
+                                            <div class="pcs-val" id="statPesananHari">0</div>
+                                            <div class="pcs-lbl">Total Pesanan</div>
                                         </div>
-                                        <div class="period-divider"></div>
-                                        <div class="period-metric">
-                                            <div class="period-val omset" id="statOmsetHari">Rp 0</div>
-                                            <div class="period-lbl">Omset</div>
-                                        </div>
-                                    </div>
-                                    <div class="period-trends">
                                         <span class="trend-badge" id="trendPesananHari">—</span>
+                                    </div>
+                                    <div class="pcs-divider"></div>
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon green">💰</div>
+                                        <div>
+                                            <div class="pcs-val green" id="statOmsetHari">Rp 0</div>
+                                            <div class="pcs-lbl">Total Omset</div>
+                                        </div>
                                         <span class="trend-badge" id="trendOmsetHari">—</span>
-                                        <span class="trend-vs">vs kemarin</span>
                                     </div>
                                 </div>
+                                <div class="pcs-vs">vs kemarin</div>
                             </div>
-
-                            <!-- BULANAN -->
-                            <div class="period-card featured">
-                                <div class="period-header">
-                                    <span class="period-icon">📅</span>
-                                    <span class="period-title">Bulan Ini</span>
-                                    <span class="period-date" id="statDateBulan">—</span>
-                                </div>
-                                <div class="period-body">
-                                    <div class="period-row">
-                                        <div class="period-metric">
-                                            <div class="period-val" id="statPesananBulan">0</div>
-                                            <div class="period-lbl">Pesanan</div>
-                                        </div>
-                                        <div class="period-divider"></div>
-                                        <div class="period-metric">
-                                            <div class="period-val omset" id="statOmsetBulan">Rp 0</div>
-                                            <div class="period-lbl">Omset</div>
-                                        </div>
+                            <div class="chart-card" style="margin-top:20px">
+                                <div class="chart-header">
+                                    <div>
+                                        <div class="chart-title">📈 Grafik Omset 7 Hari Terakhir</div>
+                                        <div class="chart-sub">Pesanan selesai per hari</div>
                                     </div>
-                                    <div class="period-trends">
+                                    <div class="chart-legend">
+                                        <span class="legend-dot omset-dot"></span><span>Omset</span>
+                                        <span class="legend-dot pesanan-dot"></span><span>Pesanan</span>
+                                    </div>
+                                </div>
+                                <div class="chart-wrap"><canvas id="chartHarian" height="220"></canvas></div>
+                            </div>
+                        </div>
+
+                        <!-- Panel BULANAN -->
+                        <div id="panelBulan" class="periode-panel" style="display:none">
+                            <div class="period-card-single">
+                                <div class="pcs-header">
+                                    <div class="pcs-badge bulanan">📅 Bulan Ini</div>
+                                    <div class="pcs-date" id="statDateBulan">—</div>
+                                </div>
+                                <div class="pcs-stats">
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon blue">📋</div>
+                                        <div>
+                                            <div class="pcs-val" id="statPesananBulan">0</div>
+                                            <div class="pcs-lbl">Total Pesanan</div>
+                                        </div>
                                         <span class="trend-badge" id="trendPesananBulan">—</span>
+                                    </div>
+                                    <div class="pcs-divider"></div>
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon green">💰</div>
+                                        <div>
+                                            <div class="pcs-val green" id="statOmsetBulan">Rp 0</div>
+                                            <div class="pcs-lbl">Total Omset</div>
+                                        </div>
                                         <span class="trend-badge" id="trendOmsetBulan">—</span>
-                                        <span class="trend-vs">vs bulan lalu</span>
                                     </div>
                                 </div>
+                                <div class="pcs-vs">vs bulan lalu</div>
                             </div>
-
-                            <!-- TAHUNAN -->
-                            <div class="period-card">
-                                <div class="period-header">
-                                    <span class="period-icon">🗓️</span>
-                                    <span class="period-title">Tahun Ini</span>
-                                    <span class="period-date" id="statDateTahun">—</span>
-                                </div>
-                                <div class="period-body">
-                                    <div class="period-row">
-                                        <div class="period-metric">
-                                            <div class="period-val" id="statPesananTahun">0</div>
-                                            <div class="period-lbl">Pesanan</div>
-                                        </div>
-                                        <div class="period-divider"></div>
-                                        <div class="period-metric">
-                                            <div class="period-val omset" id="statOmsetTahun">Rp 0</div>
-                                            <div class="period-lbl">Omset</div>
-                                        </div>
+                            <div class="chart-card" style="margin-top:20px">
+                                <div class="chart-header">
+                                    <div>
+                                        <div class="chart-title">📊 Grafik Omset 12 Bulan Terakhir</div>
+                                        <div class="chart-sub">Pesanan selesai per bulan</div>
                                     </div>
-                                    <div class="period-trends">
-                                        <span class="trend-badge neutral" id="trendTahun">Tahun berjalan</span>
+                                    <div class="chart-legend">
+                                        <span class="legend-dot omset-dot"></span><span>Omset</span>
+                                        <span class="legend-dot pesanan-dot"></span><span>Pesanan</span>
                                     </div>
                                 </div>
+                                <div class="chart-wrap"><canvas id="chartBulanan" height="220"></canvas></div>
                             </div>
                         </div>
 
-                        <!-- Chart Harian -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <div>
-                                    <div class="chart-title">📈 Tren Penjualan Harian</div>
-                                    <div class="chart-sub">7 hari terakhir</div>
+                        <!-- Panel TAHUNAN -->
+                        <div id="panelTahun" class="periode-panel" style="display:none">
+                            <div class="period-card-single">
+                                <div class="pcs-header">
+                                    <div class="pcs-badge tahunan">🗓️ Tahun Ini</div>
+                                    <div class="pcs-date" id="statDateTahun">—</div>
                                 </div>
-                                <div class="chart-legend">
-                                    <span class="legend-dot omset-dot"></span><span>Omset</span>
-                                    <span class="legend-dot pesanan-dot"></span><span>Pesanan</span>
-                                </div>
-                            </div>
-                            <div class="chart-wrap">
-                                <canvas id="chartHarian" height="220"></canvas>
-                            </div>
-                        </div>
-
-                        <!-- Chart Bulanan -->
-                        <div class="chart-card">
-                            <div class="chart-header">
-                                <div>
-                                    <div class="chart-title">📊 Tren Penjualan Bulanan</div>
-                                    <div class="chart-sub">12 bulan terakhir</div>
-                                </div>
-                                <div class="chart-legend">
-                                    <span class="legend-dot omset-dot"></span><span>Omset</span>
-                                    <span class="legend-dot pesanan-dot"></span><span>Pesanan</span>
+                                <div class="pcs-stats">
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon blue">📋</div>
+                                        <div>
+                                            <div class="pcs-val" id="statPesananTahun">0</div>
+                                            <div class="pcs-lbl">Total Pesanan</div>
+                                        </div>
+                                        <span class="trend-badge neutral">Tahun berjalan</span>
+                                    </div>
+                                    <div class="pcs-divider"></div>
+                                    <div class="pcs-metric">
+                                        <div class="pcs-icon green">💰</div>
+                                        <div>
+                                            <div class="pcs-val green" id="statOmsetTahun">Rp 0</div>
+                                            <div class="pcs-lbl">Total Omset</div>
+                                        </div>
+                                        <span class="trend-badge neutral" id="trendTahun">—</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="chart-wrap">
-                                <canvas id="chartBulanan" height="220"></canvas>
+                            <div class="chart-card" style="margin-top:20px">
+                                <div class="chart-header">
+                                    <div>
+                                        <div class="chart-title">📊 Grafik Omset Per Bulan (Tahun Ini)</div>
+                                        <div class="chart-sub">Akumulasi omset setiap bulan</div>
+                                    </div>
+                                    <div class="chart-legend">
+                                        <span class="legend-dot omset-dot"></span><span>Omset</span>
+                                        <span class="legend-dot pesanan-dot"></span><span>Pesanan</span>
+                                    </div>
+                                </div>
+                                <div class="chart-wrap"><canvas id="chartTahunan" height="220"></canvas></div>
                             </div>
                         </div>
                     </section>
@@ -2622,7 +2770,16 @@
             }
             document.getElementById('topbarTitle').textContent = titles[name] || name
             if (name === 'menu') { renderMenuMgmt(); closeSidebar(); return }
-            if (name === 'statistik') { renderStatistik(); closeSidebar(); return }
+            if (name === 'statistik') {
+                // Tampilkan panel aktif jika sudah pernah dipilih, kalau belum tampilkan empty
+                if (_aktivPeriode) {
+                    tampilkanPeriode(_aktivPeriode);
+                } else {
+                    document.getElementById('panelEmpty').style.display = 'block';
+                    ['Hari','Bulan','Tahun'].forEach(p => document.getElementById('panel'+p).style.display = 'none');
+                }
+                closeSidebar(); return;
+            }
             renderTable(name)
             closeSidebar()
         }
@@ -3126,7 +3283,6 @@
         let _chartBulanan = null;
         let _dashChartH = null;
         let _dashChartB = null;
-
         async function loadDashboardData() {
             try {
                 const res = await fetch('/api/dashboard', { cache: 'no-store' });
@@ -3135,7 +3291,8 @@
                 renderStats();
                 renderRecent(_dashData.pesananTerbaru || []);
                 renderDashMiniCharts();
-                if (_section === 'statistik') renderStatistik();
+                // Refresh panel aktif jika ada
+                if (_aktivPeriode) tampilkanPeriode(_aktivPeriode);
             } catch(e) {
                 console.error('loadDashboardData error:', e);
             }
@@ -3199,107 +3356,140 @@
             else               { el.textContent = '→ 0%'; el.className = 'trend-badge neutral'; }
         }
 
-        function renderStatistik() {
+        let _aktivPeriode = null;
+        let _chartTahunan = null;
+
+        function switchPeriode(periode) {
+            // Update tab aktif
+            ['hari','bulan','tahun'].forEach(p => {
+                document.getElementById('tab' + p.charAt(0).toUpperCase() + p.slice(1))
+                    .classList.toggle('active', p === periode);
+            });
+
+            // Sembunyikan semua panel
+            document.getElementById('panelEmpty').style.display = 'none';
+            ['Hari','Bulan','Tahun'].forEach(p => {
+                document.getElementById('panel' + p).style.display = 'none';
+            });
+
+            _aktivPeriode = periode;
+
+            // Jika data belum ada, load dulu
             if (!_dashData?.statistik) {
-                loadDashboardData(); return;
+                loadDashboardData();
+                return;
             }
-            const s = _dashData.statistik;
+
+            tampilkanPeriode(periode);
+        }
+
+        function tampilkanPeriode(periode) {
+            if (!_dashData?.statistik) return;
+            const s   = _dashData.statistik;
             const now = new Date();
 
-            // Hari ini
-            document.getElementById('statDateHari').textContent   = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long' });
-            document.getElementById('statPesananHari').textContent = s.hariIni.count;
-            document.getElementById('statOmsetHari').textContent   = fRp(s.hariIni.omset);
-            trendBadge(s.hariIni.trendPesanan, 'trendPesananHari');
-            trendBadge(s.hariIni.trendOmset,   'trendOmsetHari');
+            if (periode === 'hari') {
+                document.getElementById('statDateHari').textContent    = now.toLocaleDateString('id-ID', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+                document.getElementById('statPesananHari').textContent = s.hariIni.count;
+                document.getElementById('statOmsetHari').textContent   = fRp(s.hariIni.omset);
+                trendBadge(s.hariIni.trendPesanan, 'trendPesananHari');
+                trendBadge(s.hariIni.trendOmset,   'trendOmsetHari');
+                document.getElementById('panelHari').style.display = 'block';
+                renderChartHarian();
 
-            // Bulan ini
-            document.getElementById('statDateBulan').textContent   = now.toLocaleDateString('id-ID', { month:'long', year:'numeric' });
-            document.getElementById('statPesananBulan').textContent = s.bulanIni.count;
-            document.getElementById('statOmsetBulan').textContent   = fRp(s.bulanIni.omset);
-            trendBadge(s.bulanIni.trendPesanan, 'trendPesananBulan');
-            trendBadge(s.bulanIni.trendOmset,   'trendOmsetBulan');
+            } else if (periode === 'bulan') {
+                document.getElementById('statDateBulan').textContent    = now.toLocaleDateString('id-ID', { month:'long', year:'numeric' });
+                document.getElementById('statPesananBulan').textContent = s.bulanIni.count;
+                document.getElementById('statOmsetBulan').textContent   = fRp(s.bulanIni.omset);
+                trendBadge(s.bulanIni.trendPesanan, 'trendPesananBulan');
+                trendBadge(s.bulanIni.trendOmset,   'trendOmsetBulan');
+                document.getElementById('panelBulan').style.display = 'block';
+                renderChartBulanan();
 
-            // Tahun ini
-            document.getElementById('statDateTahun').textContent   = now.getFullYear();
-            document.getElementById('statPesananTahun').textContent = s.tahunIni.count;
-            document.getElementById('statOmsetTahun').textContent   = fRp(s.tahunIni.omset);
+            } else if (periode === 'tahun') {
+                document.getElementById('statDateTahun').textContent    = now.getFullYear();
+                document.getElementById('statPesananTahun').textContent = s.tahunIni.count;
+                document.getElementById('statOmsetTahun').textContent   = fRp(s.tahunIni.omset);
+                document.getElementById('panelTahun').style.display = 'block';
+                renderChartTahunan();
+            }
+        }
 
-            renderStatCharts();
+        function renderStatistik() {
+            // Dipanggil setelah data API masuk — refresh panel yang sedang aktif
+            if (_aktivPeriode) {
+                tampilkanPeriode(_aktivPeriode);
+            }
+        }
+
+        const _chartBaseOpts = () => ({
+            responsive: true,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1a1225', borderColor: '#3d2a58', borderWidth: 1,
+                    titleColor: '#f0e8f8', bodyColor: '#8b6fa8',
+                    callbacks: {
+                        label: ctx => ctx.datasetIndex === 0
+                            ? ' Omset: Rp ' + ctx.raw.toLocaleString('id-ID')
+                            : ' Pesanan: ' + ctx.raw
+                    }
+                }
+            },
+            scales: {
+                x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#8b6fa8', font: { size: 11 } } },
+                y: {
+                    type: 'linear', position: 'left',
+                    grid: { color: 'rgba(255,255,255,.05)' },
+                    ticks: { color: '#8b6fa8', font: { size: 11 },
+                        callback: v => 'Rp ' + (v>=1000000 ? (v/1000000).toFixed(1)+'jt' : v>=1000 ? (v/1000).toFixed(0)+'rb' : v) }
+                },
+                y2: {
+                    type: 'linear', position: 'right',
+                    grid: { drawOnChartArea: false },
+                    ticks: { color: '#e8638d', font: { size: 11 }, stepSize: 1 }
+                }
+            }
+        });
+
+        function _buildChart(canvasId, chartRef, labels, omsetData, pesananData) {
+            const ctx = document.getElementById(canvasId);
+            if (!ctx) return chartRef;
+            if (chartRef) chartRef.destroy();
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        { label:'Omset',   data: omsetData,   backgroundColor:'rgba(45,212,160,.3)',  borderColor:'#2dd4a0', borderWidth:2, borderRadius:8, yAxisID:'y' },
+                        { label:'Pesanan', data: pesananData, type:'line', borderColor:'#e8638d', backgroundColor:'rgba(232,99,141,.1)', borderWidth:2, fill:false, tension:.4, pointBackgroundColor:'#e8638d', pointRadius:4, yAxisID:'y2' }
+                    ]
+                },
+                options: _chartBaseOpts()
+            });
+        }
+
+        function renderChartHarian() {
+            const ch = _dashData?.chartHarian || [];
+            _chartHarian = _buildChart('chartHarian', _chartHarian, ch.map(x=>x.label), ch.map(x=>x.omset), ch.map(x=>x.pesanan));
+        }
+
+        function renderChartBulanan() {
+            const cb = _dashData?.chartBulanan || [];
+            _chartBulanan = _buildChart('chartBulanan', _chartBulanan, cb.map(x=>x.label), cb.map(x=>x.omset), cb.map(x=>x.pesanan));
+        }
+
+        function renderChartTahunan() {
+            // Pakai chartBulanan tapi filter hanya tahun ini
+            const now = new Date();
+            const tahun = now.getFullYear();
+            const cb = (_dashData?.chartBulanan || []).filter(x => x.key.startsWith(String(tahun)));
+            _chartTahunan = _buildChart('chartTahunan', _chartTahunan, cb.map(x=>x.label), cb.map(x=>x.omset), cb.map(x=>x.pesanan));
         }
 
         function renderStatCharts() {
-            if (!_dashData) return;
-            const ch = _dashData.chartHarian  || [];
-            const cb = _dashData.chartBulanan || [];
-
-            const chartOpts = (yLabel) => ({
-                responsive: true,
-                interaction: { mode: 'index', intersect: false },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#1a1225',
-                        borderColor: '#3d2a58',
-                        borderWidth: 1,
-                        titleColor: '#f0e8f8',
-                        bodyColor: '#8b6fa8',
-                        callbacks: {
-                            label: ctx => ctx.datasetIndex === 0
-                                ? ' Omset: Rp ' + ctx.raw.toLocaleString('id-ID')
-                                : ' Pesanan: ' + ctx.raw
-                        }
-                    }
-                },
-                scales: {
-                    x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#8b6fa8', font: { size: 11 } } },
-                    y: {
-                        type: 'linear', position: 'left',
-                        grid: { color: 'rgba(255,255,255,.05)' },
-                        ticks: { color: '#8b6fa8', font: { size: 11 },
-                            callback: v => 'Rp ' + (v >= 1000000 ? (v/1000000).toFixed(1)+'jt' : v >= 1000 ? (v/1000).toFixed(0)+'rb' : v) }
-                    },
-                    y2: {
-                        type: 'linear', position: 'right',
-                        grid: { drawOnChartArea: false },
-                        ticks: { color: '#e8638d', font: { size: 11 }, stepSize: 1 }
-                    }
-                }
-            });
-
-            // Chart harian
-            const ctxH = document.getElementById('chartHarian');
-            if (ctxH) {
-                if (_chartHarian) _chartHarian.destroy();
-                _chartHarian = new Chart(ctxH, {
-                    type: 'bar',
-                    data: {
-                        labels: ch.map(x => x.label),
-                        datasets: [
-                            { label: 'Omset', data: ch.map(x => x.omset), backgroundColor: 'rgba(45,212,160,.3)', borderColor: '#2dd4a0', borderWidth: 2, borderRadius: 8, yAxisID: 'y' },
-                            { label: 'Pesanan', data: ch.map(x => x.pesanan), type: 'line', borderColor: '#e8638d', backgroundColor: 'rgba(232,99,141,.1)', borderWidth: 2, fill: false, tension: .4, pointBackgroundColor: '#e8638d', pointRadius: 4, yAxisID: 'y2' }
-                        ]
-                    },
-                    options: chartOpts('Omset')
-                });
-            }
-
-            // Chart bulanan
-            const ctxB = document.getElementById('chartBulanan');
-            if (ctxB) {
-                if (_chartBulanan) _chartBulanan.destroy();
-                _chartBulanan = new Chart(ctxB, {
-                    type: 'bar',
-                    data: {
-                        labels: cb.map(x => x.label),
-                        datasets: [
-                            { label: 'Omset', data: cb.map(x => x.omset), backgroundColor: 'rgba(45,212,160,.3)', borderColor: '#2dd4a0', borderWidth: 2, borderRadius: 8, yAxisID: 'y' },
-                            { label: 'Pesanan', data: cb.map(x => x.pesanan), type: 'line', borderColor: '#e8638d', backgroundColor: 'rgba(232,99,141,.1)', borderWidth: 2, fill: false, tension: .4, pointBackgroundColor: '#e8638d', pointRadius: 4, yAxisID: 'y2' }
-                        ]
-                    },
-                    options: chartOpts('Omset')
-                });
-            }
+            // Legacy — tidak dipakai, diganti per-panel
         }
 
         function initDashboard() {
