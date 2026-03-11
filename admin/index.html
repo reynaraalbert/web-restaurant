@@ -1492,6 +1492,55 @@
             opacity: .75;
         }
 
+        .menu-mgmt-card.hampir-habis {
+            border-color: rgba(240,96,96,.5) !important;
+            box-shadow: 0 0 0 1px rgba(240,96,96,.15);
+        }
+
+        /* ── STOK BADGE ── */
+        .stok-badge {
+            font-size: .68rem; font-weight: 700;
+            padding: 3px 10px; border-radius: 20px;
+            margin-left: auto; flex-shrink: 0;
+        }
+        .ok-badge      { background: rgba(45,212,160,.15); color: var(--green); }
+        .warning-badge { background: rgba(240,96,96,.15); color: var(--red); animation: pulseWarn 1.5s ease infinite; }
+        .habis-badge   { background: rgba(139,111,168,.15); color: var(--muted); }
+        @keyframes pulseWarn { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+        /* ── STOK MANAGEMENT ── */
+        .mmc-stok-section {
+            display: flex; flex-direction: column; gap: 8px;
+            background: rgba(255,255,255,.03);
+            border: 1px solid var(--border); border-radius: 10px;
+            padding: 10px 12px; margin: 8px 0;
+        }
+        .mmc-stok-row, .mmc-tambah-row {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .mmc-stok-input {
+            width: 70px; padding: 6px 8px;
+            background: var(--surface); border: 1px solid var(--border2);
+            border-radius: 8px; color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .8rem; text-align: center;
+        }
+        .mmc-stok-input:focus { outline: none; border-color: var(--accent); }
+        .btn-set-stok {
+            padding: 6px 12px; background: rgba(96,165,250,.15);
+            border: 1px solid rgba(96,165,250,.3); border-radius: 8px;
+            color: var(--blue); font-size: .75rem; font-weight: 700;
+            cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
+        }
+        .btn-set-stok:hover { background: rgba(96,165,250,.28); }
+        .btn-tambah-stok {
+            padding: 6px 12px; background: rgba(45,212,160,.15);
+            border: 1px solid rgba(45,212,160,.3); border-radius: 8px;
+            color: var(--green); font-size: .75rem; font-weight: 700;
+            cursor: pointer; transition: all .2s; font-family: 'DM Sans', sans-serif;
+        }
+        .btn-tambah-stok:hover { background: rgba(45,212,160,.28); }
+
         .mmc-top {
             display: flex;
             align-items: center;
@@ -3104,6 +3153,7 @@
                 cat,
                 harga: Number(item.harga) || 0,
                 stok: item.tersedia !== false,
+                jumlahStok: item.jumlahStok !== undefined ? Number(item.jumlahStok) : null,
                 desc: item.deskripsi || ''
             }
         }
@@ -3162,9 +3212,19 @@
                 grid.appendChild(hdr)
                 scoped.filter(m => m.cat === cat).forEach((item, idx) => {
                     const card = document.createElement('div')
-                    card.className = 'menu-mgmt-card' + (item.stok ? '' : ' habis')
+                    const stokHampirHabis = item.jumlahStok !== null && item.jumlahStok > 0 && item.jumlahStok <= 5
+                    const stokHabis = item.jumlahStok !== null && item.jumlahStok <= 0
+                    card.className = 'menu-mgmt-card' + (stokHabis ? ' habis' : '') + (stokHampirHabis ? ' hampir-habis' : '')
                     card.style.animationDelay = (idx * 0.04) + 's'
                     card.id = 'mmc-' + item.id
+
+                    let stokBadge = ''
+                    if (item.jumlahStok !== null) {
+                        if (stokHabis) stokBadge = '<span class="stok-badge habis-badge">⚠️ Habis</span>'
+                        else if (stokHampirHabis) stokBadge = '<span class="stok-badge warning-badge">🔴 Sisa ' + item.jumlahStok + '</span>'
+                        else stokBadge = '<span class="stok-badge ok-badge">✅ Stok: ' + item.jumlahStok + '</span>'
+                    }
+
                     card.innerHTML =
                         '<div class="mmc-top">' +
                         '<div class="mmc-emoji">' + item.emoji + '</div>' +
@@ -3172,21 +3232,34 @@
                         '<div class="mmc-name">' + item.name + '</div>' +
                         '<div class="mmc-cat">' + cat + '</div>' +
                         '</div>' +
+                        stokBadge +
                         '</div>' +
                         '<div class="mmc-price-row">' +
                         '<span class="mmc-price-label">Harga</span>' +
                         '<input class="mmc-price-input" id="price-' + item.id + '" type="number" value="' + item.harga + '" min="0" step="500"/>' +
                         '<button class="btn-save-price" onclick="saveHarga(\'' + item.id + '\')" >Simpan Harga</button>' +
                         '</div>' +
+                        '<div class="mmc-stok-section">' +
+                        '<div class="mmc-stok-row">' +
+                        '<span class="mmc-stock-label">Set Stok</span>' +
+                        '<input class="mmc-stok-input" id="stokjml-' + item.id + '" type="number" value="' + (item.jumlahStok !== null ? item.jumlahStok : 0) + '" min="0" step="1"/>' +
+                        '<button class="btn-set-stok" onclick="setJumlahStok(\'' + item.id + '\')">Set</button>' +
+                        '</div>' +
+                        '<div class="mmc-tambah-row">' +
+                        '<span class="mmc-stock-label">+ Tambah</span>' +
+                        '<input class="mmc-stok-input" id="stoktambah-' + item.id + '" type="number" value="10" min="1" step="1"/>' +
+                        '<button class="btn-tambah-stok" onclick="tambahJumlahStok(\'' + item.id + '\')">Tambah</button>' +
+                        '</div>' +
+                        '</div>' +
                         '<div class="mmc-stock-row">' +
-                        '<span class="mmc-stock-label">Stok</span>' +
+                        '<span class="mmc-stock-label">Tampil</span>' +
                         '<div class="toggle-wrap">' +
-                        '<span class="toggle-lbl habis">Habis</span>' +
+                        '<span class="toggle-lbl habis">Sembunyikan</span>' +
                         '<label class="toggle">' +
                         '<input type="checkbox" id="stok-' + item.id + '" ' + (item.stok ? 'checked' : '') + ' onchange="saveStok(\'' + item.id + '\',this.checked)">' +
                         '<span class="toggle-slider"></span>' +
                         '</label>' +
-                        '<span class="toggle-lbl ready">Ready</span>' +
+                        '<span class="toggle-lbl ready">Tampilkan</span>' +
                         '</div>' +
                         '</div>' +
                         '<button class="btn-delete-custom" onclick="deleteMenuItem(\'' + item.id + '\')">Hapus Menu</button>'
@@ -3226,6 +3299,40 @@
                 toast('Gagal update stok: ' + (err.message || ''), 'error')
                 const cb = document.getElementById('stok-' + id)
                 if (cb) cb.checked = !isReady
+            }
+        }
+        async function setJumlahStok(id) {
+            const input = document.getElementById('stokjml-' + id)
+            if (!input) return
+            const val = parseInt(input.value, 10)
+            if (isNaN(val) || val < 0) { toast('Jumlah stok tidak valid!', 'error'); return }
+            const name = MENU_DATA.find(m => m.id === id)?.name || id
+            try {
+                await apiMenuRequest('PUT', { id, jumlahStok: val })
+                toast('Stok ' + name + ' diset ke ' + val, 'success')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal set stok: ' + (err.message || ''), 'error')
+            }
+        }
+        async function tambahJumlahStok(id) {
+            const input = document.getElementById('stoktambah-' + id)
+            if (!input) return
+            const val = parseInt(input.value, 10)
+            if (isNaN(val) || val <= 0) { toast('Jumlah tambah tidak valid!', 'error'); return }
+            const name = MENU_DATA.find(m => m.id === id)?.name || id
+            try {
+                const res = await fetch('/api/menu', {
+                    method: 'PATCH',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, tambahStok: val })
+                })
+                const data = await res.json().catch(() => ({}))
+                if (!res.ok) throw new Error(data.error || 'Gagal')
+                toast('+' + val + ' stok ' + name + ' (total: ' + data.jumlahStok + ')', 'success')
+                await renderMenuMgmt()
+            } catch (err) {
+                toast('Gagal tambah stok: ' + (err.message || ''), 'error')
             }
         }
         async function addMenuItem() {

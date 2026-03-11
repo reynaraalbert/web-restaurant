@@ -43,6 +43,7 @@ const menus = [
 // ---- STATE ----
 let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
 let kategoriAktif = "semua";
+let liveMenus = []; // menu dari API (realtime)
 
 // ---- UTILS ----
 function formatRupiah(angka) {
@@ -85,9 +86,14 @@ function renderMenu(daftar) {
     card.className = "menu-card";
     card.style.animationDelay = `${i * 0.07}s`;
 
-    // Badge spesial untuk paket
     const paketBadge = m.kat === "paket"
       ? `<span class="badge-paket">🏷️ PAKET</span>`
+      : "";
+
+    // Stok hampir habis: jumlahStok ada, > 0, tapi <= 5
+    const hampirHabis = m.jumlahStok !== undefined && m.jumlahStok !== null && m.jumlahStok > 0 && m.jumlahStok <= 5;
+    const stokAlert = hampirHabis
+      ? `<div class="stok-warning-alert">🔴 Stok hampir habis! Sisa <strong>${m.jumlahStok}</strong> porsi</div>`
       : "";
 
     card.innerHTML = `
@@ -95,11 +101,12 @@ function renderMenu(daftar) {
       <div class="card-body">
         <div class="card-name">${m.nama}</div>
         <div class="card-desc">${m.desc}</div>
+        ${stokAlert}
         <div class="card-footer">
           <div class="card-price">${formatRupiah(m.harga)}</div>
           ${m.stok
-        ? `<button class="btn-add" onclick="tambahKeranjang(${m.id})">+ Keranjang</button>`
-        : `<span class="badge-habis">Habis</span>`}
+            ? `<button class="btn-add" onclick="tambahKeranjang('${m._id || m.id}', '${m.nama}', '${m.emoji}', ${m.harga})">+ Keranjang</button>`
+            : `<span class="badge-habis">Habis</span>`}
         </div>
       </div>
     `;
@@ -109,7 +116,8 @@ function renderMenu(daftar) {
 
 function filterMenu() {
   const query = (document.getElementById("searchInput")?.value || document.getElementById("searchInputMobile")?.value || "").toLowerCase();
-  const filtered = menus.filter(m => {
+  const source = liveMenus.length > 0 ? liveMenus : menus;
+  const filtered = source.filter(m => {
     const cocoKat = kategoriAktif === "semua" || m.kat === kategoriAktif;
     const cocoSearch = m.nama.toLowerCase().includes(query) || m.desc.toLowerCase().includes(query);
     return cocoKat && cocoSearch;
@@ -117,18 +125,18 @@ function filterMenu() {
   renderMenu(filtered);
 }
 
-function tambahKeranjang(id) {
-  const menu = menus.find(m => m.id === id);
-  if (!menu) return;
-  const ada = keranjang.find(k => k.id === id);
+function tambahKeranjang(id, nama, emoji, harga) {
+  // Support both old format (number id) and new format (string _id from MongoDB)
+  const sid = String(id);
+  const ada = keranjang.find(k => String(k.id) === sid);
   if (ada) {
     ada.qty++;
   } else {
-    keranjang.push({ id, nama: menu.nama, emoji: menu.emoji, harga: menu.harga, qty: 1 });
+    keranjang.push({ id: sid, nama, emoji, harga: Number(harga), qty: 1 });
   }
   simpanKeranjang();
   updateBadge();
-  tampilToast(`✅ ${menu.nama} ditambahkan!`);
+  tampilToast(`✅ ${nama} ditambahkan!`);
 }
 
 // ---- CART PAGE ----
@@ -280,7 +288,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const menuGrid = document.getElementById("menuGrid");
   if (menuGrid) {
+    // Tampil data statis dulu sebagai fallback
     renderMenu(menus);
+
+    // Load dari API (live data dengan jumlahStok realtime)
+    fetch("/api/menu", { cache: "no-store" })
+      .then(r => r.json())
+      .then(data => {
+        if (Array.isArray(data) && data.length > 0) {
+          liveMenus = data.map(item => ({
+            _id: String(item._id),
+            id: String(item._id),
+            nama: item.nama || "",
+            emoji: item.emoji || "🍽️",
+            kat: (item.kategori || "").toLowerCase().replace(/-pauk$/i, "").trim(),
+            harga: Number(item.harga) || 0,
+            desc: item.deskripsi || "",
+            stok: item.tersedia !== false,
+            jumlahStok: item.jumlahStok !== undefined ? Number(item.jumlahStok) : null,
+          }));
+          filterMenu();
+        }
+      })
+      .catch(() => { /* tetap pakai data statis */ });
 
     document.querySelectorAll(".cat-btn").forEach(btn => {
       btn.addEventListener("click", () => {

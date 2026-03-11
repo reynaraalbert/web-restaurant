@@ -48,6 +48,24 @@ export default async function handler(req, res) {
         updatedAt: new Date(),
       };
       const result = await col.insertOne(doc);
+
+      // Kurangi stok setiap menu yang dipesan
+      const colMenu = db.collection('menu');
+      for (const item of items) {
+        if (item.menuId) {
+          try {
+            const menu = await colMenu.findOne({ _id: new ObjectId(item.menuId) });
+            if (menu && menu.jumlahStok !== undefined) {
+              const stokBaru = Math.max(0, menu.jumlahStok - Number(item.jumlah || 1));
+              await colMenu.updateOne(
+                { _id: new ObjectId(item.menuId) },
+                { $set: { jumlahStok: stokBaru, tersedia: stokBaru > 0, updatedAt: new Date() } }
+              );
+            }
+          } catch (e) { /* skip jika menuId tidak valid */ }
+        }
+      }
+
       return res.status(201).json({ message: 'Pesanan berhasil dibuat', _id: result.insertedId, ...doc });
     }
 

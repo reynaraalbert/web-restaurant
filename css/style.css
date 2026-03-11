@@ -557,6 +557,30 @@ body {
   font-weight: 600;
 }
 
+/* ── STOK HAMPIR HABIS ALERT ── */
+.stok-warning-alert {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(220, 60, 60, 0.08);
+  border: 1px solid rgba(220, 60, 60, 0.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  margin: 6px 0 4px;
+  font-size: 0.75rem;
+  color: #d94f4f;
+  font-weight: 600;
+  animation: blinkAlert 2s ease infinite;
+}
+.stok-warning-alert strong {
+  font-size: 0.85rem;
+}
+@keyframes blinkAlert {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.65; }
+}
+
+
 /* ================================================
    CART PAGE
    ================================================ */
