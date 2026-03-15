@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -882,7 +882,7 @@
     @keyframes bounceIn { 0% { transform: scale(.7); opacity: 0 } 60% { transform: scale(1.08) } 100% { transform: scale(1); opacity: 1 } }
     @keyframes bubbleFloat { 0% { transform: translateY(0) scale(1); opacity: .6 } 50% { transform: translateY(-30px) scale(1.1); opacity: 1 } 100% { transform: translateY(0) scale(1); opacity: .6 } }
 
-    /* ════ FLOATING ORDER BUBBLE ════ */
+    /* ---- FLOATING ORDER BUBBLE ---- */
     .order-bubble {
       position: fixed;
       bottom: 20px;
@@ -958,7 +958,7 @@
       font-weight: 600;
     }
 
-    /* ════ CONFIRM BOTTOM SHEET ════ */
+    /* ---- CONFIRM BOTTOM SHEET ---- */
     .confirm-sheet-overlay {
       position: fixed; inset: 0; z-index: 600;
       background: rgba(0,0,0,.45);
@@ -1129,16 +1129,16 @@
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="brand" onclick="goTo('menu')">
-      <span class="brand-icon">🍛</span>
+      <span class="brand-icon">??</span>
       <div class="brand-text">
         <div class="brand-name">Waroeng Makan Cak Lie</div>
         <div class="brand-tagline">Masakan Rumahan Sejak 2005</div>
       </div>
     </div>
     <div class="nav-right">
-      <div class="search-bar"><input id="searchInput" type="text" placeholder="Cari menu..." /><span>🔍</span></div>
-      <button class="nav-btn hide-m" onclick="goTo('orders')">📋 Pesanan</button>
-      <button class="cart-btn" onclick="goTo('cart')">🛒 Keranjang <span class="cart-badge" id="cartBadge">0</span></button>
+      <div class="search-bar"><input id="searchInput" type="text" placeholder="Cari menu..." /><span>??</span></div>
+      <button class="nav-btn hide-m" onclick="goTo('orders')">?? Pesanan</button>
+      <button class="cart-btn" onclick="goTo('cart')">?? Keranjang <span class="cart-badge" id="cartBadge">0</span></button>
       <button class="burger-btn" id="burgerBtn"><span></span><span></span><span></span></button>
     </div>
   </nav>
@@ -1146,21 +1146,21 @@
   <!-- FIX: overlay selalu ada di DOM, dikontrol lewat class show -->
   <div class="mobile-overlay" id="mobileOverlay"></div>
   <div class="mobile-drawer" id="mobileDrawer">
-    <button class="drawer-close" id="drawerClose">✕</button>
-    <div class="drawer-brand">🍛 Waroeng Makan Cak Lie</div>
+    <button class="drawer-close" id="drawerClose">?</button>
+    <div class="drawer-brand">?? Waroeng Makan Cak Lie</div>
     <nav class="drawer-nav">
-      <button class="drawer-link" onclick="nav('menu')">🏠 Beranda</button>
-      <button class="drawer-link" onclick="nav('cart')">🛒 Keranjang <span class="cart-badge" id="cartBadgeMobile" style="margin-left:4px">0</span></button>
-      <button class="drawer-link" onclick="nav('orders')">📋 Pesanan Saya</button>
-      <button class="drawer-link" onclick="navScroll('sec-nasi')">🍚 Nasi</button>
-      <button class="drawer-link" onclick="navScroll('sec-lauk')">🍗 Lauk-Pauk</button>
-      <button class="drawer-link" onclick="navScroll('sec-paket')">🎁 Paket Hemat</button>
-      <button class="drawer-link" onclick="navScroll('sec-minuman')">🥤 Minuman</button>
+      <button class="drawer-link" onclick="nav('menu')">?? Beranda</button>
+      <button class="drawer-link" onclick="nav('cart')">?? Keranjang <span class="cart-badge" id="cartBadgeMobile" style="margin-left:4px">0</span></button>
+      <button class="drawer-link" onclick="nav('orders')">?? Pesanan Saya</button>
+      <button class="drawer-link" onclick="navScroll('sec-nasi')">?? Nasi</button>
+      <button class="drawer-link" onclick="navScroll('sec-lauk')">?? Lauk-Pauk</button>
+      <button class="drawer-link" onclick="navScroll('sec-paket')">?? Paket Hemat</button>
+      <button class="drawer-link" onclick="navScroll('sec-minuman')">?? Minuman</button>
     </nav>
     <div class="drawer-info">
-      <p>📍 Jl. Kh. Hasyim No. 14B, Kembangan Utara, Jakarta Barat</p>
-      <p>📞 0882-1306-6069</p>
-      <p>🕐 Senin–Sabtu: 06.00–21.00 | Minggu: Libur</p>
+      <p>?? Jl. Kh. Hasyim No. 14B, Kembangan Utara, Jakarta Barat</p>
+      <p>?? 0882-1306-6069</p>
+      <p>?? Senin�Sabtu: 06.00�21.00 | Minggu: Libur</p>
     </div>
   </div>
 
@@ -1170,143 +1170,143 @@
       <div class="hero-text">
         <h2>Rasakan Kehangatan<br /><em>Masakan Rumahan</em></h2>
         <p>Diolah dengan bumbu pilihan &amp; cinta, diantar hangat ke pintu rumahmu.</p>
-        <button class="btn-hero" onclick="document.getElementById('sec-nasi').scrollIntoView({behavior:'smooth'})">Lihat Menu ↓</button>
+        <button class="btn-hero" onclick="document.getElementById('sec-nasi').scrollIntoView({behavior:'smooth'})">Lihat Menu ?</button>
       </div>
       <div class="hero-visual">
-        <div class="food-circle">🍲</div>
+        <div class="food-circle">??</div>
       </div>
     </section>
 
     <div class="sticky-cats" id="stickyCats">
-      <button class="sticky-cat-btn active" data-target="sec-nasi">🍚 Nasi</button>
-      <button class="sticky-cat-btn" data-target="sec-lauk">🍗 Lauk-Pauk</button>
-      <button class="sticky-cat-btn" data-target="sec-sayur">🥬 Sayur</button>
-      <button class="sticky-cat-btn" data-target="sec-paket">🎁 Paket Hemat</button>
-      <button class="sticky-cat-btn" data-target="sec-minuman">🥤 Minuman</button>
-      <button class="sticky-cat-btn" data-target="sec-camilan">🍘 Camilan</button>
+      <button class="sticky-cat-btn active" data-target="sec-nasi">?? Nasi</button>
+      <button class="sticky-cat-btn" data-target="sec-lauk">?? Lauk-Pauk</button>
+      <button class="sticky-cat-btn" data-target="sec-sayur">?? Sayur</button>
+      <button class="sticky-cat-btn" data-target="sec-paket">?? Paket Hemat</button>
+      <button class="sticky-cat-btn" data-target="sec-minuman">?? Minuman</button>
+      <button class="sticky-cat-btn" data-target="sec-camilan">?? Camilan</button>
     </div>
 
     <div class="container" style="padding-bottom:0">
       <div class="cat-section" id="sec-nasi">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🍚</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Nasi</h2>
-            <p class="cat-section-desc">Pilihan nasi unggulan — dimasak segar setiap hari tanpa bahan pengawet.</p>
-            <span class="cat-section-badge">🌾 Dimasak Segar Tiap Hari</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Nasi..." data-section="sec-nasi" /></div>
+            <p class="cat-section-desc">Pilihan nasi unggulan � dimasak segar setiap hari tanpa bahan pengawet.</p>
+            <span class="cat-section-badge">?? Dimasak Segar Tiap Hari</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Nasi..." data-section="sec-nasi" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-nasi"></div>
-        <div class="cat-empty" id="empty-nasi"><span>🍚</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-nasi"><span>??</span>Menu tidak ditemukan</div>
       </div>
       <div class="section-divider"></div>
       <div class="cat-section" id="sec-lauk">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🍗</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Lauk-Pauk</h2>
-            <p class="cat-section-desc">Aneka lauk khas rumahan — bumbu tradisional kaya rempah.</p>
-            <span class="cat-section-badge">🌶️ Bumbu Rempah Pilihan</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Lauk..." data-section="sec-lauk" /></div>
+            <p class="cat-section-desc">Aneka lauk khas rumahan � bumbu tradisional kaya rempah.</p>
+            <span class="cat-section-badge">??? Bumbu Rempah Pilihan</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Lauk..." data-section="sec-lauk" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-lauk"></div>
-        <div class="cat-empty" id="empty-lauk"><span>🍗</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-lauk"><span>??</span>Menu tidak ditemukan</div>
       </div>
       <div class="section-divider"></div>
       <div class="cat-section" id="sec-sayur">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🥬</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Sayur</h2>
             <p class="cat-section-desc">Sayuran segar pilihan dari pasar pagi setiap harinya.</p>
-            <span class="cat-section-badge">🌿 Bahan Segar dari Pasar Pagi</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Sayur..." data-section="sec-sayur" /></div>
+            <span class="cat-section-badge">?? Bahan Segar dari Pasar Pagi</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Sayur..." data-section="sec-sayur" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-sayur"></div>
-        <div class="cat-empty" id="empty-sayur"><span>🥬</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-sayur"><span>??</span>Menu tidak ditemukan</div>
       </div>
       <div class="section-divider"></div>
       <div class="cat-section" id="sec-paket">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🎁</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Paket Hemat</h2>
             <p class="cat-section-desc">Hemat hingga 30% dibanding beli terpisah. Tersedia paket harian, keluarga &amp; catering.</p>
-            <span class="cat-section-badge">💰 Hemat s/d 30% · Best Seller</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Paket..." data-section="sec-paket" /></div>
+            <span class="cat-section-badge">?? Hemat s/d 30% � Best Seller</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Paket..." data-section="sec-paket" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-paket"></div>
-        <div class="cat-empty" id="empty-paket"><span>🎁</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-paket"><span>??</span>Menu tidak ditemukan</div>
       </div>
       <div class="section-divider"></div>
       <div class="cat-section" id="sec-minuman">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🥤</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Minuman</h2>
             <p class="cat-section-desc">Minuman segar menemani makan Anda. Tersedia pilihan dingin dan hangat.</p>
-            <span class="cat-section-badge">🧊 Tersedia Dingin &amp; Hangat</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Minuman..." data-section="sec-minuman" /></div>
+            <span class="cat-section-badge">?? Tersedia Dingin &amp; Hangat</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Minuman..." data-section="sec-minuman" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-minuman"></div>
-        <div class="cat-empty" id="empty-minuman"><span>🥤</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-minuman"><span>??</span>Menu tidak ditemukan</div>
       </div>
       <div class="section-divider"></div>
       <div class="cat-section" id="sec-camilan">
         <div class="cat-section-header">
-          <div class="cat-section-icon">🍘</div>
+          <div class="cat-section-icon">??</div>
           <div class="cat-section-meta">
             <h2 class="cat-section-title">Camilan</h2>
             <p class="cat-section-desc">Aneka gorengan &amp; jajanan pasar renyah gurih. Digoreng fresh setiap jam.</p>
-            <span class="cat-section-badge">🔥 Digoreng Fresh Tiap Jam</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Camilan..." data-section="sec-camilan" /></div>
+            <span class="cat-section-badge">?? Digoreng Fresh Tiap Jam</span>
+            <div class="cat-search-bar"><span>??</span><input type="text" placeholder="Cari di Camilan..." data-section="sec-camilan" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-camilan"></div>
-        <div class="cat-empty" id="empty-camilan"><span>🍘</span>Menu tidak ditemukan</div>
+        <div class="cat-empty" id="empty-camilan"><span>??</span>Menu tidak ditemukan</div>
       </div>
     </div>
 
     <footer class="footer">
       <div class="footer-inner">
         <div>
-          <h3>🍛 Waroeng Makan Cak Lie</h3>
+          <h3>?? Waroeng Makan Cak Lie</h3>
           <p>Jl. Kh. Hasyim No. 14B, Kembangan Utara, Jakarta Barat</p>
-          <p>📞 0882-1306-6069</p>
+          <p>?? 0882-1306-6069</p>
         </div>
         <div>
           <h4>Jam Buka</h4>
-          <p>Senin – Sabtu: 06.00 – 21.00</p>
+          <p>Senin � Sabtu: 06.00 � 21.00</p>
           <p>Minggu: Tutup</p>
         </div>
         <div>
           <h4>Layanan</h4>
-          <p>✅ Dine-in</p>
-          <p>✅ Take-away</p>
-          <p>✅ Delivery (GoFood / GrabFood)</p>
+          <p>? Dine-in</p>
+          <p>? Take-away</p>
+          <p>? Delivery (GoFood / GrabFood)</p>
         </div>
       </div>
-      <p class="footer-copy">© 2026 Waroeng Makan Cak Lie. Semua hak dilindungi.</p>
+      <p class="footer-copy">� 2026 Waroeng Makan Cak Lie. Semua hak dilindungi.</p>
     </footer>
   </div>
 
   <!-- PAGE: CART -->
   <div class="page" id="page-cart">
     <div class="page-header">
-      <h2>🛒 Keranjang Belanja</h2>
+      <h2>?? Keranjang Belanja</h2>
       <p>Periksa pesananmu sebelum konfirmasi via WhatsApp</p>
     </div>
     <div class="container">
-      <button class="btn-back" onclick="goTo('menu')">← Kembali ke Menu</button>
+      <button class="btn-back" onclick="goTo('menu')">? Kembali ke Menu</button>
       <div class="cart-layout">
         <div class="cart-items" id="cartItems"></div>
         <div class="cart-summary">
-          <div class="summary-title">📝 Ringkasan Pesanan</div>
+          <div class="summary-title">?? Ringkasan Pesanan</div>
           <div id="summaryRows"></div>
           <div class="summary-row total"><span>Total</span><span id="totalPrice">Rp 0</span></div>
           <div class="order-form">
@@ -1321,9 +1321,9 @@
             <div class="form-group">
               <label class="form-label">Metode Pengambilan</label>
               <div class="method-toggle">
-                <button class="method-btn active" data-m="Dine-in">🍽️ Dine-in</button>
-                <button class="method-btn" data-m="Take-away">🥡 Take-away</button>
-                <button class="method-btn" data-m="Delivery">🛵 Delivery</button>
+                <button class="method-btn active" data-m="Dine-in">??? Dine-in</button>
+                <button class="method-btn" data-m="Take-away">?? Take-away</button>
+                <button class="method-btn" data-m="Delivery">?? Delivery</button>
               </div>
             </div>
             <div class="form-group" id="alamatGroup" style="display:none">
@@ -1335,9 +1335,9 @@
               <textarea class="form-textarea" id="fCatatan" placeholder="Contoh: tidak pedas, tanpa bawang..."></textarea>
             </div>
             <button class="btn-goto-payment" id="btnOrder" onclick="goToPayment()">
-              💳 Lanjut ke Pembayaran <span style="font-size:1.1rem">›</span>
+              ?? Lanjut ke Pembayaran <span style="font-size:1.1rem">�</span>
             </button>
-            <button class="btn-back" style="margin-bottom:0;margin-top:4px;width:100%;justify-content:center" onclick="clearCart()">🗑️ Kosongkan Keranjang</button>
+            <button class="btn-back" style="margin-bottom:0;margin-top:4px;width:100%;justify-content:center" onclick="clearCart()">??? Kosongkan Keranjang</button>
           </div>
         </div>
       </div>
@@ -1347,18 +1347,18 @@
   <!-- PAGE: ORDERS -->
   <div class="page" id="page-orders">
     <div class="page-header">
-      <h2>📋 Pesanan Saya</h2>
+      <h2>?? Pesanan Saya</h2>
       <p>Lacak status pesananmu di sini</p>
     </div>
     <div class="container" style="max-width:900px">
-      <button class="btn-back" onclick="goTo('menu')">← Kembali ke Menu</button>
+      <button class="btn-back" onclick="goTo('menu')">? Kembali ke Menu</button>
       <div id="newBanner"></div>
       <div class="tabs">
         <button class="tab-btn active" data-tab="semua" onclick="switchTab('semua')">Semua <span class="tab-count" id="cnt-semua">0</span></button>
-        <button class="tab-btn" data-tab="proses" onclick="switchTab('proses')">⏳ Diproses <span class="tab-count" id="cnt-proses">0</span></button>
-        <button class="tab-btn" data-tab="selesai" onclick="switchTab('selesai')">✅ Selesai <span class="tab-count" id="cnt-selesai">0</span></button>
-        <button class="tab-btn" data-tab="batal" onclick="switchTab('batal')">❌ Batal <span class="tab-count" id="cnt-batal">0</span></button>
-        <button class="tab-btn" data-tab="confirmed" onclick="switchTab('confirmed')">🎉 Terkonfirmasi <span class="tab-count" id="cnt-confirmed">0</span></button>
+        <button class="tab-btn" data-tab="proses" onclick="switchTab('proses')">? Diproses <span class="tab-count" id="cnt-proses">0</span></button>
+        <button class="tab-btn" data-tab="selesai" onclick="switchTab('selesai')">? Selesai <span class="tab-count" id="cnt-selesai">0</span></button>
+        <button class="tab-btn" data-tab="batal" onclick="switchTab('batal')">? Batal <span class="tab-count" id="cnt-batal">0</span></button>
+        <button class="tab-btn" data-tab="confirmed" onclick="switchTab('confirmed')">?? Terkonfirmasi <span class="tab-count" id="cnt-confirmed">0</span></button>
       </div>
       <div class="order-list" id="orderList"></div>
     </div>
@@ -1367,27 +1367,27 @@
   <!-- PAGE: CONFIRM -->
   <div class="page" id="page-confirm">
     <div class="page-header">
-      <h2>✅ Konfirmasi Penerimaan</h2>
+      <h2>? Konfirmasi Penerimaan</h2>
       <p>Beritahu kami apakah pesananmu sudah sampai</p>
     </div>
     <div class="confirm-wrap">
-      <button class="btn-back" onclick="goTo('orders')">← Kembali ke Pesanan</button>
+      <button class="btn-back" onclick="goTo('orders')">? Kembali ke Pesanan</button>
       <div class="confirm-card">
         <div class="confirm-header">
-          <span class="confirm-check">✅</span>
+          <span class="confirm-check">?</span>
           <h2>Pesanan Sudah Selesai?</h2>
           <p>Admin telah menandai pesananmu sebagai selesai. Apakah kamu sudah menerima pesanan dengan baik?</p>
         </div>
         <div class="confirm-body">
-          <div class="confirm-order-id" id="confirmOrderId">No. Order: —</div>
+          <div class="confirm-order-id" id="confirmOrderId">No. Order: �</div>
           <div class="confirm-question">
-            <h3>🤔 Apakah pesanan sudah selesai?</h3>
+            <h3>?? Apakah pesanan sudah selesai?</h3>
             <p>Konfirmasi ini membantu kami memastikan kamu puas dengan layanan Waroeng Makan Cak Lie.</p>
           </div>
           <div class="confirm-items" id="confirmItems"></div>
           <div class="confirm-actions">
-            <button class="btn-yes-received" onclick="konfirmasiTerima()">✅ Ya, Pesanan Sudah Saya Terima dengan Baik!</button>
-            <button class="btn-problem" onclick="laporMasalah()">❌ Belum — Ada Masalah dengan Pesanan Saya</button>
+            <button class="btn-yes-received" onclick="konfirmasiTerima()">? Ya, Pesanan Sudah Saya Terima dengan Baik!</button>
+            <button class="btn-problem" onclick="laporMasalah()">? Belum � Ada Masalah dengan Pesanan Saya</button>
           </div>
         </div>
       </div>
@@ -1398,9 +1398,9 @@
   <div class="page" id="page-invoice">
     <div class="invoice-wrap">
       <div class="invoice-actions">
-        <button class="btn-back" style="margin-bottom:0" onclick="goTo('orders')">← Pesanan</button>
-        <button class="btn-print" onclick="window.print()">🖨️ Cetak / PDF</button>
-        <button class="btn-wa-share" onclick="shareInvoiceWa()">💬 Kirim ke WA</button>
+        <button class="btn-back" style="margin-bottom:0" onclick="goTo('orders')">? Pesanan</button>
+        <button class="btn-print" onclick="window.print()">??? Cetak / PDF</button>
+        <button class="btn-wa-share" onclick="shareInvoiceWa()">?? Kirim ke WA</button>
       </div>
       <div id="invoiceContent"></div>
     </div>
@@ -1409,7 +1409,7 @@
   <div class="toast" id="toast"></div>
 
   <script>
-    /* ════ ROUTER ════ */
+    /* ---- ROUTER ---- */
     let _page = 'menu'
     let _confirmOrderId = null
 
@@ -1437,57 +1437,57 @@
       }
     }
 
-    /* ════ DATA MENU ════ */
+    /* ---- DATA MENU ---- */
     const MENU = {
       nasi: [
-        { id: 'n1', name: 'Nasi Putih', emoji: '🍚', desc: 'Nasi putih pulen, dimasak dengan air sumur alami.', price: 3000, stok: true },
-        { id: 'n2', name: 'Nasi Kuning', emoji: '🌕', desc: 'Nasi kuning khas, harum kunyit & santan, gurih lezat.', price: 5000, stok: true },
-        { id: 'n3', name: 'Nasi Uduk', emoji: '🥣', desc: 'Nasi uduk Betawi, dimasak dengan santan & daun pandan.', price: 6000, stok: true },
-        { id: 'n4', name: 'Nasi Goreng', emoji: '🍳', desc: 'Nasi goreng bumbu merah spesial, tersedia telur & ayam.', price: 12000, stok: true },
-        { id: 'n5', name: 'Nasi Tim Ayam', emoji: '🍲', desc: 'Nasi lembut dikukus bersama ayam cincang & kaldu.', price: 14000, stok: false },
+        { id: 'n1', name: 'Nasi Putih', emoji: '??', desc: 'Nasi putih pulen, dimasak dengan air sumur alami.', price: 3000, stok: true },
+        { id: 'n2', name: 'Nasi Kuning', emoji: '??', desc: 'Nasi kuning khas, harum kunyit & santan, gurih lezat.', price: 5000, stok: true },
+        { id: 'n3', name: 'Nasi Uduk', emoji: '??', desc: 'Nasi uduk Betawi, dimasak dengan santan & daun pandan.', price: 6000, stok: true },
+        { id: 'n4', name: 'Nasi Goreng', emoji: '??', desc: 'Nasi goreng bumbu merah spesial, tersedia telur & ayam.', price: 12000, stok: true },
+        { id: 'n5', name: 'Nasi Tim Ayam', emoji: '??', desc: 'Nasi lembut dikukus bersama ayam cincang & kaldu.', price: 14000, stok: false },
       ],
       lauk: [
-        { id: 'l1', name: 'Ayam Goreng', emoji: '🍗', desc: 'Ayam goreng rempah, garing di luar, juicy di dalam.', price: 10000, stok: true },
-        { id: 'l2', name: 'Ayam Bakar', emoji: '🔥', desc: 'Ayam bakar bumbu kecap manis & rempah pilihan.', price: 12000, stok: true },
-        { id: 'l3', name: 'Ikan Goreng', emoji: '🐟', desc: 'Ikan kembung segar, digoreng kering bumbu kunyit.', price: 8000, stok: true },
-        { id: 'l4', name: 'Tempe Orek', emoji: '🟫', desc: 'Tempe orek kering manis pedas, tahan hingga 2 hari.', price: 5000, stok: true },
-        { id: 'l5', name: 'Tahu Goreng', emoji: '🟡', desc: 'Tahu pong goreng, crispy luar lembut dalam.', price: 3000, stok: true },
-        { id: 'l6', name: 'Telur Balado', emoji: '🥚', desc: 'Telur rebus dimasak bumbu balado merah pedas.', price: 5000, stok: true },
-        { id: 'l7', name: 'Rendang Daging', emoji: '🥩', desc: 'Rendang sapi empuk, dimasak lama dengan santan & rempah.', price: 20000, stok: false },
-        { id: 'l8', name: 'Sambal Goreng', emoji: '🌶️', desc: 'Campuran kentang, hati, & udang dalam balutan sambal.', price: 8000, stok: true },
+        { id: 'l1', name: 'Ayam Goreng', emoji: '??', desc: 'Ayam goreng rempah, garing di luar, juicy di dalam.', price: 10000, stok: true },
+        { id: 'l2', name: 'Ayam Bakar', emoji: '??', desc: 'Ayam bakar bumbu kecap manis & rempah pilihan.', price: 12000, stok: true },
+        { id: 'l3', name: 'Ikan Goreng', emoji: '??', desc: 'Ikan kembung segar, digoreng kering bumbu kunyit.', price: 8000, stok: true },
+        { id: 'l4', name: 'Tempe Orek', emoji: '??', desc: 'Tempe orek kering manis pedas, tahan hingga 2 hari.', price: 5000, stok: true },
+        { id: 'l5', name: 'Tahu Goreng', emoji: '??', desc: 'Tahu pong goreng, crispy luar lembut dalam.', price: 3000, stok: true },
+        { id: 'l6', name: 'Telur Balado', emoji: '??', desc: 'Telur rebus dimasak bumbu balado merah pedas.', price: 5000, stok: true },
+        { id: 'l7', name: 'Rendang Daging', emoji: '??', desc: 'Rendang sapi empuk, dimasak lama dengan santan & rempah.', price: 20000, stok: false },
+        { id: 'l8', name: 'Sambal Goreng', emoji: '???', desc: 'Campuran kentang, hati, & udang dalam balutan sambal.', price: 8000, stok: true },
       ],
       sayur: [
-        { id: 's1', name: 'Sayur Lodeh', emoji: '🥦', desc: 'Sayuran mix dimasak santan tipis, kuah gurih segar.', price: 5000, stok: true },
-        { id: 's2', name: 'Tumis Kangkung', emoji: '🥬', desc: 'Kangkung segar ditumis bawang putih & terasi pedas.', price: 5000, stok: true },
-        { id: 's3', name: 'Capcay', emoji: '🫑', desc: 'Capcay kuah bening, penuh sayuran segar bergizi.', price: 7000, stok: true },
-        { id: 's4', name: 'Urap-Urap', emoji: '🌿', desc: 'Sayur rebus dengan parutan kelapa berbumbu kencur.', price: 6000, stok: false },
-        { id: 's5', name: 'Gudeg Jogja', emoji: '🫙', desc: 'Nangka muda dimasak santan kental, manis gurih khas Jogja.', price: 8000, stok: true },
+        { id: 's1', name: 'Sayur Lodeh', emoji: '??', desc: 'Sayuran mix dimasak santan tipis, kuah gurih segar.', price: 5000, stok: true },
+        { id: 's2', name: 'Tumis Kangkung', emoji: '??', desc: 'Kangkung segar ditumis bawang putih & terasi pedas.', price: 5000, stok: true },
+        { id: 's3', name: 'Capcay', emoji: '??', desc: 'Capcay kuah bening, penuh sayuran segar bergizi.', price: 7000, stok: true },
+        { id: 's4', name: 'Urap-Urap', emoji: '??', desc: 'Sayur rebus dengan parutan kelapa berbumbu kencur.', price: 6000, stok: false },
+        { id: 's5', name: 'Gudeg Jogja', emoji: '??', desc: 'Nangka muda dimasak santan kental, manis gurih khas Jogja.', price: 8000, stok: true },
       ],
       paket: [
-        { id: 'p1', name: 'Paket Nasi + 1 Lauk', emoji: '🎁', desc: 'Nasi putih + 1 lauk pilihan. Ekonomis untuk makan siang.', price: 13000, stok: true },
-        { id: 'p2', name: 'Paket Nasi + 2 Lauk + Sayur', emoji: '🍱', desc: 'Nasi + 2 lauk + 1 sayur + es teh. Lengkap & kenyang!', price: 22000, stok: true },
-        { id: 'p3', name: 'Paket Keluarga (4 Porsi)', emoji: '👨‍👩‍👧‍👦', desc: '4x nasi + 4x lauk + 2 sayur + 4 minuman. Cocok keluarga.', price: 75000, stok: true },
-        { id: 'p4', name: 'Paket Catering (10 Box)', emoji: '📦', desc: '10 box makan siang, nasi + 2 lauk + sayur. Min. pesan H-1.', price: 170000, stok: true },
-        { id: 'p5', name: 'Paket Sarapan', emoji: '🌅', desc: 'Nasi uduk + lauk + teh hangat. Tersedia mulai 06.00.', price: 12000, stok: false },
+        { id: 'p1', name: 'Paket Nasi + 1 Lauk', emoji: '??', desc: 'Nasi putih + 1 lauk pilihan. Ekonomis untuk makan siang.', price: 13000, stok: true },
+        { id: 'p2', name: 'Paket Nasi + 2 Lauk + Sayur', emoji: '??', desc: 'Nasi + 2 lauk + 1 sayur + es teh. Lengkap & kenyang!', price: 22000, stok: true },
+        { id: 'p3', name: 'Paket Keluarga (4 Porsi)', emoji: '???????????', desc: '4x nasi + 4x lauk + 2 sayur + 4 minuman. Cocok keluarga.', price: 75000, stok: true },
+        { id: 'p4', name: 'Paket Catering (10 Box)', emoji: '??', desc: '10 box makan siang, nasi + 2 lauk + sayur. Min. pesan H-1.', price: 170000, stok: true },
+        { id: 'p5', name: 'Paket Sarapan', emoji: '??', desc: 'Nasi uduk + lauk + teh hangat. Tersedia mulai 06.00.', price: 12000, stok: false },
       ],
       minuman: [
-        { id: 'm1', name: 'Es Teh Manis', emoji: '🧋', desc: 'Teh tubruk asli seduh, disajikan dengan es batu besar.', price: 3000, stok: true },
-        { id: 'm2', name: 'Teh Hangat', emoji: '☕', desc: 'Teh hangat manis, cocok untuk pagi & sore.', price: 2000, stok: true },
-        { id: 'm3', name: 'Es Jeruk', emoji: '🍊', desc: 'Jeruk peras segar, manis-segar menyegarkan.', price: 5000, stok: true },
-        { id: 'm4', name: 'Es Campur', emoji: '🍨', desc: 'Minuman segar cincau, kolang-kaling & sirup rose.', price: 7000, stok: true },
-        { id: 'm5', name: 'Jus Alpukat', emoji: '🥑', desc: 'Jus alpukat kental tanpa air, full susu & madu.', price: 10000, stok: false },
-        { id: 'm6', name: 'Air Putih', emoji: '💧', desc: 'Air minum kemasan, tersedia botol 330ml & 600ml.', price: 3000, stok: true },
+        { id: 'm1', name: 'Es Teh Manis', emoji: '??', desc: 'Teh tubruk asli seduh, disajikan dengan es batu besar.', price: 3000, stok: true },
+        { id: 'm2', name: 'Teh Hangat', emoji: '?', desc: 'Teh hangat manis, cocok untuk pagi & sore.', price: 2000, stok: true },
+        { id: 'm3', name: 'Es Jeruk', emoji: '??', desc: 'Jeruk peras segar, manis-segar menyegarkan.', price: 5000, stok: true },
+        { id: 'm4', name: 'Es Campur', emoji: '??', desc: 'Minuman segar cincau, kolang-kaling & sirup rose.', price: 7000, stok: true },
+        { id: 'm5', name: 'Jus Alpukat', emoji: '??', desc: 'Jus alpukat kental tanpa air, full susu & madu.', price: 10000, stok: false },
+        { id: 'm6', name: 'Air Putih', emoji: '??', desc: 'Air minum kemasan, tersedia botol 330ml & 600ml.', price: 3000, stok: true },
       ],
       camilan: [
-        { id: 'c1', name: 'Gorengan Mix', emoji: '🧆', desc: 'Bakwan, risol, pisang goreng — 5 pcs per porsi, fresh!', price: 5000, stok: true },
-        { id: 'c2', name: 'Tempe Mendoan', emoji: '🫓', desc: 'Tempe tipis lebar dibalut tepung tipis, renyah & gurih.', price: 4000, stok: true },
-        { id: 'c3', name: 'Pisang Goreng', emoji: '🍌', desc: 'Pisang kepok goreng crispy, bisa request topping.', price: 5000, stok: true },
-        { id: 'c4', name: 'Ubi Goreng', emoji: '🟠', desc: 'Ubi cilembu manis, digoreng hingga kecokelatan sempurna.', price: 4000, stok: true },
-        { id: 'c5', name: 'Kerupuk', emoji: '🥨', desc: 'Kerupuk udang & kerupuk putih, gratis untuk pelanggan dine-in.', price: 2000, stok: true },
+        { id: 'c1', name: 'Gorengan Mix', emoji: '??', desc: 'Bakwan, risol, pisang goreng � 5 pcs per porsi, fresh!', price: 5000, stok: true },
+        { id: 'c2', name: 'Tempe Mendoan', emoji: '??', desc: 'Tempe tipis lebar dibalut tepung tipis, renyah & gurih.', price: 4000, stok: true },
+        { id: 'c3', name: 'Pisang Goreng', emoji: '??', desc: 'Pisang kepok goreng crispy, bisa request topping.', price: 5000, stok: true },
+        { id: 'c4', name: 'Ubi Goreng', emoji: '??', desc: 'Ubi cilembu manis, digoreng hingga kecokelatan sempurna.', price: 4000, stok: true },
+        { id: 'c5', name: 'Kerupuk', emoji: '??', desc: 'Kerupuk udang & kerupuk putih, gratis untuk pelanggan dine-in.', price: 2000, stok: true },
       ],
     }
 
-    /* ════ HELPERS ════ */
+    /* ---- HELPERS ---- */
     const getCart = () => { try { return JSON.parse(localStorage.getItem('cart') || '[]') } catch { return [] } }
     const saveCart = c => localStorage.setItem('cart', JSON.stringify(c))
     const getOrders = () => { try { return JSON.parse(localStorage.getItem('orders') || '[]') } catch { return [] } }
@@ -1504,7 +1504,7 @@
     }
 
     const CAT_KEY = { 'Nasi': 'nasi', 'Lauk-Pauk': 'lauk', 'Sayur': 'sayur', 'Paket': 'paket', 'Minuman': 'minuman', 'Camilan': 'camilan' }
-    const DEFAULT_EMOJI = { nasi: '🍚', lauk: '🍗', sayur: '🥬', paket: '🍱', minuman: '🧋', camilan: '🧆' }
+    const DEFAULT_EMOJI = { nasi: '??', lauk: '??', sayur: '??', paket: '??', minuman: '??', camilan: '??' }
     let MENU_FROM_DB = null
 
     function normalizeDbMenu(item) {
@@ -1513,7 +1513,7 @@
       return {
         id: String(item._id || ''),
         name: item.nama || 'Menu',
-        emoji: item.emoji || DEFAULT_EMOJI[catKey] || '🍽️',
+        emoji: item.emoji || DEFAULT_EMOJI[catKey] || '???',
         desc: item.deskripsi || 'Menu andalan kami.',
         price: Number(item.harga) || 0,
         stok: item.tersedia !== false
@@ -1558,17 +1558,19 @@
       saveCart(cart)
       updateBadge()
       updateOrderBubble()
-      toast('✅ ' + item.name + ' ditambahkan ke keranjang!')
+      toast('? ' + item.name + ' ditambahkan ke keranjang!')
     }
 
-    /* ════ CONFIRM BOTTOM SHEET ════ */
+    /* ---- CONFIRM BOTTOM SHEET ---- */
     let _csItem = null
     let _csQty = 1
 
     function openConfirmSheet(item) {
+      // Di desktop (> 640px), langsung tambahkan ke keranjang tanpa bottom sheet
+      if (window.innerWidth > 640) { addToCart(item); return }
       _csItem = item
       _csQty = 1
-      document.getElementById('csEmoji').textContent  = item.emoji || '🍽️'
+      document.getElementById('csEmoji').textContent  = item.emoji || '???'
       document.getElementById('csName').textContent   = item.name
       document.getElementById('csPrice').textContent  = fRp(item.price)
       updateCsDisplay()
@@ -1611,7 +1613,7 @@
       // Animasi tombol sebelum tutup
       const btn = document.getElementById('csBtnAdd')
       btn.classList.add('added')
-      document.getElementById('csBtnText').textContent = '✅ Ditambahkan!'
+      document.getElementById('csBtnText').textContent = '? Ditambahkan!'
       setTimeout(() => {
         document.getElementById('confirmSheet').style.display = 'none'
         document.body.style.overflow = ''
@@ -1619,7 +1621,7 @@
       }, 900)
     }
 
-    /* ════ ORDER BUBBLE ════ */
+    /* ---- ORDER BUBBLE ---- */
     function updateOrderBubble() {
       const cart = getCart()
       const bubble = document.getElementById('orderBubble')
@@ -1636,7 +1638,7 @@
 
       const totalQty   = cart.reduce((s, i) => s + i.qty, 0)
       const totalHarga = cart.reduce((s, i) => s + i.price * i.qty, 0)
-      const namaItems  = cart.map(i => i.emoji + ' ' + i.name).join('  ·  ')
+      const namaItems  = cart.map(i => i.emoji + ' ' + i.name).join('  �  ')
 
       document.getElementById('obCount').textContent = totalQty
       document.getElementById('obTotal').textContent = fRp(totalHarga)
@@ -1647,7 +1649,7 @@
 
     window.addEventListener('resize', updateOrderBubble)
 
-    /* ════ RENDER MENU ════ */
+    /* ---- RENDER MENU ---- */
     async function renderMenuAll() {
       try {
         await loadMenuFromDb()
@@ -1678,7 +1680,7 @@
             '<span class="card-price">' + fRp(item.price) + '</span>' +
             (item.stok
               ? '<button class="btn-add">+ Keranjang</button>'
-              : '<span class="badge-habis">🚫 Habis</span>') +
+              : '<span class="badge-habis">?? Habis</span>') +
             '</div></div>'
           if (item.stok) d.querySelector('.btn-add').onclick = () => openConfirmSheet(liveItem)
           grid.appendChild(d)
@@ -1686,7 +1688,7 @@
       })
     }
 
-    /* ════ SEARCH ════ */
+    /* ---- SEARCH ---- */
     function filterCat(cat, q) {
       const grid = document.getElementById('grid-' + cat)
       const empty = document.getElementById('empty-' + cat)
@@ -1712,7 +1714,7 @@
       })
     }
 
-    /* ════ STICKY CAT NAV ════ */
+    /* ---- STICKY CAT NAV ---- */
     function initStickyNav() {
       const btns = document.querySelectorAll('.sticky-cat-btn')
       const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64
@@ -1733,7 +1735,7 @@
       document.querySelectorAll('.cat-section').forEach(s => obs.observe(s))
     }
 
-    /* ════ CART ════ */
+    /* ---- CART ---- */
     let _method = 'Dine-in'
 
     function renderCart() {
@@ -1744,7 +1746,7 @@
       const btn = document.getElementById('btnOrder')
 
       if (!cart.length) {
-        itemsEl.innerHTML = '<div class="empty-cart"><span class="ei">🛒</span><h3>Keranjang masih kosong</h3><p style="margin:8px 0 16px;font-size:.9rem;color:#b889a8">Yuk pilih menu dulu!</p><button onclick="goTo(\'menu\')">← Kembali ke Menu</button></div>'
+        itemsEl.innerHTML = '<div class="empty-cart"><span class="ei">??</span><h3>Keranjang masih kosong</h3><p style="margin:8px 0 16px;font-size:.9rem;color:#b889a8">Yuk pilih menu dulu!</p><button onclick="goTo(\'menu\')">? Kembali ke Menu</button></div>'
         rowsEl.innerHTML = ''
         totalEl.textContent = 'Rp 0'
         btn.disabled = true
@@ -1766,7 +1768,7 @@
           '<div class="item-emoji">' + item.emoji + '</div>' +
           '<div class="item-info"><div class="item-name">' + item.name + '</div><div class="item-price">' + fRp(item.price) + ' x ' + item.qty + ' = <b>' + fRp(sub) + '</b></div></div>' +
           '<div class="qty-control"><button class="qty-btn" onclick="cQty(\'' + item.id + '\',-1)">-</button><span class="qty-num">' + item.qty + '</span><button class="qty-btn" onclick="cQty(\'' + item.id + '\',1)">+</button></div>' +
-          '<button class="btn-hapus" onclick="cDel(\'' + item.id + '\')">🗑</button>'
+          '<button class="btn-hapus" onclick="cDel(\'' + item.id + '\')">??</button>'
         itemsEl.appendChild(d)
 
         const r = document.createElement('div')
@@ -1823,7 +1825,7 @@
       })
     }
 
-    /* ════ ORDERS ════ */
+    /* ---- ORDERS ---- */
     let _tab = 'semua'
 
     function switchTab(tab) {
@@ -1847,7 +1849,7 @@
       // Banner pesanan baru
       const banner = document.getElementById('newBanner')
       if (newId) {
-        banner.innerHTML = '<div class="new-banner"><span class="nb-icon">🎉</span><div><h3>Pesanan berhasil dikirim ke WhatsApp!</h3><p>No. Order: <b>' + newId + '</b> — Tunggu konfirmasi kami ya!</p></div></div>'
+        banner.innerHTML = '<div class="new-banner"><span class="nb-icon">??</span><div><h3>Pesanan berhasil dikirim ke WhatsApp!</h3><p>No. Order: <b>' + newId + '</b> � Tunggu konfirmasi kami ya!</p></div></div>'
         setTimeout(() => { if (banner) banner.innerHTML = '' }, 7000)
       } else if (banner) {
         banner.innerHTML = ''
@@ -1866,8 +1868,8 @@
           confirmed: 'Belum ada pesanan yang dikonfirmasi'
         }
         el.innerHTML = '<div class="empty-state"><span class="ei">' +
-          (_tab === 'selesai' ? '✅' : _tab === 'confirmed' ? '🎉' : _tab === 'batal' ? '❌' : '📋') +
-          '</span><h3>' + (lbl[_tab] || 'Belum ada pesanan') + '</h3><button onclick="goTo(\'menu\')">← Lihat Menu</button></div>'
+          (_tab === 'selesai' ? '?' : _tab === 'confirmed' ? '??' : _tab === 'batal' ? '?' : '??') +
+          '</span><h3>' + (lbl[_tab] || 'Belum ada pesanan') + '</h3><button onclick="goTo(\'menu\')">? Lihat Menu</button></div>'
         return
       }
 
@@ -1875,10 +1877,10 @@
 
       // FIX: Deklarasi sLbl yang benar, di dalam fungsi
       const sLbl = {
-        proses: '⏳ Sedang Diproses',
-        selesai: '✅ Selesai',
-        batal: '❌ Dibatalkan',
-        confirmed: '🎉 Diterima'
+        proses: '? Sedang Diproses',
+        selesai: '? Selesai',
+        batal: '? Dibatalkan',
+        confirmed: '?? Diterima'
       }
 
       list.forEach((order, i) => {
@@ -1886,10 +1888,10 @@
         card.className = 'order-card'
         card.style.animationDelay = (i * .08) + 's'
 
-        const mIcon = order.metode === 'Delivery' ? '🛵' : order.metode === 'Take-away' ? '🥡' : '🍽️'
-        const pIcon = (order.payment || '').includes('Tunai') ? '💵'
-          : (order.payment || '').includes('Transfer') ? '🏦'
-          : (order.payment || '').includes('QRIS') ? '📱' : '🚪'
+        const mIcon = order.metode === 'Delivery' ? '??' : order.metode === 'Take-away' ? '??' : '???'
+        const pIcon = (order.payment || '').includes('Tunai') ? '??'
+          : (order.payment || '').includes('Transfer') ? '??'
+          : (order.payment || '').includes('QRIS') ? '??' : '??'
 
         // FIX: stClass dan stLbl dideklarasikan dengan benar
         const stClass = order.status === 'confirmed' ? 'status-confirmed' : 'status-' + order.status
@@ -1897,24 +1899,24 @@
 
         let acts = ''
         if (order.status === 'selesai') {
-          acts = '<button class="btn-konfirmasi" onclick="goTo(\'confirm\',{id:\'' + order.id + '\'})">✅ Konfirmasi Terima Pesanan</button>'
+          acts = '<button class="btn-konfirmasi" onclick="goTo(\'confirm\',{id:\'' + order.id + '\'})">? Konfirmasi Terima Pesanan</button>'
         } else if (order.status === 'confirmed') {
-          acts = '<span class="btn-confirmed-tag">🎉 Sudah Dikonfirmasi</span>'
+          acts = '<span class="btn-confirmed-tag">?? Sudah Dikonfirmasi</span>'
         }
 
         card.innerHTML =
           '<div class="order-card-header">' +
-          '<div><div class="order-id">📋 ' + order.id + '</div><div class="order-time">⏰ ' + order.waktu + '</div></div>' +
+          '<div><div class="order-id">?? ' + order.id + '</div><div class="order-time">? ' + order.waktu + '</div></div>' +
           '<span class="status-badge ' + stClass + '">' + stLbl + '</span>' +
           '</div>' +
           '<div class="order-card-body">' +
           '<div class="order-meta">' +
-          '<span>👤 <b>' + order.nama + '</b></span>' +
-          '<span>📞 <b>' + order.hp + '</b></span>' +
+          '<span>?? <b>' + order.nama + '</b></span>' +
+          '<span>?? <b>' + order.hp + '</b></span>' +
           '<span>' + mIcon + ' <b>' + order.metode + '</b></span>' +
           (order.payment ? '<span>' + pIcon + ' <b>' + order.payment + '</b></span>' : '') +
-          (order.alamat ? '<span>📍 <b>' + order.alamat + '</b></span>' : '') +
-          (order.catatan ? '<span>📝 <b>' + order.catatan + '</b></span>' : '') +
+          (order.alamat ? '<span>?? <b>' + order.alamat + '</b></span>' : '') +
+          (order.catatan ? '<span>?? <b>' + order.catatan + '</b></span>' : '') +
           '</div>' +
           '<div class="order-items-list">' +
           order.items.map(it => '<div class="order-item-row"><span>' + it.emoji + ' ' + it.name + ' x' + it.qty + '</span><span style="font-weight:600;color:#c2477b">' + fRp(it.price * it.qty) + '</span></div>').join('') +
@@ -1922,14 +1924,14 @@
           '<div class="order-total-row"><span>Total Pembayaran</span><span>' + fRp(order.total) + '</span></div>' +
           '</div>' +
           '<div class="order-actions">' +
-          '<button class="btn-invoice" onclick="goTo(\'invoice\',{id:\'' + order.id + '\'})">🧾 Lihat Invoice</button>' +
+          '<button class="btn-invoice" onclick="goTo(\'invoice\',{id:\'' + order.id + '\'})">?? Lihat Invoice</button>' +
           acts +
           '</div>'
         el.appendChild(card)
       })
     }
 
-    /* ════ KONFIRMASI TERIMA ════ */
+    /* ---- KONFIRMASI TERIMA ---- */
     function renderConfirm(id) {
       _confirmOrderId = id
       const order = getOrders().find(o => o.id === id)
@@ -1939,9 +1941,9 @@
       const del = order.metode === 'Delivery' ? 5000 : 0
       let html = '<h4>Detail Pesanan</h4>'
       order.items.forEach(it => {
-        html += '<div class="confirm-item-row"><span>' + it.emoji + ' ' + it.name + ' ×' + it.qty + '</span><span>' + fRp(it.price * it.qty) + '</span></div>'
+        html += '<div class="confirm-item-row"><span>' + it.emoji + ' ' + it.name + ' �' + it.qty + '</span><span>' + fRp(it.price * it.qty) + '</span></div>'
       })
-      if (del) html += '<div class="confirm-item-row"><span>🛵 Ongkir</span><span>' + fRp(del) + '</span></div>'
+      if (del) html += '<div class="confirm-item-row"><span>?? Ongkir</span><span>' + fRp(del) + '</span></div>'
       html += '<div class="confirm-item-row"><span>Total Pembayaran</span><span>' + fRp(sub + del) + '</span></div>'
       document.getElementById('confirmItems').innerHTML = html
     }
@@ -1952,7 +1954,7 @@
       const i = orders.findIndex(o => o.id === _confirmOrderId)
       if (i > -1) orders[i].status = 'confirmed'
       saveOrders(orders)
-      toast('🎉 Terima kasih! Pesanan dikonfirmasi.')
+      toast('?? Terima kasih! Pesanan dikonfirmasi.')
       goTo('orders')
     }
 
@@ -1963,14 +1965,14 @@
       window.open('https://wa.me/6288213066069?text=' + msg, '_blank')
     }
 
-    /* ════ INVOICE ════ */
+    /* ---- INVOICE ---- */
     let _invOrder = null
 
     function renderInvoice(id) {
       const el = document.getElementById('invoiceContent')
       const order = getOrders().find(o => o.id === id)
       if (!order) {
-        el.innerHTML = '<div class="empty-state"><span class="ei">🔍</span><h3>Invoice tidak ditemukan</h3></div>'
+        el.innerHTML = '<div class="empty-state"><span class="ei">??</span><h3>Invoice tidak ditemukan</h3></div>'
         _invOrder = null
         return
       }
@@ -1978,14 +1980,14 @@
       const sub = order.items.reduce((s, i) => s + i.price * i.qty, 0)
       const del = order.metode === 'Delivery' ? 5000 : 0
       const tot = sub + del
-      const sLbl = { proses: '⏳ Sedang Diproses', selesai: '✅ Selesai', batal: '❌ Dibatalkan', confirmed: '🎉 Diterima' }
-      const mIcon = order.metode === 'Delivery' ? '🛵' : order.metode === 'Take-away' ? '🥡' : '🍽️'
-      const pIcon = (order.payment || '').includes('Tunai') ? '💵' : (order.payment || '').includes('Transfer') ? '🏦' : (order.payment || '').includes('QRIS') ? '📱' : '🚪'
+      const sLbl = { proses: '? Sedang Diproses', selesai: '? Selesai', batal: '? Dibatalkan', confirmed: '?? Diterima' }
+      const mIcon = order.metode === 'Delivery' ? '??' : order.metode === 'Take-away' ? '??' : '???'
+      const pIcon = (order.payment || '').includes('Tunai') ? '??' : (order.payment || '').includes('Transfer') ? '??' : (order.payment || '').includes('QRIS') ? '??' : '??'
 
       el.innerHTML =
         '<div class="invoice">' +
         '<div class="inv-header">' +
-        '<div class="inv-brand"><span class="inv-brand-icon">🍛</span><div><div class="inv-brand-name">Waroeng Makan Cak Lie</div><div class="inv-brand-sub">Masakan Rumahan Sejak 2005</div></div></div>' +
+        '<div class="inv-brand"><span class="inv-brand-icon">??</span><div><div class="inv-brand-name">Waroeng Makan Cak Lie</div><div class="inv-brand-sub">Masakan Rumahan Sejak 2005</div></div></div>' +
         '<div class="inv-title-row"><div class="inv-title">INVOICE</div><div><div class="inv-id">' + order.id + '</div><div class="inv-date">' + order.waktu + '</div></div></div>' +
         '</div>' +
         '<div class="inv-status-strip">' +
@@ -1995,8 +1997,8 @@
         '</div>' +
         '<div class="inv-body">' +
         '<div class="inv-info-grid">' +
-        '<div class="inv-info-block"><h4>Informasi Pemesan</h4><p>👤 ' + order.nama + '</p><p class="muted">📞 ' + order.hp + '</p>' + (order.alamat ? '<p class="muted">📍 ' + order.alamat + '</p>' : '') + '</div>' +
-        '<div class="inv-info-block"><h4>Informasi Warung</h4><p>Waroeng Makan Cak Lie</p><p class="muted">📍 Jl. Kh. Hasyim No. 14B,<br>Kembangan Utara, Jakarta Barat</p><p class="muted">📞 0882-1306-6069</p></div>' +
+        '<div class="inv-info-block"><h4>Informasi Pemesan</h4><p>?? ' + order.nama + '</p><p class="muted">?? ' + order.hp + '</p>' + (order.alamat ? '<p class="muted">?? ' + order.alamat + '</p>' : '') + '</div>' +
+        '<div class="inv-info-block"><h4>Informasi Warung</h4><p>Waroeng Makan Cak Lie</p><p class="muted">?? Jl. Kh. Hasyim No. 14B,<br>Kembangan Utara, Jakarta Barat</p><p class="muted">?? 0882-1306-6069</p></div>' +
         '</div>' +
         '<div class="inv-table-label">Detail Pesanan</div>' +
         '<table class="inv-table"><thead><tr><th>Nama Menu</th><th>Harga</th><th>Qty</th><th>Subtotal</th></tr></thead>' +
@@ -2006,12 +2008,12 @@
         (del ? '<div class="inv-total-row"><span>Ongkir (Delivery)</span><span>' + fRp(del) + '</span></div>' : '') +
         '<div class="inv-total-row grand"><span>Total Bayar</span><span>' + fRp(tot) + '</span></div>' +
         '</div>' +
-        (order.catatan ? '<div class="inv-note"><p><strong>📝 Catatan:</strong> ' + order.catatan + '</p></div>' : '') +
+        (order.catatan ? '<div class="inv-note"><p><strong>?? Catatan:</strong> ' + order.catatan + '</p></div>' : '') +
         '</div>' +
         '<div class="inv-footer-block">' +
-        '<p class="inv-thank">Terima kasih sudah memesan! 🙏</p>' +
+        '<p class="inv-thank">Terima kasih sudah memesan! ??</p>' +
         '<p>Simpan invoice ini sebagai bukti pesanan Anda.</p>' +
-        '<div class="inv-contact"><span>📞 0882-1306-6069</span><span>🕐 Senin–Sabtu 06.00–21.00</span><span>📍 Kembangan Utara, Jakarta Barat</span></div>' +
+        '<div class="inv-contact"><span>?? 0882-1306-6069</span><span>?? Senin�Sabtu 06.00�21.00</span><span>?? Kembangan Utara, Jakarta Barat</span></div>' +
         '</div></div>'
     }
 
@@ -2020,19 +2022,19 @@
       const o = _invOrder
       const sub = o.items.reduce((s, i) => s + i.price * i.qty, 0)
       const del = o.metode === 'Delivery' ? 5000 : 0
-      const pIcon = (o.payment || '').includes('Tunai') ? '💵' : (o.payment || '').includes('Transfer') ? '🏦' : (o.payment || '').includes('QRIS') ? '📱' : '🚪'
-      let msg = '🧾 *INVOICE - Waroeng Makan Cak Lie*\n━━━━━━━━━━━━━━━━━\n'
-      msg += '📋 No. Order: *' + o.id + '*\n👤 Nama: ' + o.nama + '\n🚚 Metode: ' + o.metode + '\n'
+      const pIcon = (o.payment || '').includes('Tunai') ? '??' : (o.payment || '').includes('Transfer') ? '??' : (o.payment || '').includes('QRIS') ? '??' : '??'
+      let msg = '?? *INVOICE - Waroeng Makan Cak Lie*\n?????????????????\n'
+      msg += '?? No. Order: *' + o.id + '*\n?? Nama: ' + o.nama + '\n?? Metode: ' + o.metode + '\n'
       if (o.payment) msg += pIcon + ' Pembayaran: ' + o.payment + '\n'
-      msg += '⏰ Waktu: ' + o.waktu + '\n━━━━━━━━━━━━━━━━━\n'
+      msg += '? Waktu: ' + o.waktu + '\n?????????????????\n'
       o.items.forEach(i => { msg += i.emoji + ' ' + i.name + ' x' + i.qty + ' = ' + fRp(i.price * i.qty) + '\n' })
-      msg += '━━━━━━━━━━━━━━━━━\n'
+      msg += '?????????????????\n'
       if (del) msg += 'Ongkir: ' + fRp(del) + '\n'
-      msg += '💰 *TOTAL: ' + fRp(sub + del) + '*'
+      msg += '?? *TOTAL: ' + fRp(sub + del) + '*'
       window.open('https://wa.me/6288213066069?text=' + encodeURIComponent(msg), '_blank')
     }
 
-    /* ════ BURGER MENU — FIX ════ */
+    /* ---- BURGER MENU � FIX ---- */
     function closeDrawer() {
       document.getElementById('mobileDrawer').classList.remove('open')
       document.getElementById('mobileOverlay').classList.remove('show')
@@ -2062,7 +2064,7 @@
       closeBtn.addEventListener('click', closeDrawer)
     }
 
-    /* ════ BOOT ════ */
+    /* ---- BOOT ---- */
     document.addEventListener('DOMContentLoaded', () => {
       renderMenuAll()
       initSearch()
@@ -2084,37 +2086,37 @@
       }
     })
   </script>
-  <!-- ════ FLOATING ORDER BUBBLE ════ -->
+  <!-- ---- FLOATING ORDER BUBBLE ---- -->
   <div id="orderBubble" class="order-bubble" style="display:none" onclick="goTo('cart')">
     <div class="ob-left">
-      <div class="ob-bag">🛒</div>
+      <div class="ob-bag">??</div>
       <div class="ob-count-wrap">
         <span class="ob-count" id="obCount">0</span>
         <span class="ob-count-lbl">item</span>
       </div>
     </div>
     <div class="ob-center">
-      <div class="ob-items" id="obItems">—</div>
+      <div class="ob-items" id="obItems">�</div>
     </div>
     <div class="ob-right">
       <div class="ob-total" id="obTotal">Rp 0</div>
-      <div class="ob-cta">Lihat Keranjang →</div>
+      <div class="ob-cta">Lihat Keranjang ?</div>
     </div>
   </div>
 
-  <!-- ════ BOTTOM SHEET KONFIRMASI ════ -->
+  <!-- ---- BOTTOM SHEET KONFIRMASI ---- -->
   <div id="confirmSheet" class="confirm-sheet-overlay" style="display:none" onclick="closeConfirmSheet(event)">
     <div class="confirm-sheet">
       <div class="cs-handle"></div>
       <div class="cs-header">
-        <div class="cs-emoji" id="csEmoji">🍽️</div>
+        <div class="cs-emoji" id="csEmoji">???</div>
         <div class="cs-info">
-          <div class="cs-name" id="csName">—</div>
+          <div class="cs-name" id="csName">�</div>
           <div class="cs-price" id="csPrice">Rp 0</div>
         </div>
       </div>
       <div class="cs-qty-row">
-        <button class="cs-qty-btn minus" id="csMinus" onclick="csChangeQty(-1)">−</button>
+        <button class="cs-qty-btn minus" id="csMinus" onclick="csChangeQty(-1)">-</button>
         <div class="cs-qty-display">
           <span class="cs-qty-num" id="csQty">1</span>
           <span class="cs-qty-sub">porsi</span>
