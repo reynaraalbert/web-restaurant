@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -1136,7 +1136,7 @@
       </div>
     </div>
     <div class="nav-right">
-      <div class="search-bar"><input id="searchInput" type="text" placeholder="Cari menu..." /><span>🔍</span></div>
+      <div class="search-bar"><input id="searchInput" name="searchInput" aria-label="Cari menu" type="text" placeholder="Cari menu..." /><span>🔍</span></div>
       <button class="nav-btn hide-m" onclick="goTo('orders')">📋 Pesanan</button>
       <button class="cart-btn" onclick="goTo('cart')">🛒 Keranjang <span class="cart-badge" id="cartBadge">0</span></button>
       <button class="burger-btn" id="burgerBtn"><span></span><span></span><span></span></button>
@@ -1194,7 +1194,7 @@
             <h2 class="cat-section-title">Nasi</h2>
             <p class="cat-section-desc">Pilihan nasi unggulan — dimasak segar setiap hari tanpa bahan pengawet.</p>
             <span class="cat-section-badge">🌾 Dimasak Segar Tiap Hari</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Nasi..." data-section="sec-nasi" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-nasi" name="search-nasi" aria-label="Cari di Nasi" placeholder="Cari di Nasi..." data-section="sec-nasi" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-nasi"></div>
@@ -1208,7 +1208,7 @@
             <h2 class="cat-section-title">Lauk-Pauk</h2>
             <p class="cat-section-desc">Aneka lauk khas rumahan — bumbu tradisional kaya rempah.</p>
             <span class="cat-section-badge">🌶️ Bumbu Rempah Pilihan</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Lauk..." data-section="sec-lauk" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-lauk" name="search-lauk" aria-label="Cari di Lauk" placeholder="Cari di Lauk..." data-section="sec-lauk" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-lauk"></div>
@@ -1222,7 +1222,7 @@
             <h2 class="cat-section-title">Sayur</h2>
             <p class="cat-section-desc">Sayuran segar pilihan dari pasar pagi setiap harinya.</p>
             <span class="cat-section-badge">🌿 Bahan Segar dari Pasar Pagi</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Sayur..." data-section="sec-sayur" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-sayur" name="search-sayur" aria-label="Cari di Sayur" placeholder="Cari di Sayur..." data-section="sec-sayur" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-sayur"></div>
@@ -1236,7 +1236,7 @@
             <h2 class="cat-section-title">Paket Hemat</h2>
             <p class="cat-section-desc">Hemat hingga 30% dibanding beli terpisah. Tersedia paket harian, keluarga &amp; catering.</p>
             <span class="cat-section-badge">💰 Hemat s/d 30% · Best Seller</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Paket..." data-section="sec-paket" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-paket" name="search-paket" aria-label="Cari di Paket" placeholder="Cari di Paket..." data-section="sec-paket" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-paket"></div>
@@ -1250,7 +1250,7 @@
             <h2 class="cat-section-title">Minuman</h2>
             <p class="cat-section-desc">Minuman segar menemani makan Anda. Tersedia pilihan dingin dan hangat.</p>
             <span class="cat-section-badge">🧊 Tersedia Dingin &amp; Hangat</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Minuman..." data-section="sec-minuman" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-minuman" name="search-minuman" aria-label="Cari di Minuman" placeholder="Cari di Minuman..." data-section="sec-minuman" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-minuman"></div>
@@ -1264,7 +1264,7 @@
             <h2 class="cat-section-title">Camilan</h2>
             <p class="cat-section-desc">Aneka gorengan &amp; jajanan pasar renyah gurih. Digoreng fresh setiap jam.</p>
             <span class="cat-section-badge">🔥 Digoreng Fresh Tiap Jam</span>
-            <div class="cat-search-bar"><span>🔍</span><input type="text" placeholder="Cari di Camilan..." data-section="sec-camilan" /></div>
+            <div class="cat-search-bar"><span>🔍</span><input type="text" id="srch-camilan" name="search-camilan" aria-label="Cari di Camilan" placeholder="Cari di Camilan..." data-section="sec-camilan" /></div>
           </div>
         </div>
         <div class="menu-grid" id="grid-camilan"></div>
@@ -1311,12 +1311,12 @@
           <div class="summary-row total"><span>Total</span><span id="totalPrice">Rp 0</span></div>
           <div class="order-form">
             <div class="form-group">
-              <label class="form-label">Nama Pemesan *</label>
-              <input class="form-input" id="fNama" type="text" placeholder="Contoh: Budi Santoso" />
+              <label class="form-label" for="fNama">Nama Pemesan *</label>
+              <input class="form-input" id="fNama" name="fNama" type="text" placeholder="Contoh: Budi Santoso" />
             </div>
             <div class="form-group">
-              <label class="form-label">Nomor HP / WhatsApp *</label>
-              <input class="form-input" id="fHp" type="tel" placeholder="08xx-xxxx-xxxx" />
+              <label class="form-label" for="fHp">Nomor HP / WhatsApp *</label>
+              <input class="form-input" id="fHp" name="fHp" type="tel" placeholder="08xx-xxxx-xxxx" />
             </div>
             <div class="form-group">
               <label class="form-label">Metode Pengambilan</label>
@@ -1327,12 +1327,12 @@
               </div>
             </div>
             <div class="form-group" id="alamatGroup" style="display:none">
-              <label class="form-label">Alamat Pengiriman *</label>
-              <textarea class="form-textarea" id="fAlamat" placeholder="Jl. ... No. ... RT/RW ..."></textarea>
+              <label class="form-label" for="fAlamat">Alamat Pengiriman *</label>
+              <textarea class="form-textarea" id="fAlamat" name="fAlamat" placeholder="Jl. ... No. ... RT/RW ..."></textarea>
             </div>
             <div class="form-group">
-              <label class="form-label">Catatan (opsional)</label>
-              <textarea class="form-textarea" id="fCatatan" placeholder="Contoh: tidak pedas, tanpa bawang..."></textarea>
+              <label class="form-label" for="fCatatan">Catatan (opsional)</label>
+              <textarea class="form-textarea" id="fCatatan" name="fCatatan" placeholder="Contoh: tidak pedas, tanpa bawang..."></textarea>
             </div>
             <button class="btn-goto-payment" id="btnOrder" onclick="goToPayment()">
               💳 Lanjut ke Pembayaran <span style="font-size:1.1rem">›</span>
