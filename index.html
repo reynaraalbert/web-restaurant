@@ -1121,6 +1121,101 @@
       .inv-header, .inv-footer-block { -webkit-print-color-adjust: exact; print-color-adjust: exact }
       #page-invoice { display: block !important }
     }
+    /* ════ DARK MODE ════ */
+    @media (prefers-color-scheme: dark) {
+      body { background: #121212; color: #e4e4e4; }
+      .navbar { background: rgba(30,30,30,.85); border-bottom: 1px solid #333; }
+      .brand-name { color: #fff; }
+      .brand-tagline { color: #aaa; }
+      .nav-btn, .cart-btn { background: #2a2a2a; color: #ddd; }
+      .nav-btn:hover, .cart-btn:hover { background: #3a3a3a; }
+      .search-bar { background: #2a2a2a; }
+      .search-bar input { color: #eee; }
+      .search-bar input::placeholder { color: #888; }
+      .mobile-drawer { background: #1c1c1c; }
+      .drawer-brand { border-bottom-color: #333; color: #fff; }
+      .drawer-link { color: #ccc; }
+      .drawer-link:hover, .drawer-link:active { background: #2a2a2a; color: #fff; }
+      
+      .hero { background: linear-gradient(135deg, #2a111a 0%, #3d1b2a 100%); color: #fff; }
+      .hero-text p { color: #ddd; }
+      .sticky-cats { background: #121212; border-bottom-color: #333; }
+      .sticky-cat-btn { background: #2a2a2a; color: #ccc; border-color: #444; }
+      .sticky-cat-btn.active { background: #c2477b; color: #fff; border-color: #c2477b; }
+      
+      .cat-section-title { color: #fff; }
+      .cat-section-desc { color: #bbb; }
+      .cat-section-badge { background: #332028; color: #e88eb3; }
+      .cat-search-bar { background: #2a2a2a; }
+      .cat-search-bar input { color: #eee; }
+      .cat-search-bar input::placeholder { color: #888; }
+      .section-divider { border-bottom-color: #333; }
+      
+      .menu-card { background: #1e1e1e; box-shadow: 0 4px 20px rgba(0,0,0,.3); border: 1px solid #333; }
+      .card-name { color: #fff; }
+      .card-desc { color: #aaa; }
+      .card-price { color: #e88eb3; }
+      .btn-add { background: #332028; color: #e88eb3; }
+      .btn-add:active { background: #4a2d3a; }
+      
+      .page-header h2 { color: #fff; }
+      .page-header p { color: #aaa; }
+      .cart-item, .order-card, .invoice { background: #1e1e1e; border-color: #333; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+      .ci-name, .oc-id { color: #fff; }
+      .ci-price, .oc-item-name { color: #ccc; }
+      .ci-sub, .oc-date { color: #888; }
+      .ci-btn { background: #2a2a2a; color: #e88eb3; border-color: #444; }
+      .cart-summary { background: #1e1e1e; border-color: #333; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+      .summary-title { color: #fff; border-bottom-color: #333; }
+      .summary-row { color: #ccc; border-bottom-color: #333; }
+      .summary-row.total { color: #fff; border-top-color: #444; }
+      .form-label { color: #bbb; }
+      .form-input, .form-textarea { background: #2a2a2a; color: #fff; border-color: #444; }
+      .form-input:focus, .form-textarea:focus { border-color: #c2477b; background: #222; }
+      .method-btn { background: #2a2a2a; color: #ccc; border-color: #444; }
+      .method-btn.active { background: #332028; color: #e88eb3; border-color: #c2477b; }
+      
+      .tabs { border-bottom-color: #333; }
+      .tab-btn { color: #888; }
+      .tab-btn.active { color: #e88eb3; border-bottom-color: #e88eb3; }
+      .tab-count { background: #333; color: #ccc; }
+      .tab-btn.active .tab-count { background: #c2477b; color: #fff; }
+      
+      .confirm-sheet { background: #1e1e1e; }
+      .cs-name { color: #fff; }
+      .cs-qty-btn { background: #2a2a2a; color: #e88eb3; border-color: #444; }
+      .cs-qty-btn:active { background: #332028; }
+      .cs-qty-num { color: #fff; }
+      .cs-total-row { background: #2a2a2a; }
+      .cs-total-lbl { color: #aaa; }
+      .cs-total-val { color: #e88eb3; }
+      
+      .confirm-card { background: #1e1e1e; border-color: #333; box-shadow: 0 4px 20px rgba(0,0,0,.5); }
+      .confirm-header h2 { color: #fff; }
+      .confirm-header p { color: #aaa; }
+      .confirm-order-id { background: #2a2a2a; color: #e88eb3; }
+      .confirm-question h3 { color: #fff; }
+      .confirm-question p { color: #aaa; }
+      .btn-problem { color: #e88eb3; }
+      
+      .inv-header { background: #2a2a2a; border-bottom-color: #333; }
+      .inv-title { color: #fff; }
+      .inv-subtitle { color: #aaa; }
+      .inv-body { background: #1e1e1e; }
+      .inv-info-lbl { color: #888; }
+      .inv-info-val { color: #ddd; }
+      .inv-status-strip { background: #2a2a2a; border-top-color: #333; border-bottom-color: #333; }
+      .inv-footer-block { background: #2a2a2a; border-top-color: #333; }
+      .inv-total-lbl { color: #aaa; }
+      
+      .footer { background: #1a1a1a; color: #aaa; border-top-color: #333; }
+      .footer h3, .footer h4 { color: #ddd; }
+      .footer-copy { border-top-color: #333; color: #777; }
+      
+      .toast { background: #333; color: #fff; }
+      .order-bubble { background: linear-gradient(135deg, #a03c66, #c2477b); }
+    }
+
   </style>
 </head>
 
@@ -1521,7 +1616,7 @@
     }
 
     async function loadMenuFromDb() {
-      const res = await fetch('/api/menu', { cache: 'no-store' })
+      const res = await fetch('/api/menu')
       const data = await res.json().catch(() => [])
       if (!res.ok) throw new Error(data.error || 'Gagal memuat menu')
       const grouped = Object.keys(MENU).reduce((acc, key) => {

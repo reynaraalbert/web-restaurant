@@ -66,6 +66,8 @@ export default async function handler(req, res) {
       const filter = {};
       if (kategori && kategori !== 'semua') filter.kategori = kategori;
       const menus = await col.find(filter).sort({ createdAt: -1 }).toArray();
+      // Cache selama 60 detik di Edge / CDN Vercel
+      res.setHeader('Cache-Control', 'max-age=0, s-maxage=60, stale-while-revalidate=300');
       return res.status(200).json(menus);
     }
 
