@@ -1503,6 +1503,53 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- FIX: Tambahkan HTML untuk Order Bubble & Confirm Sheet yang sebelumnya hilang -->
+  <div class="order-bubble" id="orderBubble" onclick="goTo('cart')" style="display:none">
+    <div class="ob-left">
+      <div class="ob-bag">🛍️</div>
+      <div class="ob-count-wrap">
+        <span class="ob-count" id="obCount">1</span>
+        <span class="ob-count-lbl">Item</span>
+      </div>
+    </div>
+    <div class="ob-center">
+      <span class="ob-items" id="obItems">...</span>
+    </div>
+    <div class="ob-right">
+      <div class="ob-total" id="obTotal">Rp 0</div>
+      <div class="ob-cta">Checkout ›</div>
+    </div>
+  </div>
+
+  <div class="confirm-sheet-overlay" id="confirmSheet" style="display:none" onclick="closeConfirmSheet(event)">
+    <div class="confirm-sheet" onclick="event.stopPropagation()">
+      <div class="cs-handle"></div>
+      <div class="cs-header">
+        <div class="cs-emoji" id="csEmoji">🍽️</div>
+        <div>
+          <div class="cs-name" id="csName">Nama Menu</div>
+          <div class="cs-price" id="csPrice">Rp 0</div>
+        </div>
+      </div>
+      <div class="cs-qty-row">
+        <button class="cs-qty-btn minus" id="csMinus" onclick="csChangeQty(-1)">-</button>
+        <div class="cs-qty-display">
+          <span class="cs-qty-num" id="csQty">1</span>
+          <span class="cs-qty-sub">Jumlah</span>
+        </div>
+        <button class="cs-qty-btn plus" id="csPlus" onclick="csChangeQty(1)">+</button>
+      </div>
+      <div class="cs-total-row">
+        <span class="cs-total-lbl">Total Harga</span>
+        <span class="cs-total-val" id="csTotal">Rp 0</span>
+      </div>
+      <button class="cs-btn-add" id="csBtnAdd" onclick="csConfirm()">
+        <span id="csBtnText">+ Tambah ke Keranjang</span>
+      </button>
+      <button class="cs-btn-cancel" onclick="closeConfirmSheet()">Batal</button>
+    </div>
+  </div>
+
   <script>
     /* ════ ROUTER ════ */
     let _page = 'menu'
